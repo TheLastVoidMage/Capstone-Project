@@ -54,25 +54,31 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<Faction>() != null)
+        if (target == null)
         {
-            if (other.gameObject.GetComponent<Faction>().factionId != myFaction.factionId)
+            if (other.gameObject.GetComponent<Faction>() != null)
             {
-                Vector3 dir = (other.transform.position - this.transform.position).normalized;
-                RaycastHit2D hit = Physics2D.Raycast(this.transform.position, other.transform.position, sightRadius * 2);
-                Debug.Log("Detected " + hit.collider.gameObject.name);
-                if (hit.collider.gameObject == other.gameObject) // Need tto fix later
+                if (other.gameObject.GetComponent<Faction>().factionId != myFaction.factionId)
                 {
-                    Debug.Log(this.gameObject.name + " saw " + other.gameObject.name);
-                    target = other.gameObject;
-                }
-                else if (hit != false)
-                {
-                    Debug.Log(this.gameObject.name);
-                }
-                else
-                {
-                    Debug.Log("Raycast missed");
+                    Vector3 dir = (other.transform.position - this.transform.position).normalized;
+                    RaycastHit2D hit = Physics2D.Raycast(this.transform.position, dir, sightRadius * 2);
+                    Debug.DrawRay(this.transform.position, dir, Color.red, sightRadius * 2);
+                    if (hit != false)
+                    {
+                        if (hit.collider.gameObject == other.gameObject)
+                        {
+                            Debug.Log(this.gameObject.name + " saw " + other.gameObject.name);
+                            target = other.gameObject;
+                        }
+                        else
+                        {
+                            Debug.Log("Detected " + hit.collider.gameObject.name);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("Raycast missed");
+                    }
                 }
             }
         }
