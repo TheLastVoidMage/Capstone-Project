@@ -36,13 +36,22 @@ public class EnemyController : MonoBehaviour
 
     void handleMovement()
     {
+        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, this.transform.forward, 0);
+        Vector3 dir = new Vector3(0,0,0);
         if (target != null)
         {
             myPathSetter.target = target.transform;
+            dir = (target.transform.position - this.transform.position).normalized;
+            hit = Physics2D.Raycast(this.transform.position, dir, range);
+            Debug.DrawRay(this.transform.position, dir, Color.red, range);
         }
-        if (1 != 1) // If you can see the enemy and is in range
+        if (hit == true) // If you can see the enemy and is in range
         {
-            myPathSetter.target = null;
+            if (hit.transform.gameObject == target)
+            {
+                Debug.Log("Stoped to hit target");
+                myPathSetter.target = this.transform;
+            }
         }
     }
 
