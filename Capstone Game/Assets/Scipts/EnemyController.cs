@@ -58,9 +58,10 @@ public class EnemyController : MonoBehaviour
         {
             if (other.gameObject.GetComponent<Faction>().factionId != myFaction.factionId)
             {
-                Vector3 dir = (this.transform.position - other.transform.position).normalized;
-                RaycastHit2D hit = Physics2D.Raycast(this.transform.position, other.transform.position, sightRadius);
-                if (hit.collider.gameObject == other.gameObject || 1 == 1) // Need tto fix later
+                Vector3 dir = (other.transform.position - this.transform.position).normalized;
+                RaycastHit2D hit = Physics2D.Raycast(this.transform.position, other.transform.position, sightRadius * 2);
+                Debug.Log("Detected " + hit.collider.gameObject.name);
+                if (hit.collider.gameObject == other.gameObject) // Need tto fix later
                 {
                     Debug.Log(this.gameObject.name + " saw " + other.gameObject.name);
                     target = other.gameObject;
