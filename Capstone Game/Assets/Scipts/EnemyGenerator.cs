@@ -38,7 +38,7 @@ public class EnemyGenerator : MonoBehaviour
             enemyStats.movementSpeed = stats[1];
             enemyStats.fireRate = stats[2];
             enemyStats.range = stats[3];
-            enemyStats.sightRadius = stats[3] + 2;
+            enemyStats.sightRadius = Mathf.Max(5, stats[3] + 2);
             enemyStats.damage = stats[4];
         }
 
