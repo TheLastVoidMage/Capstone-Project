@@ -5,12 +5,14 @@ using UnityEngine;
 public class playerController : MonoBehaviour
 {
     private Rigidbody2D myBody;
+    private GameObject mySprite;
     private Vector3 newPosition;
     public float speed = 3;
     // Start is called before the first frame update
     void Start()
     {
         myBody = this.GetComponent<Rigidbody2D>();
+        mySprite = this.gameObject.GetComponentInChildren<SpriteRenderer>().gameObject;
         newPosition = this.transform.position;
     }
 
@@ -40,10 +42,8 @@ public class playerController : MonoBehaviour
     {
         Vector3 mousePosition = Input.mousePosition;
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -10);
         float angle = Mathf.Atan2(mousePosition.y - this.transform.position.y, mousePosition.x - this.transform.position.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
-        //Camera.main.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -angle +90));
+        mySprite.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
     }
 
     // Update is called once per frame
