@@ -11,7 +11,7 @@ public class LevelGenerator : MonoBehaviour
     public int selectedLevelSize = 0;
     // Enemy Desity: Barren, Sparse, Populated, Cramped
     // How many enemies there are before levelSize is taken into account
-    private int[] enemyDensity = new int[] { 3, 5, 7, 9, 13};
+    private int[] enemyDensity = new int[] { 3, 5, 9, 15, 25};
     public int selectedLevelDensity = 0;
     // Enemy Difficulty: Fragile, Weak, Average, Strong, Fierce
     // How many points each enemy feads into the enemy generator
@@ -34,7 +34,7 @@ public class LevelGenerator : MonoBehaviour
     }
     private void generateEnemies(int density, int difficulty, int faction)
     {
-        int enemiesWanted = enemyDensity[density] + Random.Range(-2, 2);
+        int enemiesWanted = enemyDensity[density] + Random.Range(0, 2);
         int enemiesGenerated = 0;
         int x = 0;
         int y = 0;

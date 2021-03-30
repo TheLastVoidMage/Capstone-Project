@@ -40,6 +40,8 @@ public class EnemyGenerator : MonoBehaviour
             enemyStats.range = stats[3];
             enemyStats.sightRadius = Mathf.Max(5, stats[3] + 2);
             enemyStats.damage = stats[4];
+            enemyStats.mySize = Mathf.Max(Mathf.Min(1, (stats[0] / 25) / stats[1]), .5f);
+            enemyStats.factionId = factionID;
         }
 
         return newEnemy;
