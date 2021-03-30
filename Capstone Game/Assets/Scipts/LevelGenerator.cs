@@ -1,19 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class LevelGenerator : MonoBehaviour
 {
     // Sizes: Tiny, Small, Medium, Large, Gargantuan
     // How many room models across and tall a map could be
     private int[,] levelSizes = new int[,] { { 5, 7, 9, 11, 15 }, { 3, 5, 7, 7, 9} };
+    public int selectedLevelSize = 0;
     // Enemy Desity: Barren, Sparse, Populated, Cramped
     // How many enemies there are before levelSize is taken into account
     private int[] enemyDensity = new int[] { 3, 5, 7, 9, 13};
+    public int selectedLevelDensity = 0;
     // Enemy Difficulty: Fragile, Weak, Average, Strong, Fierce
     // How many points each enemy feads into the enemy generator
     private int[] enemyDifficulty = new int[] { 8, 13, 18, 27, 35};
-    private int faction = 1;
+    public int selectedEnemyDifficulty = 0;
+    public int faction = 1;
     private Room[,] levelMap;
     private EnemyGenerator myEnemyGenerator;
     public Sprite wallTexture;
@@ -24,14 +28,43 @@ public class LevelGenerator : MonoBehaviour
     {
         myEnemyGenerator = this.GetComponent<EnemyGenerator>();
         textures = new Sprite[] { floorTexture, wallTexture };
-        generateMap(4);
+        generateMap(selectedLevelSize);
+        generateEnemies(selectedLevelDensity, selectedEnemyDifficulty, faction);
+        AstarPath.active.Scan();
     }
-
+    private void generateEnemies(int density, int difficulty, int faction)
+    {
+        int enemiesWanted = enemyDensity[density] + Random.Range(-2, 2);
+        int enemiesGenerated = 0;
+        int x = 0;
+        int y = 0;
+        int iterations = 0;
+        Vector3 enemyPos = new Vector3(1, 1);
+        if (levelMap != null)
+        {
+            while (enemiesGenerated < enemiesWanted && iterations < 1000)
+            {
+                x = Random.Range(0, levelMap.GetLength(0));
+                y = Random.Range(0, levelMap.GetLength(1));
+                if (levelMap[x, y] != null)
+                {
+                    if (x != levelMap.GetLength(0) / 2 && y != 0) // If not spawn
+                    {
+                        enemyPos = new Vector3(this.transform.position.x + (x * 14) + 6 + +Random.Range(-4, 4), this.transform.position.y + (y * 14) + 6 + Random.Range(-4, 4));
+                        myEnemyGenerator.generateNewEnemy(enemyPos, enemyDifficulty[difficulty], faction);
+                        enemiesGenerated++;
+                    }
+                }
+                iterations++;
+            }
+        }
+    }
     private void generateMap(int size)
     {
         int iterations = 0;
         levelMap = new Room[levelSizes[0, size], levelSizes[1, size]];
         Debug.Log("The level is " + levelMap.GetLength(0) + " X " + levelMap.GetLength(1));
+        this.gameObject.transform.position = new Vector3((-(levelMap.GetLength(0) * 14) / 2) + 1, -6);
         levelMap[levelMap.GetLength(0) / 2, 0] = new Room();
         levelMap[levelMap.GetLength(0) / 2, 0].makeRoom(this.gameObject, "Spawn", new Vector3(levelMap.GetLength(0) / 2, 0), textures, new int[4] { 0, 0, 1, 0 });
         while (checkValidMap() == false && iterations < 1000)
@@ -231,7 +264,7 @@ class Room
         int[,] roomPlan = new int[7, 7];
         room = new GameObject();
         room.transform.parent = parent.transform;
-        room.transform.position = position * (size * roomMap.GetLength(1));
+        room.transform.localPosition = position * (size * roomMap.GetLength(1));
         room.name = name;
         int[] tempWall = new int[7];
         tempWall = addDoor(doors[0]);
@@ -287,6 +320,7 @@ class Room
                 if (roomPlan[x, y] == 1)
                 {
                     roomMap[x, y].AddComponent<BoxCollider2D>();
+                    roomMap[x, y].layer = 6;
                 }
             }
         }
