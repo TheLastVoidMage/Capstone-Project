@@ -82,7 +82,7 @@ public class LevelGenerator : MonoBehaviour
             iterations++;
             if (iterations == 1000)
             {
-                Debug.Log("Broke out");
+                Debug.Log("Level Generator Broke out");
             }
         }
     }
