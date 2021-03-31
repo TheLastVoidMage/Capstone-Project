@@ -7,6 +7,8 @@ public class playerController : MonoBehaviour
     private Rigidbody2D myBody;
     private GameObject mySprite;
     private Vector3 newPosition;
+    private float maxPlayerZoom = 15;
+    private float minPlayerZoom = 5;
     public float speed = 3;
     // Start is called before the first frame update
     void Start()
@@ -44,6 +46,11 @@ public class playerController : MonoBehaviour
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
         float angle = Mathf.Atan2(mousePosition.y - this.transform.position.y, mousePosition.x - this.transform.position.x) * Mathf.Rad2Deg;
         mySprite.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+        float newZoom = Camera.main.orthographicSize + (Input.GetAxis("Mouse ScrollWheel") * -3);
+        if (newZoom >= minPlayerZoom && newZoom <= maxPlayerZoom)
+        {
+            Camera.main.orthographicSize = newZoom;
+        }
     }
 
     // Update is called once per frame
