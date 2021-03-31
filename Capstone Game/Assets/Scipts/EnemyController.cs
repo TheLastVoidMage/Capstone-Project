@@ -24,6 +24,7 @@ public class EnemyController : MonoBehaviour
     public Sprite myImage;
     public Color myColor = Color.white;
     public float mySize = 1;
+    public int factionId = 1;
 
     public void takeDamage(float damage)
     {
@@ -38,6 +39,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         myFaction = this.gameObject.GetComponent<Faction>();
+        myFaction.factionId = factionId;
         mySight = this.gameObject.AddComponent<CircleCollider2D>();
         sightRadius = sightRadius * (1 / mySize);
         mySight.radius = sightRadius;
