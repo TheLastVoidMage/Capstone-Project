@@ -26,6 +26,10 @@ public class LevelGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        selectedLevelSize = PlayerPrefs.GetInt("size");
+        selectedEnemyDifficulty = PlayerPrefs.GetInt("enemyDiffiulty");
+        selectedLevelDensity = PlayerPrefs.GetInt("enemyDensity");
+        faction = PlayerPrefs.GetInt("faction");
         myEnemyGenerator = this.GetComponent<EnemyGenerator>();
         textures = new Sprite[] { floorTexture, wallTexture };
         generateMap(selectedLevelSize);

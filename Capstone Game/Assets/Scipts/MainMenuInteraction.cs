@@ -1,13 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuInteraction : MonoBehaviour
 {
+    private Button[] buttons = null;
+    private bool foundSave = false;
     // Start is called before the first frame update
     void Start()
     {
-        
+        buttons = this.gameObject.GetComponentsInChildren<Button>();
+        foreach (Button b in buttons)
+        {
+            if (b.gameObject.name == "Load Game")
+            {
+                if (foundSave == false)
+                {
+                    b.interactable = false;
+                }
+            }
+        }
     }
 
     // Update is called once per frame
