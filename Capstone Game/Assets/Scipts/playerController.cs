@@ -10,6 +10,9 @@ public class playerController : MonoBehaviour
     private float maxPlayerZoom = 15;
     private float minPlayerZoom = 5;
     public float speed = 3;
+
+    public Weapons[] heldWeapons = new Weapons[5] {new Weapons().makeGlock(), null, null, null, null};
+    
     // Start is called before the first frame update
     void Start()
     {

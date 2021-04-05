@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapons
+public class Weapons : MonoBehaviour
 {
     string name = "defualtName";
     float damage = 0.0f;
@@ -24,7 +24,7 @@ public class Weapons
         projectilesEmitedPerBulletShot = 0;
         areaOfEffect = false;
     }
-    public void makeGlock()
+    public Weapons makeGlock()
     {
         name = "Glock";
         damage = 10;
@@ -34,6 +34,7 @@ public class Weapons
         bulletsFiredOnTriggerPull = 1;
         projectilesEmitedPerBulletShot = 1;
         areaOfEffect = false;
+        return this;
     }
     public void makeMP5()
     {
@@ -144,5 +145,35 @@ public class Weapons
         bulletsFiredOnTriggerPull = 1;
         projectilesEmitedPerBulletShot = 1;
         areaOfEffect = true;
+    }
+    //shooting
+    public Transform fireFromHere;
+    public GameObject bulletPrefab;
+    public float lastFired = Time.time;
+
+    public float bulletForce = 20f;
+
+    void shoot()
+    {
+        
+        GameObject bullet = Instantiate(bulletPrefab, fireFromHere.position, fireFromHere.rotation);
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        rb.AddForce(fireFromHere.up * bulletForce, ForceMode2D.Impulse);
+        if (this.bulletsFiredOnTriggerPull == 3)
+        {
+            bullet = Instantiate(bulletPrefab, fireFromHere.position, fireFromHere.rotation);
+            bullet = Instantiate(bulletPrefab, fireFromHere.position, fireFromHere.rotation);
+            bullet = Instantiate(bulletPrefab, fireFromHere.position, fireFromHere.rotation);
+            rb = bullet.GetComponent<Rigidbody2D>();
+            rb.AddForce(fireFromHere.up * bulletForce, ForceMode2D.Impulse);
+        }
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetButton("Fire1"))
+        {
+            shoot();
+        }
     }
 }
