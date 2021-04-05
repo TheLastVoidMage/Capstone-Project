@@ -10,7 +10,7 @@ public class EnemyGenerator : MonoBehaviour
     private float[,] minAndMaxStats = new float[,]{ { 10, 2, .5f, 1, 5 }, { 150, 5, 5, 5, 90} };
     private float[] statScorePerPoint = new float[5];
     // This stores how much each faction values each stat
-    private float[,] factionStats = new float[,] { { 100,100,100,100,100}, { 0.5f, 3f, 1, .1f, 1}};
+    public float[,] factionStats = new float[,] { { 100,100,100,100,100}, { 0.5f, 3f, 1, .1f, 1}};
     public GameObject generateNewEnemy(Vector3 position, int points, int factionID)
     {
         GameObject newEnemy = null;

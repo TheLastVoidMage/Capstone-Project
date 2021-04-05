@@ -9,6 +9,8 @@ public class playerController : MonoBehaviour
     private Vector3 newPosition;
     private float maxPlayerZoom = 15;
     private float minPlayerZoom = 5;
+    private GameObject selectedPickup;
+    private float interactRange = 3;
     public float speed = 3;
 
     public Weapons[] heldWeapons = new Weapons[5] {new Weapons().makeGlock(), null, null, null, null};
@@ -19,6 +21,35 @@ public class playerController : MonoBehaviour
         myBody = this.GetComponent<Rigidbody2D>();
         mySprite = this.gameObject.GetComponentInChildren<SpriteRenderer>().gameObject;
         newPosition = this.transform.position;
+    }
+
+    void handleInteraction()
+    {
+        Vector3 dir = new Vector3(0, 0);
+        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, dir, interactRange);
+        if (selectedPickup != null)
+        {
+            dir = (selectedPickup.transform.position - this.transform.position).normalized;
+            hit = Physics2D.Raycast(this.transform.position, dir, interactRange);
+            if (hit != false)
+            {
+                if (hit.collider.gameObject == selectedPickup)
+                {
+                    Pickup item = selectedPickup.GetComponent<Pickup>();
+                    if (item != null)
+                    {
+                        if (item.resourceId != -1)
+                        {
+                            // Add resource to player
+                        }
+                        else
+                        {
+                            // Give player the gun
+                        }
+                    }
+                }
+            }
+        }
     }
 
     void handleMovement()
@@ -53,6 +84,15 @@ public class playerController : MonoBehaviour
         if (newZoom >= minPlayerZoom && newZoom <= maxPlayerZoom)
         {
             Camera.main.orthographicSize = newZoom;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        Pickup item = other.GetComponent<Pickup>();
+        if (item != null)
+        {
+            selectedPickup = other.gameObject;
         }
     }
 
