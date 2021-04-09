@@ -149,29 +149,26 @@ public class Weapons : MonoBehaviour
     //shooting
     public Transform fireFromHere;
     public GameObject bulletPrefab;
-    public float lastFired = Time.time;
+    public float lastFired = 0;
 
     public float bulletForce = 20f;
 
+    public void Start()
+    {
+        lastFired = Time.time;
+    }
     void shoot()
     {
         
         GameObject bullet = Instantiate(bulletPrefab, fireFromHere.position, fireFromHere.rotation);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.AddForce(fireFromHere.up * bulletForce, ForceMode2D.Impulse);
-        if (this.bulletsFiredOnTriggerPull == 3)
-        {
-            bullet = Instantiate(bulletPrefab, fireFromHere.position, fireFromHere.rotation);
-            bullet = Instantiate(bulletPrefab, fireFromHere.position, fireFromHere.rotation);
-            bullet = Instantiate(bulletPrefab, fireFromHere.position, fireFromHere.rotation);
-            rb = bullet.GetComponent<Rigidbody2D>();
-            rb.AddForce(fireFromHere.up * bulletForce, ForceMode2D.Impulse);
-        }
+
     }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButtonDown("Fire1"))
         {
             shoot();
         }
