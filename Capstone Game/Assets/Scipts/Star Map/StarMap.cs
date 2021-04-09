@@ -197,7 +197,7 @@ public class StarMap : MonoBehaviour
                         ObjectMap[x, y].name = x + "," + y;
                         ObjectMap[x, y].transform.parent = this.transform;
                         ObjectMap[x, y].transform.localPosition = new Vector3(x * levelSpacing, y * levelSpacing);
-                        ObjectMap[x, y].AddComponent<SpriteRenderer>().sprite = derilects[0];
+                        ObjectMap[x, y].AddComponent<SpriteRenderer>().sprite = derilects[Mathf.RoundToInt(Random.Range(0, derilects.Length))];
                     }
                 }
             }
