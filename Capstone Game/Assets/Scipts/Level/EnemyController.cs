@@ -26,8 +26,12 @@ public class EnemyController : MonoBehaviour
     public float mySize = 1;
     public int factionId = 1;
 
-    public void takeDamage(float damage)
+    public void takeDamage(float damage, GameObject attacker)
     {
+        if (target == null)
+        {
+            target = attacker;
+        }
         health = health - damage;
         if (health <= 0)
         {
@@ -80,7 +84,7 @@ public class EnemyController : MonoBehaviour
                 if (Time.time - timeLastFired >= 1 / fireRate)
                 {
                     timeLastFired = Time.time;
-                    this.myFaction.doDamage(target.gameObject, this.damage);
+                    this.myFaction.doDamage(target.gameObject, this.damage, this.gameObject);
                     Debug.Log(this.name + "did " + this.damage + " to " + target.gameObject.name);
                 }
             }

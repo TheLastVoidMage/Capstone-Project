@@ -25,13 +25,13 @@ public class Faction : MonoBehaviour
         
     }
 
-    public void doDamage(GameObject target, float damage)
+    public void doDamage(GameObject target, float damage, GameObject sender = null)
     {
         if (target.GetComponent<Faction>() != null)
         {
             if (target.GetComponent<EnemyController>() != null)
             {
-                target.GetComponent<EnemyController>().takeDamage(damage);
+                target.GetComponent<EnemyController>().takeDamage(damage, sender);
             }
             else if (target.GetComponent<playerController>() != null)
             {

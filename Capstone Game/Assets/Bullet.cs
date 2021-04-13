@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
         {
             if (faction.factionId != 0)
             {
-                faction.doDamage(enemy, damage);
+                faction.doDamage(enemy, damage, null);
             }
         }
     }

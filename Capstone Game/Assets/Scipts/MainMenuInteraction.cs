@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainMenuInteraction : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class MainMenuInteraction : MonoBehaviour
     public void startNewGame()
     {
         Debug.Log("New Game Pressed");
+        SceneManager.LoadScene(1);
         // Start new game
     }
 
