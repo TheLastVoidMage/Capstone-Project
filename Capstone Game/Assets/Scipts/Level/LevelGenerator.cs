@@ -20,9 +20,8 @@ public class LevelGenerator : MonoBehaviour
     public int faction = 1;
     private Room[,] levelMap;
     private EnemyGenerator myEnemyGenerator;
-    public Sprite wallTexture;
-    public Sprite floorTexture;
-    private Sprite[] textures;
+    // Floor, Wall, Door
+    public Sprite[] textures;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +30,6 @@ public class LevelGenerator : MonoBehaviour
         selectedLevelDensity = PlayerPrefs.GetInt("enemyDensity");
         faction = PlayerPrefs.GetInt("faction");
         myEnemyGenerator = this.GetComponent<EnemyGenerator>();
-        textures = new Sprite[] { floorTexture, wallTexture };
         generateMap(selectedLevelSize);
         generateEnemies(selectedLevelDensity, selectedEnemyDifficulty, faction);
         AstarPath.active.Scan();
@@ -271,11 +269,12 @@ class Room
         room.transform.localPosition = position * (size * roomMap.GetLength(1));
         room.name = name;
         int[] tempWall = new int[7];
+
         tempWall = addDoor(doors[0]);
         for (int x = 0; x < tempWall.Length; x++)
         {
             roomPlan[x, 0] = tempWall[x];
-            if (tempWall[x] == 0)
+            if (tempWall[x] != 1)
             {
                 doorSizes[0]++;
             }
@@ -284,7 +283,7 @@ class Room
         for (int x = 0; x < tempWall.Length; x++)
         {
             roomPlan[roomPlan.GetLength(1) - 1, x] = tempWall[x];
-            if (tempWall[x] == 0)
+            if (tempWall[x] != 1)
             {
                 doorSizes[1]++;
             }
@@ -293,7 +292,7 @@ class Room
         for (int x = 0; x < tempWall.Length; x++)
         {
             roomPlan[x, roomPlan.GetLength(1) - 1] = tempWall[x];
-            if (tempWall[x] == 0)
+            if (tempWall[x] != 1)
             {
                 doorSizes[2]++;
             }
@@ -302,12 +301,12 @@ class Room
         for (int x = 0; x < tempWall.Length; x++)
         {
             roomPlan[0, x] = tempWall[x];
-            if (tempWall[x] == 0)
+            if (tempWall[x] != 1)
             {
                 doorSizes[3]++;
             }
         }
-
+        
 
         for (int x = 0; x < roomMap.GetLength(0); x++)
         {
@@ -326,6 +325,26 @@ class Room
                     roomMap[x, y].AddComponent<BoxCollider2D>();
                     roomMap[x, y].layer = 6;
                 }
+                else if (roomPlan[x, y] == 2)
+                {
+                    if (x == 0 || x == roomPlan.GetLength(1) - 1)
+                    {
+                        Debug.Log("Door rotated");
+                        roomMap[x, y].transform.Rotate(roomMap[x, y].transform.forward, 90);
+                    }
+                    roomMap[x, y].AddComponent<Door>();
+                    roomMap[x, y].GetComponent<Door>().closedTexture = sprites[2];
+                    roomMap[x, y].GetComponent<Door>().openTexture = sprites[3];
+                    roomMap[x, y].layer = 6;
+                    roomMap[x, y] = new GameObject();
+                    roomMap[x, y].transform.parent = room.transform;
+                    roomMap[x, y].name = x + ":" + y + " floor";
+                    roomMap[x, y].transform.localScale = new Vector3(size, size);
+                    roomMap[x, y].transform.localPosition = new Vector3(x * size, y * size);
+                    mySprite = roomMap[x, y].AddComponent<SpriteRenderer>();
+                    mySprite.sprite = sprites[0];
+                    mySprite.sortingOrder = -1;
+                }
             }
         }
     }
@@ -337,11 +356,18 @@ class Room
         {
             if (y < (wall.Length / 2) - (doorSize / 2) || y > (wall.Length / 2) + ((doorSize - .5) / 2))
             {
-                wall[y] = 1;
+                 wall[y] = 1;
             }
             else
             {
-                wall[y] = 0;
+                if (doorSize != 1)
+                {
+                    wall[y] = 0;
+                }
+                else
+                {
+                    wall[y] = 2;
+                }
             }
         }
         return wall;
