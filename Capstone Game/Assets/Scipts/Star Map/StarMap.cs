@@ -84,8 +84,16 @@ public class Level
             levelScore -= cost;
             levelValues[x] = cost;
         }
-        levelValues[3] = Mathf.RoundToInt(Random.Range(1, new EnemyGenerator().factionStats.GetLength(0)));
         this.specialId = specialId;
+        if (this.specialId == -1)
+        {
+            levelValues[3] = Mathf.RoundToInt(Random.Range(1, new EnemyGenerator().factionStats.GetLength(0)));
+        }
+        else
+        {
+            // Will be replaced later
+            levelValues[3] = 0;
+        }
 
         return this;
     }

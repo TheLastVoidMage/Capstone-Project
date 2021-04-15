@@ -20,7 +20,14 @@ public class MusicHandler : MonoBehaviour
         {
             if (factionId != -1)
             {
-                mySource.clip = musicList[factionId - 1];
+                if (factionId < musicList.Length)
+                {
+                    mySource.clip = musicList[factionId];
+                }
+                else
+                {
+                    mySource.clip = musicList[0];
+                }
             }
             else
             {

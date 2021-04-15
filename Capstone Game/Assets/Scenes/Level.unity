@@ -673,6 +673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicList:
+  - {fileID: 8300000, guid: 13f02245e7dc1ac4f858416580557999, type: 3}
   - {fileID: 8300000, guid: 536c7f3eaa18e0044a8059f1f237f1f9, type: 3}
 --- !u!1 &1707025772
 GameObject:
