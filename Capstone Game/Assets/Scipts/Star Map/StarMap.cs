@@ -11,7 +11,10 @@ public class StarMap : MonoBehaviour
     public Level[,] ShipMap;
     GameObject[,] ObjectMap;
     public Sprite[] derilects;
-    private float shipChance = 30;
+    public Sprite[] specialDerilects;
+
+    // Level Chances - Regular, Cow
+    private float[] shipChances = { 30, 1};
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +32,7 @@ public class StarMap : MonoBehaviour
             {
                 if (x != 0 || y != Mathf.RoundToInt(levelHeight / 2))
                 {
-                    if (Random.Range(0, 100) < shipChance)
+                    if (Random.Range(0, 100) < shipChances[0])
                     {
                         ShipMap[x, y] = new Level().generateLevel(Mathf.RoundToInt(x / ((float)levelWidth / 12)));
                         //Debug.Log("A ship at (" + x + "," + y + ") was created with the stats\nSize: " + ShipMap[x, y].levelValues[0] + "\nDifficulty: " + ShipMap[x, y].levelValues[1] + "\nDensity: " + ShipMap[x, y].levelValues[2] + "\nFaction: " + ShipMap[x, y].levelValues[3]);
@@ -38,6 +41,16 @@ public class StarMap : MonoBehaviour
                         ObjectMap[x, y].transform.parent = this.transform;
                         ObjectMap[x, y].transform.localPosition = new Vector3(x * levelSpacing, y * levelSpacing);
                         ObjectMap[x, y].AddComponent<SpriteRenderer>().sprite = derilects[Mathf.RoundToInt(Random.Range(0, derilects.Length))];
+                    }
+                    else if (Random.Range(0, 100) < shipChances[1])
+                    {
+                        ShipMap[x, y] = new Level().generateLevel(Mathf.RoundToInt(x / ((float)levelWidth / 12)), 1);
+                        //Debug.Log("A ship at (" + x + "," + y + ") was created with the stats\nSize: " + ShipMap[x, y].levelValues[0] + "\nDifficulty: " + ShipMap[x, y].levelValues[1] + "\nDensity: " + ShipMap[x, y].levelValues[2] + "\nFaction: " + ShipMap[x, y].levelValues[3]);
+                        ObjectMap[x, y] = new GameObject();
+                        ObjectMap[x, y].name = x + "," + y;
+                        ObjectMap[x, y].transform.parent = this.transform;
+                        ObjectMap[x, y].transform.localPosition = new Vector3(x * levelSpacing, y * levelSpacing);
+                        ObjectMap[x, y].AddComponent<SpriteRenderer>().sprite = specialDerilects[0];
                     }
                 }
             }
@@ -54,8 +67,9 @@ public class Level
     public static string[,] valueNames = { { "Tiny", "Small", "Medium", "Large", "Gargantuan" }, { "Barren", "Sparse", "Lightly Populated", "Populated", "Cramped" }, { "Fragile", "Weak", "Average", "Strong", "Fierce" }  };
     public static string[] factionNames = { "Friendlies", "Insectoid life"};
     public bool isVisited = false;
+    private int specialId = 0;
 
-    public Level generateLevel(int levelScore)
+    public Level generateLevel(int levelScore, int specialId = -1)
     {
         levelScore = Mathf.Clamp(levelScore, 3, 12);
         float maxCost = 0;
@@ -71,6 +85,7 @@ public class Level
             levelValues[x] = cost;
         }
         levelValues[3] = Mathf.RoundToInt(Random.Range(1, new EnemyGenerator().factionStats.GetLength(0)));
+        this.specialId = specialId;
 
         return this;
     }
@@ -83,6 +98,7 @@ public class Level
             PlayerPrefs.SetInt("enemyDiffiulty", levelValues[1]);
             PlayerPrefs.SetInt("enemyDensity", levelValues[2]);
             PlayerPrefs.SetInt("faction", levelValues[3]);
+            PlayerPrefs.SetInt("specialId", specialId);
             SceneManager.LoadScene(2);
         }
         else

@@ -20,8 +20,15 @@ public class LevelGenerator : MonoBehaviour
     public int faction = 1;
     private Room[,] levelMap;
     private EnemyGenerator myEnemyGenerator;
-    // Floor, Wall, Door
+    public Sprite[] regularFloors;
+    public Sprite[] regularWalls;
+    public Sprite[] regularClosedDoors;
+    public Sprite[] regularOpenDoors;
+    public Sprite[] specialFloors;
+    public Sprite[] specialWalls;
+    // Floor, Wall, Door closed, Door Open
     public Sprite[] textures;
+    public int specialId = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +36,11 @@ public class LevelGenerator : MonoBehaviour
         selectedEnemyDifficulty = PlayerPrefs.GetInt("enemyDiffiulty");
         selectedLevelDensity = PlayerPrefs.GetInt("enemyDensity");
         faction = PlayerPrefs.GetInt("faction");
+        specialId = PlayerPrefs.GetInt("specialId");
+        if (specialId == 0)
+        {
+            specialId = 0;
+        }
         myEnemyGenerator = this.GetComponent<EnemyGenerator>();
         generateMap(selectedLevelSize);
         generateEnemies(selectedLevelDensity, selectedEnemyDifficulty, faction);
@@ -63,6 +75,24 @@ public class LevelGenerator : MonoBehaviour
     }
     private void generateMap(int size)
     {
+        textures = new Sprite[4];
+        int randNum = 0;
+        if (specialId == -1)
+        {
+            textures[0] = regularFloors[Random.Range(0, regularFloors.Length - 1)];
+            textures[1] = regularWalls[Random.Range(0, regularWalls.Length - 1)];
+            randNum = Random.Range(0, regularClosedDoors.Length - 1);
+            textures[2] = regularClosedDoors[randNum];
+            textures[3] = regularOpenDoors[randNum];
+        }
+        else
+        {
+            textures[0] = specialFloors[specialId - 1];
+            textures[1] = specialWalls[specialId - 1];
+            randNum = Random.Range(0, regularClosedDoors.Length - 1);
+            textures[2] = regularClosedDoors[randNum];
+            textures[3] = regularOpenDoors[randNum];
+        }
         int iterations = 0;
         levelMap = new Room[levelSizes[0, size], levelSizes[1, size]];
         Debug.Log("The level is " + levelMap.GetLength(0) + " X " + levelMap.GetLength(1));
