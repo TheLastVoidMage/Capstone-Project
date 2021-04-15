@@ -65,7 +65,7 @@ public class Level
     public GameObject displayObject;
     public bool isLevel = true;
     public static string[,] valueNames = { { "Tiny", "Small", "Medium", "Large", "Gargantuan" }, { "Barren", "Sparse", "Lightly Populated", "Populated", "Cramped" }, { "Fragile", "Weak", "Average", "Strong", "Fierce" }  };
-    public static string[] factionNames = { "Friendlies", "Insectoid life"};
+    public static string[] factionNames = { "Friendlies", "Insectoid life", "Pirates"};
     public bool isVisited = false;
     private int specialId = 0;
 
