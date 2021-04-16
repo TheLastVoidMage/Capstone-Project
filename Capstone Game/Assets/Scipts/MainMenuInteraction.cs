@@ -33,7 +33,7 @@ public class MainMenuInteraction : MonoBehaviour
     public void startNewGame()
     {
         Debug.Log("New Game Pressed");
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
         // Start new game
     }
 

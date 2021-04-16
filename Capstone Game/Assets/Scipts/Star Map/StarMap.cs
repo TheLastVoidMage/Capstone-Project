@@ -100,14 +100,14 @@ public class Level
 
     public void loadLevel()
     {
-        if (Application.CanStreamedLevelBeLoaded(2))
+        if (Application.CanStreamedLevelBeLoaded(3))
         {
             PlayerPrefs.SetInt("size", levelValues[0]);
             PlayerPrefs.SetInt("enemyDiffiulty", levelValues[1]);
             PlayerPrefs.SetInt("enemyDensity", levelValues[2]);
             PlayerPrefs.SetInt("faction", levelValues[3]);
             PlayerPrefs.SetInt("specialId", specialId);
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(3);
         }
         else
         {
