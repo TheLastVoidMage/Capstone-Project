@@ -13,7 +13,7 @@ public class playerController : MonoBehaviour
     private float interactRange = 3;
     public float speed = 3;
 
-    public Weapon[] heldWeapons = new Weapon[4] { new Weapon(), new Weapon("Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, false, true, 3), null, null};
+    public Weapon[] heldWeapons = new Weapon[4] { new Weapon(), new Weapon("Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, false, true, 3), new Weapon("Boomstick", 3, 2, 2, 1, 10, 5, 1, false, true, 1), null};
     private int selectedWeapon = 0;
     
     // Start is called before the first frame update
