@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
     public float range = 3;
     public float fireRate = 1; // Attacks per second
     private float timeLastFired;
-    public Sprite myImage;
+    public Sprite myImage = null;
     public Color myColor = Color.white;
     public float mySize = 1;
     public int factionId = 1;
