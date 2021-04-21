@@ -376,6 +376,7 @@ GameObject:
   - component: {fileID: 1934481358}
   - component: {fileID: 1934481357}
   - component: {fileID: 1934481360}
+  - component: {fileID: 1934481361}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -463,3 +464,16 @@ MonoBehaviour:
   spashScreens:
   - {fileID: 21300000, guid: 0577cffda7d2c1b4b9e8ca812bf313b2, type: 3}
   splashTime: 5
+--- !u!114 &1934481361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934481356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7d0b136383397243b718d09c68fe9e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicList: []
