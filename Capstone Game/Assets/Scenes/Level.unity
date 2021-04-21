@@ -205,6 +205,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 776767116227198578, guid: c529ca434241ee8458c2a04b7688cf01,
     type: 3}
+  factionSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 21300000, guid: 14e9f2950009c224f811ebe749ce8844, type: 3}
+  - {fileID: 21300000, guid: e7323f4e45f8b1444979bd7c742b7571, type: 3}
+  - {fileID: 21300000, guid: 524c725bb5448054c92dccf87b96e87f, type: 3}
+  - {fileID: 21300000, guid: 5753ea8e8eda7c240a14a4fd24346f1a, type: 3}
+  - {fileID: 21300000, guid: 579ddc6bf4aafe44c9c4ab4a4f4590b0, type: 3}
 --- !u!1 &198975854
 GameObject:
   m_ObjectHideFlags: 0
