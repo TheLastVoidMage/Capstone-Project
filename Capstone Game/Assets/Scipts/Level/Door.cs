@@ -79,7 +79,7 @@ public class Door : MonoBehaviour
         {
             if (sensedObjects.Contains(collision.gameObject) == false)
             {
-                Debug.Log(collision.gameObject.name + " entered door range");
+                //Debug.Log(collision.gameObject.name + " entered door range");
                 sensedObjects.Add(collision.gameObject);
             }
         }
@@ -90,7 +90,7 @@ public class Door : MonoBehaviour
         {
             if (sensedObjects.Contains(collision.gameObject) == true)
             {
-                Debug.Log(collision.gameObject.name + " left door range");
+                //Debug.Log(collision.gameObject.name + " left door range");
                 sensedObjects.Remove(collision.gameObject);
             }
         }

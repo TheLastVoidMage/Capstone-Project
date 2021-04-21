@@ -11,6 +11,7 @@ public class EnemyGenerator : MonoBehaviour
     private float[] statScorePerPoint = new float[5];
     // This stores how much each faction values each stat
     public float[,] factionStats = new float[,] { { 100,100,100,100,100}, { 0.5f, 3f, 1, .1f, 1}, { .75f, 1, .5f, 10, 1} };
+    public Sprite[,] factionSprites = new Sprite[,] { { Resources.Load("") as Sprite, Resources.Load("Sprites/Enemies/Bugs/SpaceBee.png") as Sprite, Resources.Load("Sprites/Enemies/Bugs/SpiderSprite.png") as Sprite, Resources.Load("Sprites/Enemies/Bugs/SpiderSprite.png") as Sprite, Resources.Load("Sprites/Enemies/Bugs/MantisSprite.png") as Sprite } };
     public GameObject generateNewEnemy(Vector3 position, int points, int factionID)
     {
         GameObject newEnemy = null;
@@ -42,6 +43,7 @@ public class EnemyGenerator : MonoBehaviour
             enemyStats.damage = stats[4];
             enemyStats.mySize = Mathf.Max(Mathf.Min(1, (stats[0] / 25) / stats[1]), .5f);
             enemyStats.factionId = factionID;
+            //enemyStats.myImage = factionSprites[factionID - 1, 1];
         }
 
         return newEnemy;

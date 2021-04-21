@@ -13,7 +13,8 @@ public class playerController : MonoBehaviour
     private float interactRange = 3;
     public float speed = 3;
 
-    public Weapons[] heldWeapons = new Weapons[5] {new Weapons().makeGlock(), null, null, null, null};
+    public Weapon[] heldWeapons = new Weapon[4] { new Weapon(), new Weapon("Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, false, true, 3), null, null};
+    private int selectedWeapon = 0;
     
     // Start is called before the first frame update
     void Start()
@@ -25,29 +26,39 @@ public class playerController : MonoBehaviour
 
     void handleInteraction()
     {
-        Vector3 dir = new Vector3(0, 0);
-        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, dir, interactRange);
-        if (selectedPickup != null)
+        if (Input.GetKey(KeyCode.Alpha1))
         {
-            dir = (selectedPickup.transform.position - this.transform.position).normalized;
-            hit = Physics2D.Raycast(this.transform.position, dir, interactRange);
-            if (hit != false)
+            if (heldWeapons[0] != null)
             {
-                if (hit.collider.gameObject == selectedPickup)
-                {
-                    Pickup item = selectedPickup.GetComponent<Pickup>();
-                    if (item != null)
-                    {
-                        if (item.resourceId != -1)
-                        {
-                            // Add resource to player
-                        }
-                        else
-                        {
-                            // Give player the gun
-                        }
-                    }
-                }
+                selectedWeapon = 0;
+            }
+        }
+        else if (Input.GetKey(KeyCode.Alpha2))
+        {
+            if (heldWeapons[1] != null)
+            {
+                selectedWeapon = 1;
+            }
+        }
+        else if (Input.GetKey(KeyCode.Alpha3))
+        {
+            if (heldWeapons[2] != null)
+            {
+                selectedWeapon = 2;
+            }
+        }
+        else if (Input.GetKey(KeyCode.Alpha4))
+        {
+            if (heldWeapons[3] != null)
+            {
+                selectedWeapon = 3;
+            }
+        }
+        if (Input.GetMouseButton(0))
+        {
+            if (heldWeapons[selectedWeapon] != null)
+            {
+                heldWeapons[selectedWeapon].shoot(this.gameObject);
             }
         }
     }
@@ -74,6 +85,7 @@ public class playerController : MonoBehaviour
         }
         this.transform.position = Vector3.Lerp(this.transform.position, newPosition, Time.deltaTime);
     }
+
     void playerLook()
     {
         Vector3 mousePosition = Input.mousePosition;
@@ -101,5 +113,6 @@ public class playerController : MonoBehaviour
     {
         handleMovement();
         playerLook();
+        handleInteraction();
     }
 }
