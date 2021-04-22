@@ -19,6 +19,13 @@ public class Weapon
     bool pelletsExplode = false;
     bool isReloading = false;
 
+    private GameObject parentAudio;
+    private string parentAudioName = "GunSounds";
+    private AudioSource myFireAudioPlayer;
+    private AudioSource myReloadAudioPlayer;
+    private AudioClip fireSound;
+    private AudioClip reloadSound;
+
     private float timeLastFired = 0;
     private float timeOfReload = 0;
 
@@ -39,7 +46,56 @@ public class Weapon
         this.timeOfReload = 0;
         this.AOERange = 0;
     }
-    public Weapon(string displayName, float fireRate, float spread, int clipSize, int bulletsUsedInShot, int pelletCount, float damagePerPellet, float reloadTime, bool isMelee = false, bool pelletsExplode = false, float explosionRange = 0)
+    public Weapon(GameObject parent, AudioClip fireSound, AudioClip reloadSound)
+    {
+        this.displayName = "Glock";
+        this.fireRate = 3;
+        this.spread = 1;
+        this.clipSize = 30;
+        this.bulletsInClip = clipSize;
+        this.bulletsUsedInShot = 1;
+        this.pelletCount = 1;
+        this.damagePerPellet = 25;
+        this.reloadTime = 1;
+        this.isMelee = false;
+        this.pelletsExplode = false;
+        this.timeLastFired = 0;
+        this.timeOfReload = 0;
+        this.AOERange = 0;
+        this.reloadSound = reloadSound;
+        this.fireSound = fireSound;
+        AudioSource[] audios = parent.GetComponentsInChildren<AudioSource>();
+        for (int x = 0; x < audios.Length; x++)
+        {
+            if (audios[x].gameObject.name == parentAudioName)
+            {
+                parentAudio = audios[x].gameObject;
+            }
+        }
+        if (parentAudio != null)
+        {
+            audios = parentAudio.GetComponents<AudioSource>();
+            myFireAudioPlayer = audios[0];
+            if (audios.Length > 1)
+            {
+                myReloadAudioPlayer = audios[1];
+            }
+            else
+            {
+                myReloadAudioPlayer = parentAudio.AddComponent<AudioSource>();
+            }
+        }
+        else
+        {
+            parentAudio = new GameObject(parentAudioName);
+            parentAudio.transform.parent = parent.transform;
+            myFireAudioPlayer = parentAudio.AddComponent<AudioSource>();
+            myReloadAudioPlayer = parentAudio.AddComponent<AudioSource>();
+        }
+        myFireAudioPlayer.clip = fireSound;
+        myReloadAudioPlayer.clip = reloadSound;
+    }
+    public Weapon(GameObject parent, string displayName, float fireRate, float spread, int clipSize, int bulletsUsedInShot, int pelletCount, float damagePerPellet, float reloadTime, AudioClip fireSound, AudioClip reloadSound, bool isMelee = false, bool pelletsExplode = false, float explosionRange = 0)
     {
         this.displayName = displayName;
         this.fireRate = fireRate;
@@ -55,6 +111,38 @@ public class Weapon
         this.timeLastFired = 0;
         this.timeOfReload = 0;
         this.AOERange = explosionRange;
+        this.reloadSound = reloadSound;
+        this.fireSound = fireSound;
+        AudioSource[] audios = parent.GetComponentsInChildren<AudioSource>();
+        for (int x = 0; x < audios.Length; x++)
+        {
+            if (audios[x].gameObject.name == parentAudioName)
+            {
+                parentAudio = audios[x].gameObject;
+            }
+        }
+        if (parentAudio != null)
+        {
+            audios = parentAudio.GetComponents<AudioSource>();
+            myFireAudioPlayer = audios[0];
+            if (audios.Length > 1)
+            {
+                myReloadAudioPlayer = audios[1];
+            }
+            else
+            {
+                myReloadAudioPlayer = parentAudio.AddComponent<AudioSource>();
+            }
+        }
+        else
+        {
+            parentAudio = new GameObject(parentAudioName);
+            parentAudio.transform.parent = parent.transform;
+            myFireAudioPlayer = parentAudio.AddComponent<AudioSource>();
+            myReloadAudioPlayer = parentAudio.AddComponent<AudioSource>();
+        }
+        myFireAudioPlayer.clip = fireSound;
+        myReloadAudioPlayer.clip = reloadSound;
     }
 
 
@@ -64,10 +152,6 @@ public class Weapon
         if (bulletsInClip < bulletsUsedInShot)
         {
             startReload();
-            if (this.timeOfReload + this.reloadTime < Time.time)
-            {
-                doReload();
-            }
         }
         else
         {
@@ -75,7 +159,7 @@ public class Weapon
             {
                 timeLastFired = Time.time;
                 bulletsInClip--;
-                Debug.Log(this.displayName + " has fired");
+                myFireAudioPlayer.Play();
                 if (isMelee == false)
                 {
                     firepellets(parent);
@@ -89,9 +173,7 @@ public class Weapon
     }
 
     private void firepellets(GameObject parent)
-    {
-        Debug.Log("Fired from: (" + parent.transform.position.x + "," + parent.transform.position.y + ")");
-        Vector3[] dirs = new Vector3[this.pelletCount];
+    {        Vector3[] dirs = new Vector3[this.pelletCount];
         float diviation = 0;
         RaycastHit2D[] hits = new RaycastHit2D[this.pelletCount];
         for (int x = 0; x < dirs.Length;x++)
@@ -174,17 +256,31 @@ public class Weapon
     {
         if (this.clipSize != this.bulletsInClip && isReloading == false)
         {
-            isReloading = true;
             timeOfReload = Time.time;
             Debug.Log(this.displayName + " started reloading");
+            myReloadAudioPlayer.Play();
+            /*while (finishReload() == false)
+            {
+                isReloading = true;
+            }
+            isReloading = false;
+            */
+            finishReload();
         }
 
     }
 
-    private void doReload()
+    private bool finishReload()
     {
         this.bulletsInClip = this.clipSize;
         this.isReloading = false;
-        Debug.Log(this.displayName + " finished reloading");
+        if (this.timeOfReload + this.reloadTime < Time.time)
+        {
+            this.bulletsInClip = this.clipSize;
+            this.isReloading = false;
+            Debug.Log(this.displayName + " finished reloading");
+            return true;
+        }
+        return false;
     }
 }

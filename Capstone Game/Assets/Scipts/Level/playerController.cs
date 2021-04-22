@@ -13,18 +13,20 @@ public class playerController : MonoBehaviour
     private float interactRange = 3;
     public float speed = 3;
 
-    public Weapon[] heldWeapons = new Weapon[4] { new Weapon(), new Weapon("Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, false, true, 3), new Weapon("Boomstick", 3, 2, 2, 1, 10, 5, 1, false, true, 1), null};
+    public Weapon[] heldWeapons;
+    public AudioClip[] TempWeaponSounds;
     private int selectedWeapon = 0;
     
     // Start is called before the first frame update
     void Start()
     {
+        heldWeapons = new Weapon[4] { new Weapon(this.gameObject,TempWeaponSounds[0], TempWeaponSounds[1]), new Weapon(this.gameObject, "Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, TempWeaponSounds[0], TempWeaponSounds[1], false, true, 3), new Weapon(this.gameObject, "Boomstick", 3, 2, 2, 1, 10, 5, 1, TempWeaponSounds[0], TempWeaponSounds[1], false, true, 1), null };
         myBody = this.GetComponent<Rigidbody2D>();
         mySprite = this.gameObject.GetComponentInChildren<SpriteRenderer>().gameObject;
         newPosition = this.transform.position;
     }
 
-    void handleInteraction()
+    void handleGuns()
     {
         if (Input.GetKey(KeyCode.Alpha1))
         {
@@ -59,6 +61,13 @@ public class playerController : MonoBehaviour
             if (heldWeapons[selectedWeapon] != null)
             {
                 heldWeapons[selectedWeapon].shoot(this.gameObject);
+            }
+        }
+        else if (Input.GetKey(KeyCode.R))
+        {
+            if (heldWeapons[selectedWeapon] != null)
+            {
+                heldWeapons[selectedWeapon].startReload();
             }
         }
     }
@@ -113,6 +122,6 @@ public class playerController : MonoBehaviour
     {
         handleMovement();
         playerLook();
-        handleInteraction();
+        handleGuns();
     }
 }

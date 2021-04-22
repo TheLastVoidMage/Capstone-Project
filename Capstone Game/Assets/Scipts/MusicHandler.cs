@@ -34,6 +34,7 @@ public class MusicHandler : MonoBehaviour
                 mySource.clip = musicList[Mathf.RoundToInt(Random.Range(0, musicList.Length))];
             }
         }
+        mySource.priority = 256;
         mySource.Play();
     }
 
