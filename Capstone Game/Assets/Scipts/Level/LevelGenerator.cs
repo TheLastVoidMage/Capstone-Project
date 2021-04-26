@@ -32,10 +32,22 @@ public class LevelGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        selectedLevelSize = PlayerPrefs.GetInt("size");
-        selectedEnemyDifficulty = PlayerPrefs.GetInt("enemyDiffiulty");
-        selectedLevelDensity = PlayerPrefs.GetInt("enemyDensity");
-        faction = PlayerPrefs.GetInt("faction");
+        if (selectedLevelSize == -1)
+        {
+            selectedLevelSize = PlayerPrefs.GetInt("size");
+        }
+        if (selectedEnemyDifficulty == -1)
+        {
+            selectedEnemyDifficulty = PlayerPrefs.GetInt("enemyDiffiulty");
+        }
+        if (selectedLevelDensity == -1)
+        {
+            selectedLevelDensity = PlayerPrefs.GetInt("enemyDensity");
+        }
+        if (faction == -1)
+        {
+            faction = PlayerPrefs.GetInt("faction");
+        }
         specialId = PlayerPrefs.GetInt("specialId");
         if (specialId == 0)
         {

@@ -1,0 +1,39 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class WeaponGenerator : MonoBehaviour
+{
+    private SoundLibary mySoundLibary;
+    private int gunId = 0;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        mySoundLibary = new SoundLibary().generate();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public Weapon generateEnemyWeapon(GameObject enemy, float fireRate, float spread, float damage)
+    {
+        gunId++;
+        int fireSound = 0;
+        int reloadSound = 0;
+        bool isMelee = false;
+        if (mySoundLibary == null)
+        {
+            mySoundLibary = new SoundLibary().generate();
+        }
+        if (spread < 10)
+        {
+            isMelee = true;
+        }
+        Weapon newWeapon = new Weapon(enemy, "Enemy Weapon", fireRate, 2/spread, Mathf.RoundToInt(200 / damage), 1, 1, damage, 30 / (200 / damage), mySoundLibary.gunFire[fireSound], mySoundLibary.gunReload[reloadSound], isMelee, false, spread / 5);
+        return newWeapon;
+    }
+}

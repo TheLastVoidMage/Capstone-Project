@@ -29,23 +29,6 @@ public class Weapon
     private float timeLastFired = 0;
     private float timeOfReload = 0;
 
-    public Weapon()
-    {
-        this.displayName = "Glock";
-        this.fireRate = 3;
-        this.spread = 1;
-        this.clipSize = 30;
-        this.bulletsInClip = clipSize;
-        this.bulletsUsedInShot = 1;
-        this.pelletCount = 1;
-        this.damagePerPellet = 25;
-        this.reloadTime = 1;
-        this.isMelee = false;
-        this.pelletsExplode = false;
-        this.timeLastFired = 0;
-        this.timeOfReload = 0;
-        this.AOERange = 0;
-    }
     public Weapon(GameObject parent, AudioClip fireSound, AudioClip reloadSound)
     {
         this.displayName = "Glock";
@@ -203,7 +186,7 @@ public class Weapon
             }
         }
     }
-    private void calculateAOE(Vector3 AOEPoint, GameObject parent)
+    private void calculateAOE(Vector3 AOEPoint, GameObject parent, bool isMelee = false)
     {
         GameObject parentDisplay = parent.GetComponentInChildren<SpriteRenderer>().gameObject;
         bool hitWall = false;
@@ -242,8 +225,11 @@ public class Weapon
         {
             if (o != false)
             {
-                Debug.Log("Explosion Hit: " + o.name);
-                o.GetComponent<Faction>().doDamage(o.transform.gameObject, this.damagePerPellet, parent);
+                if (isMelee == false || o.GetComponent<Faction>().factionId != parent.GetComponent<Faction>().factionId || o == parent)
+                {
+                    Debug.Log("Explosion Hit: " + o.name);
+                    o.GetComponent<Faction>().doDamage(o.transform.gameObject, this.damagePerPellet, parent);
+                }
 
             }
         }
@@ -251,7 +237,7 @@ public class Weapon
 
     private void meleeStrike(GameObject parent)
     {
-        calculateAOE(parent.transform.position, parent);
+        calculateAOE(parent.transform.position, parent, true);
     }
 
     public void startReload()

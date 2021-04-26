@@ -10,7 +10,6 @@ public class EnemyController : MonoBehaviour
     private AIDestinationSetter myPathSetter;
     private AIPath myAiPath;
     private SpriteRenderer mySprite;
-    private SoundLibary mySoundLibary;
     private GameObject myDetector;
 
 
@@ -25,8 +24,6 @@ public class EnemyController : MonoBehaviour
     public float mySize = 1;
     public int factionId = 1;
     public Weapon myGun;
-    public int myGunFireSound = 0;
-    public int myGunReloadSound = 0;
 
     public void takeDamage(float damage, GameObject attacker)
     {
@@ -44,7 +41,6 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mySoundLibary = new SoundLibary().generate();
         myFaction = this.gameObject.GetComponent<Faction>();
         myFaction.factionId = factionId;
         this.GetComponent<CircleCollider2D>().radius *= 2;
@@ -71,11 +67,6 @@ public class EnemyController : MonoBehaviour
             }
         }
         this.transform.localScale = new Vector3(mySize, mySize, 1);
-        myGun = new Weapon(this.gameObject, mySoundLibary.gunFire[myGunFireSound], mySoundLibary.gunFire[myGunReloadSound]);
-        if (myGun.getIsMelee())
-        {
-            this.range = myGun.getRange();
-        }
     }
 
     void handleAttacking()
