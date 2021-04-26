@@ -481,9 +481,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  TempWeaponSounds:
-  - {fileID: 8300000, guid: 731c98df94c4edc44b26924e8bb8d891, type: 3}
-  - {fileID: 8300000, guid: 3a0b587bebd6ee14eb0e17a6743f3b68, type: 3}
 --- !u!114 &1243821885
 MonoBehaviour:
   m_ObjectHideFlags: 0

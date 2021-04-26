@@ -6,11 +6,12 @@ using Pathfinding;
 public class EnemyController : MonoBehaviour
 {
     public GameObject target = null;
-    private CircleCollider2D mySight;
-    private Faction myFaction;
+    public Faction myFaction;
     private AIDestinationSetter myPathSetter;
     private AIPath myAiPath;
     private SpriteRenderer mySprite;
+    private SoundLibary mySoundLibary;
+    private GameObject myDetector;
 
 
     // Variables that will be assigned by level generator
@@ -19,12 +20,13 @@ public class EnemyController : MonoBehaviour
     public float health = 100;
     public float damage = 10;
     public float range = 3;
-    public float fireRate = 1; // Attacks per second
-    private float timeLastFired;
     public Sprite myImage = null;
     public Color myColor = Color.white;
     public float mySize = 1;
     public int factionId = 1;
+    public Weapon myGun;
+    public int myGunFireSound = 0;
+    public int myGunReloadSound = 0;
 
     public void takeDamage(float damage, GameObject attacker)
     {
@@ -42,17 +44,20 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mySoundLibary = new SoundLibary().generate();
         myFaction = this.gameObject.GetComponent<Faction>();
         myFaction.factionId = factionId;
-        mySight = this.gameObject.AddComponent<CircleCollider2D>();
-        sightRadius = sightRadius * (1 / mySize);
-        mySight.radius = sightRadius;
-        mySight.isTrigger = true;
+        this.GetComponent<CircleCollider2D>().radius *= 2;
         myPathSetter = this.GetComponent<AIDestinationSetter>();
         myAiPath = this.GetComponent<AIPath>();
         myAiPath.maxSpeed = movementSpeed;
         myAiPath.maxAcceleration = movementSpeed;
-        timeLastFired = Time.time;
+        myDetector = new GameObject();
+        myDetector.transform.parent = this.transform;
+        myDetector.layer = 2;
+        myDetector.name = "Detection";
+        myDetector.transform.localPosition = new Vector3(0, 0);
+        myDetector.AddComponent<EnemyDetection>();
         mySprite = this.GetComponentInChildren<SpriteRenderer>();
         if (mySprite != null)
         {
@@ -66,6 +71,11 @@ public class EnemyController : MonoBehaviour
             }
         }
         this.transform.localScale = new Vector3(mySize, mySize, 1);
+        myGun = new Weapon(this.gameObject, mySoundLibary.gunFire[myGunFireSound], mySoundLibary.gunFire[myGunReloadSound]);
+        if (myGun.getIsMelee())
+        {
+            this.range = myGun.getRange();
+        }
     }
 
     void handleAttacking()
@@ -81,12 +91,7 @@ public class EnemyController : MonoBehaviour
         {
             if (hit.transform.gameObject == target.gameObject)
             {
-                if (Time.time - timeLastFired >= 1 / fireRate)
-                {
-                    timeLastFired = Time.time;
-                    this.myFaction.doDamage(target.gameObject, this.damage, this.gameObject);
-                    Debug.Log(this.name + "did " + this.damage + " to " + target.gameObject.name);
-                }
+                    myGun.shoot(this.gameObject);
             }
         }
     }
@@ -118,34 +123,4 @@ public class EnemyController : MonoBehaviour
         handleMovement();
     }
 
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (target == null)
-        {
-            if (other.gameObject.GetComponent<Faction>() != null)
-            {
-                if (other.gameObject.GetComponent<Faction>().factionId != myFaction.factionId)
-                {
-                    Vector3 dir = (other.transform.position - this.transform.position).normalized;
-                    RaycastHit2D hit = Physics2D.Raycast(this.transform.position, dir, sightRadius * 2);
-                    if (hit != false)
-                    {
-                        if (hit.collider.gameObject == other.gameObject)
-                        {
-                            Debug.Log(this.gameObject.name + " saw " + other.gameObject.name);
-                            target = other.gameObject;
-                        }
-                        else
-                        {
-                            Debug.Log("Detected " + hit.collider.gameObject.name);
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("Raycast missed");
-                    }
-                }
-            }
-        }
-    }
 }

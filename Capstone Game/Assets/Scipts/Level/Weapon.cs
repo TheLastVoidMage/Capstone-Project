@@ -92,6 +92,7 @@ public class Weapon
             myFireAudioPlayer = parentAudio.AddComponent<AudioSource>();
             myReloadAudioPlayer = parentAudio.AddComponent<AudioSource>();
         }
+        parentAudio.transform.localPosition = new Vector3(0, 0);
         myFireAudioPlayer.clip = fireSound;
         myReloadAudioPlayer.clip = reloadSound;
     }
@@ -141,6 +142,7 @@ public class Weapon
             myFireAudioPlayer = parentAudio.AddComponent<AudioSource>();
             myReloadAudioPlayer = parentAudio.AddComponent<AudioSource>();
         }
+        parentAudio.transform.localPosition = new Vector3(0, 0);
         myFireAudioPlayer.clip = fireSound;
         myReloadAudioPlayer.clip = reloadSound;
     }
@@ -282,5 +284,14 @@ public class Weapon
             return true;
         }
         return false;
+    }
+
+    public float getRange()
+    {
+        return this.AOERange;
+    }
+    public bool getIsMelee()
+    {
+        return this.isMelee;
     }
 }

@@ -7,7 +7,7 @@ public class EnemyGenerator : MonoBehaviour
     public GameObject enemyPrefab;
     // Factions: Player, Bug
     // Stats: Health, Speed, Firerate, Range, Damage
-    private float[,] minAndMaxStats = new float[,]{ { 10, 2, .5f, 1, 5 }, { 150, 5, 5, 5, 90} };
+    private float[,] minAndMaxStats = new float[,]{ { 25, 2, .5f, 5, 5 }, { 300, 5, 5, 15, 90} };
     private float[] statScorePerPoint = new float[5];
     // This stores how much each faction values each stat
     public float[,] factionStats = new float[,] { { 100,100,100,100,100}, { 0.5f, 3f, 1, .1f, 1}, { .75f, 1, .5f, 10, 1} };
@@ -45,7 +45,7 @@ public class EnemyGenerator : MonoBehaviour
             }
             enemyStats.health = stats[0];
             enemyStats.movementSpeed = stats[1];
-            enemyStats.fireRate = stats[2];
+            //enemyStats.fireRate = stats[2];
             enemyStats.range = stats[3];
             enemyStats.sightRadius = Mathf.Max(5, stats[3] + 2);
             enemyStats.damage = stats[4];
