@@ -60,6 +60,10 @@ public class EnemyGenerator : MonoBehaviour
             Debug.Log((factionID * 5) + highestStatId);
             enemyStats.myImage = factionSprites[(factionID * 5) + highestStatId];
             enemyStats.myGun = myWeaponGenerator.generateEnemyWeapon(enemyStats.gameObject, stats[2], stats[3], stats[4]);
+            if (enemyStats.myGun.getIsMelee())
+            {
+                enemyStats.range = enemyStats.myGun.getRange();
+            }
         }
 
         return newEnemy;
