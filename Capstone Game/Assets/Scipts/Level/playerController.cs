@@ -21,11 +21,8 @@ public class playerController : MonoBehaviour
     void Start()
     {
 
-        mySoundLibary = new SoundLibary().generate();
-        Debug.Log(mySoundLibary);
-        Debug.Log(mySoundLibary.gunFire);
-        Debug.Log(mySoundLibary.gunFire.Length);
-        heldWeapons = new Weapon[4] { new Weapon(this.gameObject, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]), new Weapon(this.gameObject, "Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 3), new Weapon(this.gameObject, "Boomstick", 3, 2, 2, 1, 10, 5, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1), null };
+        mySoundLibary = new SoundLibary().generate();;
+        heldWeapons = new Weapon[4] { new Weapon(this.gameObject, null, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]), new Weapon(this.gameObject, null, "Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 3), new Weapon(this.gameObject, null, "Boomstick", 3, 2, 2, 1, 10, 5, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1), null };
         myBody = this.GetComponent<Rigidbody2D>();
         mySprite = this.gameObject.GetComponentInChildren<SpriteRenderer>().gameObject;
         newPosition = this.transform.position;

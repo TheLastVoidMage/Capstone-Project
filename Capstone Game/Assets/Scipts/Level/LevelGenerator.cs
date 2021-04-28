@@ -361,7 +361,7 @@ class Room
                 roomMap[x, y].transform.localPosition = new Vector3(x * size, y * size);
                 SpriteRenderer mySprite = roomMap[x, y].AddComponent<SpriteRenderer>();
                 mySprite.sprite = sprites[roomPlan[x, y]];
-                mySprite.sortingOrder = -1;
+                mySprite.sortingOrder = -10;
                 if (roomPlan[x, y] == 1)
                 {
                     roomMap[x, y].AddComponent<BoxCollider2D>();

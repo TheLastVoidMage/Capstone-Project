@@ -5,12 +5,17 @@ using UnityEngine;
 public class WeaponGenerator : MonoBehaviour
 {
     private SoundLibary mySoundLibary;
+    private Sprite[] gunSprites;
+    private Sprite[] meleeSprites;
+    private Sprite selectedSprite;
     private int gunId = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         mySoundLibary = new SoundLibary().generate();
+        gunSprites = Resources.LoadAll<Sprite>("Images/Guns/");
+        meleeSprites = Resources.LoadAll<Sprite>("Images/Melee/");
     }
 
     // Update is called once per frame
@@ -33,7 +38,23 @@ public class WeaponGenerator : MonoBehaviour
         {
             isMelee = true;
         }
-        Weapon newWeapon = new Weapon(enemy, "Enemy Weapon", fireRate, 2/spread, Mathf.RoundToInt(200 / damage), 1, 1, damage, 30 / (200 / damage), mySoundLibary.gunFire[fireSound], mySoundLibary.gunReload[reloadSound], isMelee, false, spread / 5);
+        gunSprites = Resources.LoadAll<Sprite>("Images/Guns/");
+        meleeSprites = Resources.LoadAll<Sprite>("Images/Melee/");
+        Debug.Log(gunSprites);
+        if (isMelee)
+        {
+            selectedSprite = meleeSprites[Random.Range(0, meleeSprites.Length - 1)];
+        }
+        else
+        {
+            selectedSprite = gunSprites[Random.Range(0, gunSprites.Length - 1)];
+        }
+        if (this.gameObject.GetComponent<LevelGenerator>().faction == 1)
+        {
+            Debug.Log("Removed selected sprite");
+            selectedSprite = null;
+        }
+        Weapon newWeapon = new Weapon(enemy, selectedSprite, "Enemy Weapon", fireRate, 2/spread, Mathf.RoundToInt(200 / damage), 1, 1, damage, 30 / (200 / damage), mySoundLibary.gunFire[fireSound], mySoundLibary.gunReload[reloadSound], isMelee, false, spread / 5);
         return newWeapon;
     }
 }

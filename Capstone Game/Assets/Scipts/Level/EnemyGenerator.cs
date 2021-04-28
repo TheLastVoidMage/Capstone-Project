@@ -47,7 +47,7 @@ public class EnemyGenerator : MonoBehaviour
                 }
                 pointsToSpend -= cost;
                 stats[x] = minAndMaxStats[0, x] + ((statScorePerPoint[x] * cost) * factionStats[factionID, x]);
-                Debug.Log("Stat " + (x + 1) + ": " + minAndMaxStats[0, x] + " + " + (statScorePerPoint[x] * cost) + " * " + factionStats[factionID, x] + " = " + stats[x]);
+                //Debug.Log("Stat " + (x + 1) + ": " + minAndMaxStats[0, x] + " + " + (statScorePerPoint[x] * cost) + " * " + factionStats[factionID, x] + " = " + stats[x]);
             }
             enemyStats.health = stats[0];
             enemyStats.movementSpeed = stats[1];
@@ -57,7 +57,6 @@ public class EnemyGenerator : MonoBehaviour
             enemyStats.damage = stats[4];
             enemyStats.mySize = Mathf.Max(Mathf.Min(1, (stats[0] / 25) / stats[1]), .5f);
             enemyStats.factionId = factionID;
-            Debug.Log((factionID * 5) + highestStatId);
             enemyStats.myImage = factionSprites[(factionID * 5) + highestStatId];
             enemyStats.myGun = myWeaponGenerator.generateEnemyWeapon(enemyStats.gameObject, stats[2], stats[3], stats[4]);
             if (enemyStats.myGun.getIsMelee())

@@ -25,11 +25,13 @@ public class Weapon
     private AudioSource myReloadAudioPlayer;
     private AudioClip fireSound;
     private AudioClip reloadSound;
+    private GameObject rendererObject;
+    private SpriteRenderer myRenderer;
 
     private float timeLastFired = 0;
     private float timeOfReload = 0;
 
-    public Weapon(GameObject parent, AudioClip fireSound, AudioClip reloadSound)
+    public Weapon(GameObject parent, Sprite mySprite, AudioClip fireSound, AudioClip reloadSound)
     {
         this.displayName = "Glock";
         this.fireRate = 3;
@@ -78,8 +80,17 @@ public class Weapon
         parentAudio.transform.localPosition = new Vector3(0, 0);
         myFireAudioPlayer.clip = fireSound;
         myReloadAudioPlayer.clip = reloadSound;
+        rendererObject = new GameObject("GunRenderer");
+        rendererObject.transform.parent = parent.transform;
+        rendererObject.transform.localPosition = new Vector3(0, 0);
+        myRenderer = rendererObject.AddComponent<SpriteRenderer>();
+        myRenderer.sortingOrder = 3;
+        if (mySprite != null)
+        {
+            myRenderer.sprite = mySprite;
+        }
     }
-    public Weapon(GameObject parent, string displayName, float fireRate, float spread, int clipSize, int bulletsUsedInShot, int pelletCount, float damagePerPellet, float reloadTime, AudioClip fireSound, AudioClip reloadSound, bool isMelee = false, bool pelletsExplode = false, float explosionRange = 0)
+    public Weapon(GameObject parent, Sprite mySprite, string displayName, float fireRate, float spread, int clipSize, int bulletsUsedInShot, int pelletCount, float damagePerPellet, float reloadTime, AudioClip fireSound, AudioClip reloadSound, bool isMelee = false, bool pelletsExplode = false, float explosionRange = 0)
     {
         this.displayName = displayName;
         this.fireRate = fireRate;
@@ -128,6 +139,15 @@ public class Weapon
         parentAudio.transform.localPosition = new Vector3(0, 0);
         myFireAudioPlayer.clip = fireSound;
         myReloadAudioPlayer.clip = reloadSound;
+        rendererObject = new GameObject("GunRenderer");
+        rendererObject.transform.parent = parent.transform;
+        rendererObject.transform.localPosition = new Vector3(0, 0);
+        myRenderer = rendererObject.AddComponent<SpriteRenderer>();
+        myRenderer.sortingOrder = -1;
+        if (mySprite != null)
+        {
+            myRenderer.sprite = mySprite;
+        }
     }
 
 
