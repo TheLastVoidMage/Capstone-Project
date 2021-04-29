@@ -30,7 +30,14 @@ public class ShipController : MonoBehaviour
         playerShip.AddComponent<SpriteRenderer>().sprite = playerShipSprite;
         playerShip.transform.localPosition = new Vector3((playerCoordinates[0] * myMap.levelSpacing) - 1, (playerCoordinates[1] * myMap.levelSpacing) + 1);
         playerShip.GetComponent<SpriteRenderer>().sortingOrder = 1;
-        bottomBar = GameObject.FindObjectOfType<Canvas>();
+        Canvas[] canvases = GameObject.FindObjectsOfType<Canvas>();
+        for (int x = 0; x < canvases.Length;x++)
+        {
+            if (canvases[x].gameObject.name == "BottomBar")
+            {
+                bottomBar = canvases[x];
+            }
+        }
         UIObjects = bottomBar.gameObject.transform.GetComponentsInChildren<RectTransform>();
         for (int x = 0; x < UIObjects.Length; x++)
         {

@@ -8,9 +8,11 @@ public class MainMenuInteraction : MonoBehaviour
 {
     private Button[] buttons = null;
     private bool foundSave = false;
+    private LevelTransition myTransision;
     // Start is called before the first frame update
     void Start()
     {
+        myTransision = GameObject.FindObjectOfType<LevelTransition>();
         buttons = this.gameObject.GetComponentsInChildren<Button>();
         foreach (Button b in buttons)
         {
@@ -33,7 +35,7 @@ public class MainMenuInteraction : MonoBehaviour
     public void startNewGame()
     {
         Debug.Log("New Game Pressed");
-        SceneManager.LoadScene(2);
+        myTransision.LoadLevel(2);
         // Start new game
     }
 

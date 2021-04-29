@@ -14,14 +14,21 @@ public class StarMap : MonoBehaviour
     public Sprite[] specialDerilects;
 
     // Level Chances - Regular, Cow
-    private float[] shipChances = { 30, 1};
+    private float[] shipChances = { 30, .5f};
 
     // Start is called before the first frame update
     void Start()
     {
-        ShipMap = new Level[levelWidth, levelHeight];
+        ShipMap = loadShipMap();
         ObjectMap = new GameObject[levelWidth, levelHeight];
         generateShipMap();
+    }
+
+    public Level[,] loadShipMap()
+    {
+        ShipMap = new Level[levelWidth, levelHeight];
+
+        return ShipMap;
     }
 
     private void generateShipMap()
@@ -107,7 +114,7 @@ public class Level
             PlayerPrefs.SetInt("enemyDensity", levelValues[2]);
             PlayerPrefs.SetInt("faction", levelValues[3]);
             PlayerPrefs.SetInt("specialId", specialId);
-            SceneManager.LoadScene(3);
+            GameObject.FindObjectOfType<LevelTransition>().LoadLevel(3);
         }
         else
         {
