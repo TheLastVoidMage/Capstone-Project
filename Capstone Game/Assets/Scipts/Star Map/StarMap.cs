@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class StarMap : MonoBehaviour
 {
@@ -12,52 +13,91 @@ public class StarMap : MonoBehaviour
     GameObject[,] ObjectMap;
     public Sprite[] derilects;
     public Sprite[] specialDerilects;
+    private ShipController myShipController;
 
     // Level Chances - Regular, Cow
-    private float[] shipChances = { 30, .5f};
+    private float[] shipChances = { 30, .5f };
 
     // Start is called before the first frame update
     void Start()
     {
-        ShipMap = loadShipMap();
+        myShipController = this.gameObject.GetComponent<ShipController>();
+        ShipMap = new Level[levelWidth, levelHeight];
         ObjectMap = new GameObject[levelWidth, levelHeight];
         generateShipMap();
     }
 
-    public Level[,] loadShipMap()
+    private Save CreateSaveGameObject()
     {
-        ShipMap = new Level[levelWidth, levelHeight];
+        Save save = new Save();
 
-        return ShipMap;
+        save.fuel = myShipController.fuel;
+        save.shipMap = this.ShipMap;
+        save.playerPos = myShipController.playerCoordinates;
+        save.playerWeapons = null;
+
+        return save;
+    }
+
+    public void SaveGame()
+    {
+        Save save = CreateSaveGameObject();
+
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/save.save");
+        bf.Serialize(file, save);
+        file.Close();
+
+        Debug.Log("Game Saved");
+    }
+
+    public bool LoadGame()
+    {
+        if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
+        {
+            Debug.Log("File found");
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
+            Save save = (Save)bf.Deserialize(file);
+            file.Close();
+            myShipController.fuel = save.fuel;
+            this.ShipMap = save.shipMap;
+            myShipController.playerCoordinates = save.playerPos;
+            return true;
+        }
+        return false;
     }
 
     private void generateShipMap()
     {
-        for (int x = 0; x < ShipMap.GetLength(0); x++)
+        if (LoadGame() == false)
         {
-            for (int y = 0; y < ShipMap.GetLength(1); y++)
+            for (int x = 0; x < ShipMap.GetLength(0); x++)
             {
-                if (x != 0 || y != Mathf.RoundToInt(levelHeight / 2))
+                for (int y = 0; y < ShipMap.GetLength(1); y++)
                 {
-                    if (Random.Range(0, 100) < shipChances[0])
+                    if (x != 0 || y != Mathf.RoundToInt(levelHeight / 2))
                     {
-                        ShipMap[x, y] = new Level().generateLevel(Mathf.RoundToInt(x / ((float)levelWidth / 12)));
-                        //Debug.Log("A ship at (" + x + "," + y + ") was created with the stats\nSize: " + ShipMap[x, y].levelValues[0] + "\nDifficulty: " + ShipMap[x, y].levelValues[1] + "\nDensity: " + ShipMap[x, y].levelValues[2] + "\nFaction: " + ShipMap[x, y].levelValues[3]);
-                        ObjectMap[x, y] = new GameObject();
-                        ObjectMap[x, y].name = x + "," + y;
-                        ObjectMap[x, y].transform.parent = this.transform;
-                        ObjectMap[x, y].transform.localPosition = new Vector3(x * levelSpacing, y * levelSpacing);
-                        ObjectMap[x, y].AddComponent<SpriteRenderer>().sprite = derilects[Mathf.RoundToInt(Random.Range(0, derilects.Length))];
-                    }
-                    else if (Random.Range(0, 100) < shipChances[1])
-                    {
-                        ShipMap[x, y] = new Level().generateLevel(Mathf.RoundToInt(x / ((float)levelWidth / 12)), 1);
-                        //Debug.Log("A ship at (" + x + "," + y + ") was created with the stats\nSize: " + ShipMap[x, y].levelValues[0] + "\nDifficulty: " + ShipMap[x, y].levelValues[1] + "\nDensity: " + ShipMap[x, y].levelValues[2] + "\nFaction: " + ShipMap[x, y].levelValues[3]);
-                        ObjectMap[x, y] = new GameObject();
-                        ObjectMap[x, y].name = x + "," + y;
-                        ObjectMap[x, y].transform.parent = this.transform;
-                        ObjectMap[x, y].transform.localPosition = new Vector3(x * levelSpacing, y * levelSpacing);
-                        ObjectMap[x, y].AddComponent<SpriteRenderer>().sprite = specialDerilects[0];
+                        if (Random.Range(0, 100) < shipChances[0])
+                        {
+                            ShipMap[x, y] = new Level().generateLevel(Mathf.RoundToInt(x / ((float)levelWidth / 12)));
+                            //Debug.Log("A ship at (" + x + "," + y + ") was created with the stats\nSize: " + ShipMap[x, y].levelValues[0] + "\nDifficulty: " + ShipMap[x, y].levelValues[1] + "\nDensity: " + ShipMap[x, y].levelValues[2] + "\nFaction: " + ShipMap[x, y].levelValues[3]);
+                            ObjectMap[x, y] = new GameObject();
+                            ObjectMap[x, y].name = x + "," + y;
+                            ObjectMap[x, y].transform.parent = this.transform;
+                            ObjectMap[x, y].transform.localPosition = new Vector3(x * levelSpacing, y * levelSpacing);
+                            ObjectMap[x, y].AddComponent<SpriteRenderer>().sprite = derilects[Mathf.RoundToInt(Random.Range(0, derilects.Length))];
+                        }
+                        else if (Random.Range(0, 100) < shipChances[1])
+                        {
+                            ShipMap[x, y] = new Level().generateLevel(Mathf.RoundToInt(x / ((float)levelWidth / 12)), 1);
+                            //Debug.Log("A ship at (" + x + "," + y + ") was created with the stats\nSize: " + ShipMap[x, y].levelValues[0] + "\nDifficulty: " + ShipMap[x, y].levelValues[1] + "\nDensity: " + ShipMap[x, y].levelValues[2] + "\nFaction: " + ShipMap[x, y].levelValues[3]);
+                            ObjectMap[x, y] = new GameObject();
+                            ObjectMap[x, y].name = x + "," + y;
+                            ObjectMap[x, y].transform.parent = this.transform;
+                            ObjectMap[x, y].transform.localPosition = new Vector3(x * levelSpacing, y * levelSpacing);
+                            ObjectMap[x, y].AddComponent<SpriteRenderer>().sprite = specialDerilects[0];
+                        }
                     }
                 }
             }
@@ -65,14 +105,14 @@ public class StarMap : MonoBehaviour
     }
 }
 
+[System.Serializable]
 public class Level
 {
     // Size, Difficulty, Density, faction
     public int[] levelValues = new int[4];
-    public GameObject displayObject;
     public bool isLevel = true;
-    public static string[,] valueNames = { { "Tiny", "Small", "Medium", "Large", "Gargantuan" }, { "Barren", "Sparse", "Lightly Populated", "Populated", "Cramped" }, { "Fragile", "Weak", "Average", "Strong", "Fierce" }  };
-    public static string[] factionNames = { "Friendlies", "Insectoid life", "Pirates"};
+    public static string[,] valueNames = { { "Tiny", "Small", "Medium", "Large", "Gargantuan" }, { "Barren", "Sparse", "Lightly Populated", "Populated", "Cramped" }, { "Fragile", "Weak", "Average", "Strong", "Fierce" } };
+    public static string[] factionNames = { "Friendlies", "Insectoid life", "Pirates" };
     public bool isVisited = false;
     private int specialId = 0;
 

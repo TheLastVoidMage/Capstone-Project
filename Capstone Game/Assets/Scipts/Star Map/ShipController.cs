@@ -16,9 +16,9 @@ public class ShipController : MonoBehaviour
     private GameObject selector;
     private float shipChance = 30;
     private float[] timeLastMoved = { 0, 0 };
-    private int[] playerCoordinates = { 0, 0 };
+    public int[] playerCoordinates = { 0, 0 };
     private int[] selectorCoordinates = { 0, 0 };
-    private int fuel = 20;
+    public int fuel = 20;
     // Start is called before the first frame update
     void Start()
     {
@@ -112,6 +112,7 @@ public class ShipController : MonoBehaviour
                     }
                 }
             }
+            myMap.SaveGame();
         }
         else
         {

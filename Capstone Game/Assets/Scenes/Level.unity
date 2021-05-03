@@ -156,7 +156,7 @@ MonoBehaviour:
   selectedLevelSize: 0
   selectedLevelDensity: 0
   selectedEnemyDifficulty: 0
-  faction: 1
+  faction: 2
   regularFloors:
   - {fileID: 21300000, guid: 80eab2b65c9e06d45918f2308cc502c7, type: 3}
   regularWalls:
