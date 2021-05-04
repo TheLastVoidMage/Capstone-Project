@@ -22,8 +22,6 @@ public class LevelGenerator : MonoBehaviour
     private EnemyGenerator myEnemyGenerator;
     public Sprite[] regularFloors;
     public Sprite[] regularWalls;
-    public Sprite[] regularClosedDoors;
-    public Sprite[] regularOpenDoors;
     public Sprite[] specialFloors;
     public Sprite[] specialWalls;
     // Floor, Wall, Door closed, Door Open
@@ -93,17 +91,11 @@ public class LevelGenerator : MonoBehaviour
         {
             textures[0] = regularFloors[Random.Range(0, regularFloors.Length - 1)];
             textures[1] = regularWalls[Random.Range(0, regularWalls.Length - 1)];
-            randNum = Random.Range(0, regularClosedDoors.Length - 1);
-            textures[2] = regularClosedDoors[randNum];
-            textures[3] = regularOpenDoors[randNum];
         }
         else
         {
             textures[0] = specialFloors[specialId - 1];
             textures[1] = specialWalls[specialId - 1];
-            randNum = Random.Range(0, regularClosedDoors.Length - 1);
-            textures[2] = regularClosedDoors[randNum];
-            textures[3] = regularOpenDoors[randNum];
         }
         int iterations = 0;
         levelMap = new Room[levelSizes[0, size], levelSizes[1, size]];

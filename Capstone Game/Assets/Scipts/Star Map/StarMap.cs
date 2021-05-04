@@ -48,21 +48,23 @@ public class StarMap : MonoBehaviour
         bf.Serialize(file, save);
         file.Close();
 
+        Debug.Log(Application.persistentDataPath);
         Debug.Log("Game Saved");
     }
 
     public bool LoadGame()
     {
-        if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
+        if (File.Exists(Application.persistentDataPath + "/save.save") && PlayerPrefs.GetInt("newGame") == 0)
         {
             Debug.Log("File found");
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
+            FileStream file = File.Open(Application.persistentDataPath + "/save.save", FileMode.Open);
             Save save = (Save)bf.Deserialize(file);
             file.Close();
             myShipController.fuel = save.fuel;
             this.ShipMap = save.shipMap;
             myShipController.playerCoordinates = save.playerPos;
+            myShipController.selectorCoordinates = new int[2] { save.playerPos[0], save.playerPos[1] };
             return true;
         }
         return false;
@@ -80,7 +82,7 @@ public class StarMap : MonoBehaviour
                     {
                         if (Random.Range(0, 100) < shipChances[0])
                         {
-                            ShipMap[x, y] = new Level().generateLevel(Mathf.RoundToInt(x / ((float)levelWidth / 12)));
+                            ShipMap[x, y] = new Level().generateLevel(Mathf.RoundToInt(x / ((float)levelWidth / 12)), x, y, Mathf.RoundToInt(Random.Range(0, derilects.Length)));
                             //Debug.Log("A ship at (" + x + "," + y + ") was created with the stats\nSize: " + ShipMap[x, y].levelValues[0] + "\nDifficulty: " + ShipMap[x, y].levelValues[1] + "\nDensity: " + ShipMap[x, y].levelValues[2] + "\nFaction: " + ShipMap[x, y].levelValues[3]);
                             ObjectMap[x, y] = new GameObject();
                             ObjectMap[x, y].name = x + "," + y;
@@ -90,7 +92,7 @@ public class StarMap : MonoBehaviour
                         }
                         else if (Random.Range(0, 100) < shipChances[1])
                         {
-                            ShipMap[x, y] = new Level().generateLevel(Mathf.RoundToInt(x / ((float)levelWidth / 12)), 1);
+                            ShipMap[x, y] = new Level().generateLevel(Mathf.RoundToInt(x / ((float)levelWidth / 12)), x, y, Mathf.RoundToInt(Random.Range(0, derilects.Length)), 1);
                             //Debug.Log("A ship at (" + x + "," + y + ") was created with the stats\nSize: " + ShipMap[x, y].levelValues[0] + "\nDifficulty: " + ShipMap[x, y].levelValues[1] + "\nDensity: " + ShipMap[x, y].levelValues[2] + "\nFaction: " + ShipMap[x, y].levelValues[3]);
                             ObjectMap[x, y] = new GameObject();
                             ObjectMap[x, y].name = x + "," + y;
@@ -102,7 +104,32 @@ public class StarMap : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            for (int x = 0; x < ShipMap.GetLength(0); x++)
+            {
+                for (int y = 0; y < ShipMap.GetLength(1); y++)
+                {
+                    if (x != 0 || y != Mathf.RoundToInt(levelHeight / 2))
+                    {
+                        if (ShipMap[x, y] != null)
+                        {
+                            ObjectMap[x, y] = new GameObject();
+                            ObjectMap[x, y].name = x + "," + y;
+                            ObjectMap[x, y].transform.parent = this.transform;
+                            ObjectMap[x, y].transform.localPosition = new Vector3(x * levelSpacing, y * levelSpacing);
+                            ObjectMap[x, y].AddComponent<SpriteRenderer>().sprite = derilects[ShipMap[x, y].imageId];
+                            if (ShipMap[x, y].specialId > 0)
+                            {
+                                ObjectMap[x, y].GetComponent<SpriteRenderer>().sprite = specialDerilects[ShipMap[x, y].specialId - 1];
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+
 }
 
 [System.Serializable]
@@ -114,9 +141,11 @@ public class Level
     public static string[,] valueNames = { { "Tiny", "Small", "Medium", "Large", "Gargantuan" }, { "Barren", "Sparse", "Lightly Populated", "Populated", "Cramped" }, { "Fragile", "Weak", "Average", "Strong", "Fierce" } };
     public static string[] factionNames = { "Friendlies", "Insectoid life", "Pirates" };
     public bool isVisited = false;
-    private int specialId = 0;
+    public int specialId = 0;
+    public int[] coordinates = new int[2];
+    public int imageId = 0;
 
-    public Level generateLevel(int levelScore, int specialId = -1)
+    public Level generateLevel(int levelScore, int xPos, int yPos, int imageId, int specialId = -1)
     {
         levelScore = Mathf.Clamp(levelScore, 3, 12);
         float maxCost = 0;
@@ -141,7 +170,8 @@ public class Level
             // Will be replaced later
             levelValues[3] = 0;
         }
-
+        coordinates = new int[2]{ xPos, yPos};
+        this.imageId = imageId;
         return this;
     }
 

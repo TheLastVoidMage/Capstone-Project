@@ -17,7 +17,7 @@ public class ShipController : MonoBehaviour
     private float shipChance = 30;
     private float[] timeLastMoved = { 0, 0 };
     public int[] playerCoordinates = { 0, 0 };
-    private int[] selectorCoordinates = { 0, 0 };
+    public int[] selectorCoordinates = { 0, 0 };
     public int fuel = 20;
     // Start is called before the first frame update
     void Start()

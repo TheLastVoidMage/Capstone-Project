@@ -24,7 +24,7 @@ public class MainMenuInteraction : MonoBehaviour
             }
             else if (b.gameObject.name == "Load Game")
             {
-                if (File.Exists(Application.persistentDataPath + "/gamesave.save") == false)
+                if (File.Exists(Application.persistentDataPath + "/save.save") == false)
                 {
                     b.interactable = false;
                 }
@@ -41,6 +41,7 @@ public class MainMenuInteraction : MonoBehaviour
     public void startNewGame()
     {
         Debug.Log("New Game Pressed");
+        PlayerPrefs.SetInt("newGame", 1);
         myTransision.LoadLevel(2);
         // Start new game
     }
@@ -48,6 +49,7 @@ public class MainMenuInteraction : MonoBehaviour
     public void loadGame()
     {
         Debug.Log("Load Game Pressed");
+        PlayerPrefs.SetInt("newGame", 0);
         myTransision.LoadLevel(2);
         // Load game
     }
