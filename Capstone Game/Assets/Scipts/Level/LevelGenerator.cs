@@ -132,7 +132,6 @@ public class LevelGenerator : MonoBehaviour
     }
     private int[] setDoors(int x, int y)
     {
-        // Sometimes left and right doors don't generate rooms
         int[] doors = new int[4] { 0, 0, 0, 0 };
         int tempNumber = -2;
         // Left
@@ -367,26 +366,6 @@ class Room
                     roomMap[x, y].AddComponent<BoxCollider2D>();
                     roomMap[x, y].layer = 6;
                 }
-                else if (roomPlan[x, y] == 2)
-                {
-                    if (x == 0 || x == roomPlan.GetLength(1) - 1)
-                    {
-                        Debug.Log("Door rotated");
-                        roomMap[x, y].transform.Rotate(roomMap[x, y].transform.forward, 90);
-                    }
-                    roomMap[x, y].AddComponent<Door>();
-                    roomMap[x, y].GetComponent<Door>().closedTexture = sprites[2];
-                    roomMap[x, y].GetComponent<Door>().openTexture = sprites[3];
-                    roomMap[x, y].layer = 6;
-                    roomMap[x, y] = new GameObject();
-                    roomMap[x, y].transform.parent = room.transform;
-                    roomMap[x, y].name = x + ":" + y + " floor";
-                    roomMap[x, y].transform.localScale = new Vector3(size, size);
-                    roomMap[x, y].transform.localPosition = new Vector3(x * size, y * size);
-                    mySprite = roomMap[x, y].AddComponent<SpriteRenderer>();
-                    mySprite.sprite = sprites[0];
-                    mySprite.sortingOrder = -1;
-                }
             }
         }
     }
@@ -402,14 +381,7 @@ class Room
             }
             else
             {
-                if (doorSize != 1)
-                {
-                    wall[y] = 0;
-                }
-                else
-                {
-                    wall[y] = 2;
-                }
+                 wall[y] = 0;
             }
         }
         return wall;

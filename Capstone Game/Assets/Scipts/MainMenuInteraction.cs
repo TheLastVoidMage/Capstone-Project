@@ -19,9 +19,8 @@ public class MainMenuInteraction : MonoBehaviour
         {
             if (b.gameObject.name == "New Game")
             {
-                b.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 50);
-                b.GetComponent<RectTransform>().offsetMin = new Vector2(Screen.width / 1.90f, -Screen.height * .82f);
-                //b.GetComponent<RectTransform>().offsetMax = new Vector2(-Screen.width / 1.90f, 50);
+                //b.GetComponent<RectTransform>().offsetMin = new Vector2(Screen.width / 1.90f, Screen.height);
+                //b.GetComponent<RectTransform>().offsetMax = new Vector2(-Screen.width / 1.90f, -Screen.width / 4.5f);
             }
             else if (b.gameObject.name == "Load Game")
             {
