@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.IO;
 
 public class MainMenuInteraction : MonoBehaviour
 {
@@ -17,14 +16,9 @@ public class MainMenuInteraction : MonoBehaviour
         buttons = this.gameObject.GetComponentsInChildren<Button>();
         foreach (Button b in buttons)
         {
-            if (b.gameObject.name == "New Game")
+            if (b.gameObject.name == "Load Game")
             {
-                //b.GetComponent<RectTransform>().offsetMin = new Vector2(Screen.width / 1.90f, Screen.height);
-                //b.GetComponent<RectTransform>().offsetMax = new Vector2(-Screen.width / 1.90f, -Screen.width / 4.5f);
-            }
-            else if (b.gameObject.name == "Load Game")
-            {
-                if (File.Exists(Application.persistentDataPath + "/save.save") == false)
+                if (foundSave == false)
                 {
                     b.interactable = false;
                 }
@@ -41,7 +35,6 @@ public class MainMenuInteraction : MonoBehaviour
     public void startNewGame()
     {
         Debug.Log("New Game Pressed");
-        PlayerPrefs.SetInt("newGame", 1);
         myTransision.LoadLevel(2);
         // Start new game
     }
@@ -49,8 +42,6 @@ public class MainMenuInteraction : MonoBehaviour
     public void loadGame()
     {
         Debug.Log("Load Game Pressed");
-        PlayerPrefs.SetInt("newGame", 0);
-        myTransision.LoadLevel(2);
         // Load game
     }
 
