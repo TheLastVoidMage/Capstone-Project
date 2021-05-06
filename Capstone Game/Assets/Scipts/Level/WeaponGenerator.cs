@@ -40,7 +40,6 @@ public class WeaponGenerator : MonoBehaviour
         }
         gunSprites = Resources.LoadAll<Sprite>("Images/Guns/");
         meleeSprites = Resources.LoadAll<Sprite>("Images/Melee/");
-        Debug.Log(gunSprites);
         if (isMelee)
         {
             selectedSprite = meleeSprites[Random.Range(0, meleeSprites.Length - 1)];

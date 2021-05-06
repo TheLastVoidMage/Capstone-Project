@@ -27,28 +27,43 @@ public class StarMap : MonoBehaviour
         generateShipMap();
     }
 
-    private Save CreateSaveGameObject()
+    private Save CreateSaveGameObject(int cId)
     {
         Save save = new Save();
+        if (cId >= 0) // New Save
+        {
+            save = new Save();
 
-        save.fuel = myShipController.fuel;
-        save.shipMap = this.ShipMap;
-        save.playerPos = myShipController.playerCoordinates;
+            save.fuel = myShipController.fuel;
+            save.shipMap = this.ShipMap;
+            save.playerPos = myShipController.playerCoordinates;
+            save.characterId = cId;
+        }
+        else // Edit Save
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/save.save", FileMode.Open);
+            save = (Save)bf.Deserialize(file);
+            file.Close();
+            save.fuel = myShipController.fuel;
+            save.shipMap = this.ShipMap;
+            save.playerPos = myShipController.playerCoordinates;
+        }
+        
 
         return save;
     }
 
-    public void SaveGame()
+    public void SaveGame(int characterId = -1)
     {
-        Save save = CreateSaveGameObject();
+        Save save = CreateSaveGameObject(characterId);
 
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/save.save");
         bf.Serialize(file, save);
         file.Close();
 
-        Debug.Log(Application.persistentDataPath);
-        Debug.Log("Save Game Method: X: " + myShipController.playerCoordinates[0] + "\nY: " + myShipController.playerCoordinates[1]);
+        //Debug.Log("Save Game Method: X: " + myShipController.playerCoordinates[0] + "\nY: " + myShipController.playerCoordinates[1]);
         Debug.Log("Game Saved");
     }
 
@@ -64,7 +79,7 @@ public class StarMap : MonoBehaviour
             myShipController.fuel = save.fuel;
             this.ShipMap = save.shipMap;
             myShipController.onLoadSetPositions(save.playerPos);
-            Debug.Log("Load Game Method: X: " + myShipController.playerCoordinates[0] + "\nY: " + myShipController.playerCoordinates[1]);
+            //Debug.Log("Load Game Method: X: " + myShipController.playerCoordinates[0] + "\nY: " + myShipController.playerCoordinates[1]);
             return true;
         }
         return false;
@@ -103,6 +118,7 @@ public class StarMap : MonoBehaviour
                     }
                 }
             }
+            SaveGame(Random.Range(0, Resources.LoadAll<Sprite>("Images/Player/").Length - 1));
         }
         else
         {
