@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 public class playerController : MonoBehaviour
 {
     private Rigidbody2D myBody;
-    private GameObject mySprite;
+    private GameObject mySpriteObject;
+    private Sprite mySprite;
     private Vector3 newPosition;
     private float maxPlayerZoom = 15;
     private float minPlayerZoom = 5;
@@ -16,16 +19,57 @@ public class playerController : MonoBehaviour
     public Weapon[] heldWeapons;
     private SoundLibary mySoundLibary;
     private int selectedWeapon = 0;
+    private int fuel;
     
     // Start is called before the first frame update
     void Start()
     {
-
+        LoadGame();
         mySoundLibary = new SoundLibary().generate();;
         heldWeapons = new Weapon[4] { new Weapon(this.gameObject, null, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]), new Weapon(this.gameObject, null, "Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 3), new Weapon(this.gameObject, null, "Boomstick", 3, 2, 2, 1, 10, 5, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1), null };
         myBody = this.GetComponent<Rigidbody2D>();
-        mySprite = this.gameObject.GetComponentInChildren<SpriteRenderer>().gameObject;
+        mySpriteObject = this.gameObject.GetComponentInChildren<SpriteRenderer>().gameObject;
+        mySpriteObject.GetComponent<SpriteRenderer>().sprite = mySprite;
         newPosition = this.transform.position;
+    }
+
+    private Save CreateSaveGameObject()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Open(Application.persistentDataPath + "/save.save", FileMode.Open);
+        Save save = (Save)bf.Deserialize(file);
+        file.Close();
+        save.fuel = fuel;
+        save.playerWeapons = heldWeapons;
+        return save;
+    }
+
+    public void SaveGame()
+    {
+        Save save = CreateSaveGameObject();
+
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/save.save");
+        bf.Serialize(file, save);
+        file.Close();
+        Debug.Log("Game Saved");
+    }
+
+    public bool LoadGame()
+    {
+        if (File.Exists(Application.persistentDataPath + "/save.save"))
+        {
+            Debug.Log("File found");
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/save.save", FileMode.Open);
+            Save save = (Save)bf.Deserialize(file);
+            file.Close();
+            heldWeapons = save.playerWeapons;
+            fuel = save.fuel;
+            mySprite = Resources.LoadAll<Sprite>("Images/Player/")[save.characterId];
+            return true;
+        }
+        return false;
     }
 
     void handleGuns()
@@ -102,7 +146,7 @@ public class playerController : MonoBehaviour
         Vector3 mousePosition = Input.mousePosition;
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
         float angle = Mathf.Atan2(mousePosition.y - this.transform.position.y, mousePosition.x - this.transform.position.x) * Mathf.Rad2Deg;
-        mySprite.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+        mySpriteObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
         float newZoom = Camera.main.orthographicSize + (Input.GetAxis("Mouse ScrollWheel") * -3);
         if (newZoom >= minPlayerZoom && newZoom <= maxPlayerZoom)
         {
