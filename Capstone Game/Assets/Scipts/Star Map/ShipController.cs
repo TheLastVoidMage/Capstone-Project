@@ -16,20 +16,17 @@ public class ShipController : MonoBehaviour
     private GameObject selector;
     private float shipChance = 30;
     private float[] timeLastMoved = { 0, 0 };
-    public int[] playerCoordinates = { 0, 0 };
+    public int[] playerCoordinates = { -1, 0 };
     public int[] selectorCoordinates = { 0, 0 };
     public int fuel = 20;
     // Start is called before the first frame update
     void Start()
     {
         myMap = this.gameObject.GetComponent<StarMap>();
-        playerCoordinates[1] = Mathf.RoundToInt(myMap.levelHeight / 2);
-        selectorCoordinates[1] = playerCoordinates[1];
-        playerShip = new GameObject("Player Ship");
-        playerShip.transform.parent = this.transform;
-        playerShip.AddComponent<SpriteRenderer>().sprite = playerShipSprite;
-        playerShip.transform.localPosition = new Vector3((playerCoordinates[0] * myMap.levelSpacing) - 1, (playerCoordinates[1] * myMap.levelSpacing) + 1);
-        playerShip.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        if (playerCoordinates[0] == -1)
+        {
+            onLoadSetPositions(new int[] { 0, Mathf.RoundToInt(myMap.levelHeight / 2) });
+        }
         Canvas[] canvases = GameObject.FindObjectsOfType<Canvas>();
         for (int x = 0; x < canvases.Length;x++)
         {
@@ -50,16 +47,35 @@ public class ShipController : MonoBehaviour
                 levelText = UIObjects[x].GetComponent<Text>();
             }
         }
-        selector = new GameObject();
-        selector.name = "Selector";
-        selector.transform.parent = this.transform;
-        selector.transform.localPosition = playerShip.transform.localPosition;
-        selector.AddComponent<SpriteRenderer>().sprite = selectorSprite;
-        selector.GetComponent<SpriteRenderer>().sortingOrder = -1;
         Camera.main.transform.parent = selector.transform;
         Camera.main.transform.localPosition = new Vector3(0, 0, -10);
         timeLastMoved[0] = Time.time;
         timeLastMoved[1] = Time.time;
+        Debug.Log("On Finish Start: " + "\nX: " + playerCoordinates[0] + "\nY: " + playerCoordinates[1]);
+    }
+
+    public void onLoadSetPositions(int[] pos)
+    {
+        playerCoordinates = new int[] { pos[0], pos[1] };
+        selectorCoordinates = new int[] { pos[0], pos[1] };
+        if (playerShip == null)
+        {
+            playerShip = new GameObject("Player Ship");
+            playerShip.transform.parent = this.transform;
+            playerShip.AddComponent<SpriteRenderer>().sprite = playerShipSprite;
+            playerShip.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        }
+        if (selector == null)
+        {
+            selector = new GameObject();
+            selector.name = "Selector";
+            selector.transform.parent = this.transform;
+            selector.AddComponent<SpriteRenderer>().sprite = selectorSprite;
+            selector.GetComponent<SpriteRenderer>().sortingOrder = -1;
+        }
+        Debug.Log(playerShip.transform.localPosition);
+        //playerShip.transform.localPosition = new Vector3((playerCoordinates[0] * myMap.levelSpacing) - 1, (playerCoordinates[1] * myMap.levelSpacing) + 1);
+        //selector.transform.localPosition = playerShip.transform.localPosition;
     }
 
     private void handleTravelButton()
@@ -121,6 +137,7 @@ public class ShipController : MonoBehaviour
                 fuel = fuel - Mathf.Max(Mathf.Abs(selectorCoordinates[0] - playerCoordinates[0]), Mathf.Abs(selectorCoordinates[1] - playerCoordinates[1]));
                 playerCoordinates[0] = selectorCoordinates[0];
                 playerCoordinates[1] = selectorCoordinates[1];
+                myMap.SaveGame();
             }
         }
         handleTravelButton();

@@ -9,4 +9,5 @@ public class Save
     public int[] playerPos;
     public Weapon[] playerWeapons;
     public int fuel;
+    public int characterId;
 }

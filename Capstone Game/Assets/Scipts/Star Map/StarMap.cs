@@ -34,7 +34,6 @@ public class StarMap : MonoBehaviour
         save.fuel = myShipController.fuel;
         save.shipMap = this.ShipMap;
         save.playerPos = myShipController.playerCoordinates;
-        save.playerWeapons = null;
 
         return save;
     }
@@ -49,6 +48,7 @@ public class StarMap : MonoBehaviour
         file.Close();
 
         Debug.Log(Application.persistentDataPath);
+        Debug.Log("Save Game Method: X: " + myShipController.playerCoordinates[0] + "\nY: " + myShipController.playerCoordinates[1]);
         Debug.Log("Game Saved");
     }
 
@@ -63,8 +63,8 @@ public class StarMap : MonoBehaviour
             file.Close();
             myShipController.fuel = save.fuel;
             this.ShipMap = save.shipMap;
-            myShipController.playerCoordinates = save.playerPos;
-            myShipController.selectorCoordinates = new int[2] { save.playerPos[0], save.playerPos[1] };
+            myShipController.onLoadSetPositions(save.playerPos);
+            Debug.Log("Load Game Method: X: " + myShipController.playerCoordinates[0] + "\nY: " + myShipController.playerCoordinates[1]);
             return true;
         }
         return false;
