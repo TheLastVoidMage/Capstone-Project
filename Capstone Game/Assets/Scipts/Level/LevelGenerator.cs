@@ -49,7 +49,7 @@ public class LevelGenerator : MonoBehaviour
         specialId = PlayerPrefs.GetInt("specialId");
         if (specialId == 0)
         {
-            specialId = 0;
+            specialId = -1;
         }
         myEnemyGenerator = this.GetComponent<EnemyGenerator>();
         generateMap(selectedLevelSize);
