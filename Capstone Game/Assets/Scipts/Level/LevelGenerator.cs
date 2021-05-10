@@ -59,6 +59,7 @@ public class LevelGenerator : MonoBehaviour
         generateMap(selectedLevelSize);
         generateEnemies(selectedLevelDensity, selectedEnemyDifficulty, faction);
         AstarPath.active.Scan();
+
     }
     private void generateEnemies(int density, int difficulty, int faction)
     {
