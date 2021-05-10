@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -46,10 +47,13 @@ public class LevelGenerator : MonoBehaviour
         {
             faction = PlayerPrefs.GetInt("faction");
         }
-        specialId = PlayerPrefs.GetInt("specialId");
         if (specialId == 0)
         {
             specialId = -1;
+        }
+        if (specialId == -1)
+        {
+            specialId = PlayerPrefs.GetInt("specialId");
         }
         myEnemyGenerator = this.GetComponent<EnemyGenerator>();
         generateMap(selectedLevelSize);
@@ -86,7 +90,6 @@ public class LevelGenerator : MonoBehaviour
     private void generateMap(int size)
     {
         textures = new Sprite[4];
-        int randNum = 0;
         if (specialId == -1)
         {
             textures[0] = regularFloors[Random.Range(0, regularFloors.Length - 1)];
@@ -356,6 +359,54 @@ class Room
                 if (roomPlan[x, y] == 1)
                 {
                     roomMap[x, y].AddComponent<BoxCollider2D>();
+                    GameObject shadowObject = new GameObject("ShadowObject");
+                    shadowObject.transform.parent = roomMap[x, y].transform;
+                    shadowObject.transform.localPosition = new Vector3();
+                    shadowObject.AddComponent<ShadowCaster2D>();
+                    shadowObject.GetComponent<ShadowCaster2D>().useRendererSilhouette = false;
+                    shadowObject.GetComponent<ShadowCaster2D>().selfShadows = true;
+                    shadowObject.transform.localScale = new Vector3(1, 1, 1);
+                    /*if (x == 0)
+                    {
+                        shadowObject.transform.localPosition += new Vector3(-.2f, 0);
+                    }
+                    else if (x == roomPlan.GetLength(0) - 1)
+                    {
+                        shadowObject.transform.localPosition += new Vector3(.2f, 0);
+                    }
+                    else if (y == 0)
+                    {
+                        shadowObject.transform.localPosition += new Vector3(0, -.2f);
+                    }
+                    else if (y == roomPlan.GetLength(1) - 1)
+                    {
+                        shadowObject.transform.localPosition += new Vector3(0, .2f);
+                    }
+                    */
+                    if (x < roomPlan.GetLength(0) / 2)
+                    {
+                        shadowObject.transform.localPosition += new Vector3(-.2f, 0);
+                    }
+                    else if (x > roomPlan.GetLength(0) / 2)
+                    {
+                        shadowObject.transform.localPosition += new Vector3(.2f, 0);
+                    }
+                    if (y < roomPlan.GetLength(1) / 2)
+                    {
+                        shadowObject.transform.localPosition += new Vector3(0, -.2f);
+                    }
+                    else if (y > roomPlan.GetLength(1) / 2)
+                    {
+                        shadowObject.transform.localPosition += new Vector3(0, .2f);
+                    }
+                    if (x == roomPlan.GetLength(0) / 2)
+                    {
+                        shadowObject.transform.localScale += new Vector3(.4f,0);
+                    }
+                    if (y == roomPlan.GetLength(1) / 2)
+                    {
+                        shadowObject.transform.localScale += new Vector3(0, .4f);
+                    }
                     roomMap[x, y].layer = 6;
                 }
             }
