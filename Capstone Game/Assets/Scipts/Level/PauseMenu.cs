@@ -9,12 +9,14 @@ public class PauseMenu : MonoBehaviour
 {
     GameObject[] pauseObjects;
     private LevelTransition myTransision;
+    private playerController myPlayer;
 
     // Use this for initialization
     void Start()
     {
         myTransision = GameObject.FindObjectOfType<LevelTransition>();
         Time.timeScale = 1;
+        myPlayer = GameObject.FindObjectOfType<playerController>();
         pauseObjects = GameObject.FindGameObjectsWithTag("ShowOnPause");
         hidePaused();
     }
@@ -26,17 +28,21 @@ public class PauseMenu : MonoBehaviour
         //uses the ESC button to pause and unpause the game
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Time.timeScale == 1)
+            if (Time.timeScale == 0 || myPlayer.isPaused == false)
             {
-                Debug.Log("Paused");
-                Time.timeScale = 0;
-                showPaused();
-            }
-            else if (Time.timeScale == 0)
-            {
-                Debug.Log("high");
-                Time.timeScale = 1;
-                hidePaused();
+                if (Time.timeScale == 1)
+                {
+                    Debug.Log("Paused");
+                    myPlayer.isPaused = true;
+                    Time.timeScale = 0;
+                    showPaused();
+                }
+                else if (Time.timeScale == 0)
+                {
+                    Debug.Log("Unpaused");
+                    Time.timeScale = 1;
+                    hidePaused();
+                }
             }
         }
     }
@@ -63,6 +69,7 @@ public class PauseMenu : MonoBehaviour
         foreach (GameObject g in pauseObjects)
         {
             g.SetActive(true);
+            myPlayer.isPaused = true;
         }
     }
 
@@ -72,6 +79,7 @@ public class PauseMenu : MonoBehaviour
         foreach (GameObject g in pauseObjects)
         {
             g.SetActive(false);
+            myPlayer.isPaused = false;
         }
     }
 

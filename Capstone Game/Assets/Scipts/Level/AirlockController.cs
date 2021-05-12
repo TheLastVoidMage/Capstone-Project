@@ -9,6 +9,7 @@ public class AirlockController : MonoBehaviour
     private CircleCollider2D myColider;
     private Canvas myMenu;
     private GameObject myMenuObject;
+    private playerController myPlayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +38,7 @@ public class AirlockController : MonoBehaviour
             }
         }
         myMenuObject.SetActive(false);
+        myPlayer = GameObject.FindObjectOfType<playerController>();
     }
 
     // Update is called once per frame
@@ -49,18 +51,25 @@ public class AirlockController : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<playerController>() != null)
         {
-            Debug.Log("Would you like to leave");
-            myMenuObject.SetActive(true);
+            if (myPlayer.isPaused == false)
+            {
+                Debug.Log("Would you like to leave");
+                myPlayer.isPaused = true;
+                myPlayer.myBody.velocity = new Vector3(0, 0, 0);
+                myMenuObject.SetActive(true);
+            }
         }
     }
 
     private void leaveLevel()
     {
+        PlayerPrefs.SetInt("newGame", 0);
         myTransition.LoadLevel(2);
     }
 
     private void closeLevel()
     {
-        
+        myPlayer.isPaused = false;
+        myMenuObject.SetActive(false);
     }
 }

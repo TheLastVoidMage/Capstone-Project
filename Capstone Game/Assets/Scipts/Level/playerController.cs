@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class playerController : MonoBehaviour
 {
-    private Rigidbody2D myBody;
+    public Rigidbody2D myBody;
     private GameObject mySpriteObject;
     private Sprite mySprite;
     private Vector3 newPosition;
