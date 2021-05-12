@@ -55,6 +55,8 @@ public class LevelGenerator : MonoBehaviour
         {
             specialId = PlayerPrefs.GetInt("specialId");
         }
+        regularFloors = Resources.LoadAll<Sprite>("Images/LevelSprites/RegularFloor/");
+        regularWalls = Resources.LoadAll<Sprite>("Images/LevelSprites/RegularWall/");
         myEnemyGenerator = this.GetComponent<EnemyGenerator>();
         generateMap(selectedLevelSize);
         generateEnemies(selectedLevelDensity, selectedEnemyDifficulty, faction);
@@ -106,7 +108,7 @@ public class LevelGenerator : MonoBehaviour
         Debug.Log("The level is " + levelMap.GetLength(0) + " X " + levelMap.GetLength(1));
         this.gameObject.transform.position = new Vector3((-(levelMap.GetLength(0) * 14) / 2) + 1, -6);
         levelMap[levelMap.GetLength(0) / 2, 0] = new Room();
-        levelMap[levelMap.GetLength(0) / 2, 0].makeRoom(this.gameObject, "Spawn", new Vector3(levelMap.GetLength(0) / 2, 0), textures, new int[4] { 0, 0, 1, 0 });
+        levelMap[levelMap.GetLength(0) / 2, 0].makeRoom(this.gameObject, "Spawn", new Vector3(levelMap.GetLength(0) / 2, 0), textures, new int[4] { 0, 0, 3, 0 }, true);
         while (checkValidMap() == false && iterations < 1000)
         {
             for (int xpos = 0; xpos < levelMap.GetLength(0); xpos++)
@@ -298,7 +300,7 @@ class Room
     private GameObject[,] roomMap = new GameObject[7, 7];
     public float size = 2;
     public int[] doorSizes = new int[4] { 0, 0, 0, 0 };
-    public void makeRoom(GameObject parent, string name, Vector3 position, Sprite[] sprites, int[] doors)
+    public void makeRoom(GameObject parent, string name, Vector3 position, Sprite[] sprites, int[] doors, bool hasExit = false)
     {
         int[,] roomPlan = new int[7, 7];
         room = new GameObject();
@@ -360,57 +362,57 @@ class Room
                 if (roomPlan[x, y] == 1)
                 {
                     roomMap[x, y].AddComponent<BoxCollider2D>();
-                    GameObject shadowObject = new GameObject("ShadowObject");
-                    shadowObject.transform.parent = roomMap[x, y].transform;
-                    shadowObject.transform.localPosition = new Vector3();
-                    shadowObject.AddComponent<ShadowCaster2D>();
-                    shadowObject.GetComponent<ShadowCaster2D>().useRendererSilhouette = false;
-                    shadowObject.GetComponent<ShadowCaster2D>().selfShadows = true;
-                    shadowObject.transform.localScale = new Vector3(1, 1, 1);
-                    /*if (x == 0)
+                    if (hasExit == false || y > 0 || x < 2 || x > 4)
                     {
-                        shadowObject.transform.localPosition += new Vector3(-.2f, 0);
-                    }
-                    else if (x == roomPlan.GetLength(0) - 1)
-                    {
-                        shadowObject.transform.localPosition += new Vector3(.2f, 0);
-                    }
-                    else if (y == 0)
-                    {
-                        shadowObject.transform.localPosition += new Vector3(0, -.2f);
-                    }
-                    else if (y == roomPlan.GetLength(1) - 1)
-                    {
-                        shadowObject.transform.localPosition += new Vector3(0, .2f);
-                    }
-                    */
-                    if (x < roomPlan.GetLength(0) / 2)
-                    {
-                        shadowObject.transform.localPosition += new Vector3(-.2f, 0);
-                    }
-                    else if (x > roomPlan.GetLength(0) / 2)
-                    {
-                        shadowObject.transform.localPosition += new Vector3(.2f, 0);
-                    }
-                    if (y < roomPlan.GetLength(1) / 2)
-                    {
-                        shadowObject.transform.localPosition += new Vector3(0, -.2f);
-                    }
-                    else if (y > roomPlan.GetLength(1) / 2)
-                    {
-                        shadowObject.transform.localPosition += new Vector3(0, .2f);
-                    }
-                    if (x == roomPlan.GetLength(0) / 2)
-                    {
-                        shadowObject.transform.localScale += new Vector3(.4f,0);
-                    }
-                    if (y == roomPlan.GetLength(1) / 2)
-                    {
-                        shadowObject.transform.localScale += new Vector3(0, .4f);
+                        GameObject shadowObject = new GameObject("ShadowObject");
+                        shadowObject.transform.parent = roomMap[x, y].transform;
+                        shadowObject.transform.localPosition = new Vector3();
+                        shadowObject.AddComponent<ShadowCaster2D>();
+                        shadowObject.GetComponent<ShadowCaster2D>().useRendererSilhouette = false;
+                        shadowObject.GetComponent<ShadowCaster2D>().selfShadows = true;
+                        shadowObject.transform.localScale = new Vector3(1, 1, 1);
+                        if (x < roomPlan.GetLength(0) / 2)
+                        {
+                            shadowObject.transform.localPosition += new Vector3(-.2f, 0);
+                        }
+                        else if (x > roomPlan.GetLength(0) / 2)
+                        {
+                            shadowObject.transform.localPosition += new Vector3(.2f, 0);
+                        }
+                        if (y < roomPlan.GetLength(1) / 2)
+                        {
+                            shadowObject.transform.localPosition += new Vector3(0, -.2f);
+                        }
+                        else if (y > roomPlan.GetLength(1) / 2)
+                        {
+                            shadowObject.transform.localPosition += new Vector3(0, .2f);
+                        }
+                        if (x == roomPlan.GetLength(0) / 2)
+                        {
+                            shadowObject.transform.localScale += new Vector3(.4f, 0);
+                        }
+                        if (y == roomPlan.GetLength(1) / 2)
+                        {
+                            shadowObject.transform.localScale += new Vector3(0, .4f);
+                        }
                     }
                     roomMap[x, y].layer = 6;
                 }
             }
+        }
+        if (hasExit)
+        {
+            GameObject exit = new GameObject();
+            exit.transform.parent = room.transform;
+            exit.name = "Exit";
+            exit.transform.localPosition = new Vector3(size, size);
+            exit.AddComponent<AirlockController>();
+            exit.AddComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/LevelSprites/Other/ControlPanel");
+            exit.AddComponent<BoxCollider2D>();
+            roomMap[2,0].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/LevelSprites/Other/ControlPanel");
+            roomMap[2, 0].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/LevelSprites/Other/AirlockLeft");
+            roomMap[3, 0].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/LevelSprites/Other/AirlockMiddle");
+            roomMap[4, 0].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/LevelSprites/Other/AirlockRight");
         }
     }
 

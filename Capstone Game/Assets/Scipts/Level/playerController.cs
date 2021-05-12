@@ -20,6 +20,8 @@ public class playerController : MonoBehaviour
     private SoundLibary mySoundLibary;
     private int selectedWeapon = 0;
     private int fuel;
+
+    public bool isPaused = false;
     
     // Start is called before the first frame update
     void Start()
@@ -166,8 +168,11 @@ public class playerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        handleMovement();
-        playerLook();
-        handleGuns();
+        if (isPaused == false)
+        {
+            handleMovement();
+            playerLook();
+            handleGuns();
+        }
     }
 }
