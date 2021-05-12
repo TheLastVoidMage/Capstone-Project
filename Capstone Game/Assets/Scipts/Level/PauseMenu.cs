@@ -24,16 +24,19 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        bool isPaused = false;
+        if (myPlayer != null)
+        {
+            isPaused = myPlayer.isPaused;
+        }
         //uses the ESC button to pause and unpause the game
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Time.timeScale == 0 || myPlayer.isPaused == false)
+            if (Time.timeScale == 0 || isPaused == false)
             {
                 if (Time.timeScale == 1)
                 {
                     Debug.Log("Paused");
-                    myPlayer.isPaused = true;
                     Time.timeScale = 0;
                     showPaused();
                 }
@@ -69,7 +72,10 @@ public class PauseMenu : MonoBehaviour
         foreach (GameObject g in pauseObjects)
         {
             g.SetActive(true);
-            myPlayer.isPaused = true;
+            if (myPlayer != null)
+            {
+                myPlayer.isPaused = true;
+            }
         }
     }
 
@@ -79,14 +85,11 @@ public class PauseMenu : MonoBehaviour
         foreach (GameObject g in pauseObjects)
         {
             g.SetActive(false);
-            myPlayer.isPaused = false;
+            if (myPlayer != null)
+            {
+                myPlayer.isPaused = false;
+            }
         }
-    }
-
-    //loads inputted level
-    public void LoadLevel(string level)
-    {
-        Application.LoadLevel(level);
     }
 
     public void quitToMain()
