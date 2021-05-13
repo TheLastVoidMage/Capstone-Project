@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class AirlockController : MonoBehaviour
 {
+    public Animator myAnimator;
     private LevelTransition myTransition;
     private CircleCollider2D myColider;
     private Canvas myMenu;
     private GameObject myMenuObject;
     private playerController myPlayer;
+    private float transitionTime = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +56,7 @@ public class AirlockController : MonoBehaviour
             if (myPlayer.isPaused == false)
             {
                 Debug.Log("Would you like to leave");
+                myAnimator.SetTrigger("onOpenMenu");
                 myPlayer.isPaused = true;
                 myPlayer.myBody.velocity = new Vector3(0, 0, 0);
                 myMenuObject.SetActive(true);
@@ -69,6 +72,13 @@ public class AirlockController : MonoBehaviour
 
     private void closeLevel()
     {
+        StartCoroutine(finishClose());
+    }
+
+    IEnumerator finishClose()
+    {
+        myAnimator.SetTrigger("onCloseMenu");
+        yield return new WaitForSeconds(transitionTime);
         myPlayer.isPaused = false;
         myMenuObject.SetActive(false);
     }
