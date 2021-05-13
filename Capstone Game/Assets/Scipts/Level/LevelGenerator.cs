@@ -296,6 +296,7 @@ public class LevelGenerator : MonoBehaviour
 
 class Room
 {
+    public Animator leaveLevelAnimation;
     private GameObject room;
     private GameObject[,] roomMap = new GameObject[7, 7];
     public float size = 2;
@@ -402,11 +403,10 @@ class Room
         }
         if (hasExit)
         {
-            GameObject exit = new GameObject();
+            GameObject exit = GameObject.FindObjectOfType<AirlockController>().gameObject;
             exit.transform.parent = room.transform;
             exit.name = "Exit";
             exit.transform.localPosition = new Vector3(size, size);
-            exit.AddComponent<AirlockController>();
             exit.AddComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/LevelSprites/Other/ControlPanel");
             exit.AddComponent<BoxCollider2D>();
             roomMap[2,0].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/LevelSprites/Other/ControlPanel");
