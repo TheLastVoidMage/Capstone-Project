@@ -511,7 +511,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2100722374}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -572,7 +572,7 @@ GameObject:
   - component: {fileID: 669168270}
   - component: {fileID: 669168269}
   - component: {fileID: 669168268}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PauseMenuComponents
   m_TagString: ShowOnPause
   m_Icon: {fileID: 0}
@@ -673,7 +673,7 @@ GameObject:
   - component: {fileID: 690683854}
   - component: {fileID: 690683856}
   - component: {fileID: 690683855}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: QuitButtonText
   m_TagString: ShowOnPause
   m_Icon: {fileID: 0}
@@ -752,7 +752,7 @@ GameObject:
   - component: {fileID: 771833964}
   - component: {fileID: 771833966}
   - component: {fileID: 771833965}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -832,7 +832,7 @@ GameObject:
   - component: {fileID: 817246704}
   - component: {fileID: 817246703}
   - component: {fileID: 817246702}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: NoButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -953,7 +953,7 @@ GameObject:
   - component: {fileID: 886023471}
   - component: {fileID: 886023470}
   - component: {fileID: 886023469}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LeaveMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1168,7 +1168,7 @@ GameObject:
   - component: {fileID: 1058456821}
   - component: {fileID: 1058456820}
   - component: {fileID: 1058456819}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: QuitButton
   m_TagString: ShowOnPause
   m_Icon: {fileID: 0}
@@ -1301,7 +1301,7 @@ GameObject:
   - component: {fileID: 1092520172}
   - component: {fileID: 1092520171}
   - component: {fileID: 1092520170}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ResumeButton
   m_TagString: ShowOnPause
   m_Icon: {fileID: 0}
@@ -1508,7 +1508,7 @@ GameObject:
   - component: {fileID: 1236442143}
   - component: {fileID: 1236442145}
   - component: {fileID: 1236442144}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ResumeButtonText
   m_TagString: ShowOnPause
   m_Icon: {fileID: 0}
@@ -1709,7 +1709,7 @@ GameObject:
   - component: {fileID: 1440631978}
   - component: {fileID: 1440631980}
   - component: {fileID: 1440631979}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2044,7 +2044,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2100722374}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2186,7 +2186,7 @@ GameObject:
   - component: {fileID: 1817416225}
   - component: {fileID: 1817416227}
   - component: {fileID: 1817416226}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2265,7 +2265,7 @@ GameObject:
   - component: {fileID: 1827848588}
   - component: {fileID: 1827848587}
   - component: {fileID: 1827848586}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: YesButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2385,7 +2385,7 @@ GameObject:
   - component: {fileID: 1840618617}
   - component: {fileID: 1840618619}
   - component: {fileID: 1840618618}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PausedText
   m_TagString: ShowOnPause
   m_Icon: {fileID: 0}
@@ -2464,7 +2464,7 @@ GameObject:
   - component: {fileID: 2011908974}
   - component: {fileID: 2011908976}
   - component: {fileID: 2011908975}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2562,7 +2562,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2100722374}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2642,9 +2642,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1096809135}
+  - {fileID: 2073010567}
   - {fileID: 601220972}
   - {fileID: 1702015463}
-  - {fileID: 2073010567}
   m_Father: {fileID: 1028393838}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2660,7 +2660,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2100722373}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 

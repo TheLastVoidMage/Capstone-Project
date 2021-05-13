@@ -175,10 +175,4 @@ public class playerController : MonoBehaviour
             handleGuns();
         }
     }
-
-    //Ammo Script
-    public static void ammoCount()
-    {
-
-    }
 }
