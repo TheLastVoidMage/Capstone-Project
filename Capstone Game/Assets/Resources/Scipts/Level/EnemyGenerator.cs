@@ -8,7 +8,7 @@ public class EnemyGenerator : MonoBehaviour
     private WeaponGenerator myWeaponGenerator;
     // Factions: Player, Bug
     // Stats: Health, Speed, Firerate, Range, Damage
-    private float[,] minAndMaxStats = new float[,]{ { 25, 2, .5f, 5, 5 }, { 300, 5, 5, 15, 90} };
+    private float[,] minAndMaxStats = new float[,]{ { 25, 2, .5f, 5, 5 }, { 150, 5, 5, 15, 90} };
     private float[] statScorePerPoint = new float[5];
     // This stores how much each faction values each stat
     public float[,] factionStats = new float[,] { { 100,100,100,100,100}, { 0.5f, 3f, 1, .75f, 1}, { .75f, 1, .5f, 10, 1} };
@@ -20,6 +20,10 @@ public class EnemyGenerator : MonoBehaviour
         if (this.gameObject.GetComponent<WeaponGenerator>() == null)
         {
             myWeaponGenerator = this.gameObject.AddComponent<WeaponGenerator>();
+        }
+        else
+        {
+            myWeaponGenerator = this.gameObject.GetComponent<WeaponGenerator>();
         }
         if (enemyPrefab != null)
         {
@@ -54,14 +58,18 @@ public class EnemyGenerator : MonoBehaviour
             //enemyStats.fireRate = stats[2];
             enemyStats.range = stats[3];
             enemyStats.sightRadius = Mathf.Max(5, stats[3] + 2);
-            enemyStats.damage = stats[4];
             enemyStats.mySize = Mathf.Max(Mathf.Min(1, (stats[0] / 25) / stats[1]), .5f);
             enemyStats.factionId = factionID;
             enemyStats.myImage = factionSprites[(factionID * 5) + highestStatId];
-            enemyStats.myGun = myWeaponGenerator.generateEnemyWeapon(enemyStats.gameObject, stats[2], stats[3], stats[4]);
-            if (enemyStats.myGun.getIsMelee())
+            enemyStats.myWeapons = new GameObject("Gun").AddComponent<WeaponController>();
+            enemyStats.myWeapons.gameObject.transform.parent = enemyStats.transform;
+            enemyStats.myWeapons.gameObject.transform.localPosition = new Vector3(0, 0);
+            Debug.Log("Stats length: " + stats.Length);
+            Debug.Log("Held Weapons: " + enemyStats.myWeapons.heldWeapons);
+            enemyStats.myWeapons.heldWeapons = new Weapon[1] { myWeaponGenerator.generateEnemyWeapon(enemyStats.gameObject, stats[2], stats[3], stats[4])};
+            if (enemyStats.myWeapons.heldWeapons[enemyStats.myWeapons.selectedWeapon].isMelee)
             {
-                enemyStats.range = enemyStats.myGun.getRange();
+                enemyStats.range = enemyStats.myWeapons.heldWeapons[enemyStats.myWeapons.selectedWeapon].AOERange;
             }
         }
 

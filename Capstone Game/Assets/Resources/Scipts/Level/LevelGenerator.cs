@@ -21,6 +21,7 @@ public class LevelGenerator : MonoBehaviour
     public int faction = 1;
     private Room[,] levelMap;
     private EnemyGenerator myEnemyGenerator;
+    private WeaponGenerator myWeaponGenerator;
     public Sprite[] regularFloors;
     public Sprite[] regularWalls;
     public Sprite[] specialFloors;
@@ -58,8 +59,10 @@ public class LevelGenerator : MonoBehaviour
         regularFloors = Resources.LoadAll<Sprite>("Images/LevelSprites/RegularFloor/");
         regularWalls = Resources.LoadAll<Sprite>("Images/LevelSprites/RegularWall/");
         myEnemyGenerator = this.GetComponent<EnemyGenerator>();
+        myWeaponGenerator = this.gameObject.AddComponent<WeaponGenerator>();
         generateMap(selectedLevelSize);
         generateEnemies(selectedLevelDensity, selectedEnemyDifficulty, faction);
+        generatePickUps(selectedLevelDensity + selectedEnemyDifficulty + 3);
         AstarPath.active.Scan();
 
     }
@@ -81,9 +84,58 @@ public class LevelGenerator : MonoBehaviour
                 {
                     if (x != levelMap.GetLength(0) / 2 && y != 0) // If not spawn
                     {
-                        enemyPos = new Vector3(this.transform.position.x + (x * 14) + 6 + +Random.Range(-4, 4), this.transform.position.y + (y * 14) + 6 + Random.Range(-4, 4));
+                        enemyPos = new Vector3(this.transform.position.x + (x * 14) + 6 + Random.Range(-4, 4), this.transform.position.y + (y * 14) + 6 + Random.Range(-4, 4));
                         myEnemyGenerator.generateNewEnemy(enemyPos, enemyDifficulty[difficulty], faction);
                         enemiesGenerated++;
+                    }
+                }
+                iterations++;
+            }
+        }
+    }
+    private void generatePickUps(int maxCrates)
+    {
+        int x = 0;
+        int y = 0;
+        bool[,] used = new bool[levelMap.GetLength(0), levelMap.GetLength(1)];
+        int spawnedCrates = 0;
+        int iterations = 0;
+        int maxIterations = 1000;
+        Vector3 spawnLocation = new Vector3(0, 0);
+        if (levelMap != null)
+        {
+            while (spawnedCrates < maxCrates && iterations < maxIterations)
+            {
+                x = Random.Range(0, levelMap.GetLength(0));
+                y = Random.Range(0, levelMap.GetLength(1));
+                if (levelMap[x, y] != null)
+                {
+                    if (x != levelMap.GetLength(0) / 2 && y != 0) // If not spawn
+                    {
+                        if (used[x, y] == false)
+                        {
+                            used[x, y] = true;
+                            spawnLocation = new Vector3(this.transform.position.x + (x * 14) + 6, this.transform.position.y + (y * 14) + 6);
+                            GameObject newCrate = new GameObject("Crate");
+                            newCrate.transform.position = spawnLocation;
+                            int id = 0;
+                            int chance = Random.Range(0, 99);
+                            if (chance < 40)
+                            {
+                                id = 0;
+                            }
+                            else if (chance < 80)
+                            {
+                                id = 1;
+                            }
+                            else
+                            {
+                                id = 2;
+                            }
+                            newCrate.AddComponent<Pickup>().generateCrate(id, myWeaponGenerator.generatePlayerWeapon());
+
+                            spawnedCrates++;
+                        }
                     }
                 }
                 iterations++;

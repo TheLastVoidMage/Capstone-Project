@@ -9,6 +9,7 @@ public class WeaponGenerator : MonoBehaviour
     private Sprite[] meleeSprites;
     private Sprite selectedSprite;
     private int gunId = 0;
+    private GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -16,12 +17,24 @@ public class WeaponGenerator : MonoBehaviour
         mySoundLibary = new SoundLibary().generate();
         gunSprites = Resources.LoadAll<Sprite>("Images/Guns/");
         meleeSprites = Resources.LoadAll<Sprite>("Images/Melee/");
+        player = GameObject.FindObjectOfType<playerController>().gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public Weapon generatePlayerWeapon()
+    {
+        if (mySoundLibary == null)
+        {
+            mySoundLibary = new SoundLibary().generate();
+        }
+        gunSprites = Resources.LoadAll<Sprite>("Images/Guns/");
+        meleeSprites = Resources.LoadAll<Sprite>("Images/Melee/");
+        return new Weapon(player, gunSprites[0], "TestGun", 1, 1, 1, 1, 1, 1, 1, mySoundLibary.gunFire[0], mySoundLibary.gunFire[0]);
     }
 
     public Weapon generateEnemyWeapon(GameObject enemy, float fireRate, float spread, float damage)

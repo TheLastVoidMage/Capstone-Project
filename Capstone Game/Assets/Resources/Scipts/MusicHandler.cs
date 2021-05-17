@@ -15,6 +15,7 @@ public class MusicHandler : MonoBehaviour
             factionId = GameObject.FindObjectOfType<LevelGenerator>().faction;
         }
         mySource = this.gameObject.AddComponent<AudioSource>();
+        mySource.volume = .5f;
         mySource.loop = true;
         if (musicList.Length > 0)
         {

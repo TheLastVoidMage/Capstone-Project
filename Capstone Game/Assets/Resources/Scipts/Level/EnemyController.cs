@@ -17,13 +17,12 @@ public class EnemyController : MonoBehaviour
     public float sightRadius = 5;
     public float movementSpeed = 1;
     public float health = 100;
-    public float damage = 10;
     public float range = 3;
     public Sprite myImage = null;
     public Color myColor = Color.white;
     public float mySize = 1;
     public int factionId = 1;
-    public Weapon myGun;
+    public WeaponController myWeapons;
 
     public void takeDamage(float damage, GameObject attacker)
     {
@@ -41,6 +40,12 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (myWeapons == null)
+        {
+            myWeapons = new GameObject("Gun").AddComponent<WeaponController>();
+            myWeapons.gameObject.transform.parent = this.transform;
+            myWeapons.gameObject.transform.localPosition = new Vector3(0, 0);
+        }
         myFaction = this.gameObject.GetComponent<Faction>();
         myFaction.factionId = factionId;
         this.GetComponent<CircleCollider2D>().radius *= 2;
@@ -82,7 +87,7 @@ public class EnemyController : MonoBehaviour
         {
             if (hit.transform.gameObject == target.gameObject)
             {
-                    myGun.shoot(this.gameObject);
+                myWeapons.fire();
             }
         }
     }
@@ -101,7 +106,7 @@ public class EnemyController : MonoBehaviour
         {
             if (hit.transform.gameObject == target)
             {
-                Debug.Log("Stoped to hit target");
+                //Debug.Log("Stoped to hit target");
                 myPathSetter.target = this.transform;
                 handleAttacking();
             }

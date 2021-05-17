@@ -38,12 +38,12 @@ public class EnemyDetection : MonoBehaviour
                     {
                         if (hit.collider.gameObject == other.gameObject)
                         {
-                            Debug.Log(this.gameObject.name + " saw " + other.gameObject.name);
+                            //Debug.Log(this.gameObject.name + " saw " + other.gameObject.name);
                             myParentScript.target = other.gameObject;
                         }
                         else
                         {
-                            Debug.Log("Detected " + hit.collider.gameObject.name);
+                            //Debug.Log("Detected " + hit.collider.gameObject.name);
                         }
                     }
                     else

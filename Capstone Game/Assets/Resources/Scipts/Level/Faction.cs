@@ -35,7 +35,8 @@ public class Faction : MonoBehaviour
             }
             else if (target.GetComponent<playerController>() != null)
             {
-
+                Debug.Log("Faction Damage: " + damage);
+                target.GetComponent<playerController>().takeDamage(damage);
             }
         }
     }
