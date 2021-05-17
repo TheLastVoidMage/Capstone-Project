@@ -16,7 +16,7 @@ public class LevelTransition : MonoBehaviour
 
     public void Start()
     {
-        doorTextures = new Sprite[,] { { null, null }, { null, null}, { null, null}, { Resources.Load<Sprite>("Images/LoadingScreens/LevelLeft"), Resources.Load<Sprite>("Images/LoadingScreens/LevelRight") } };
+        doorTextures = new Sprite[,] { { null, null }, { null, null}, { Resources.Load<Sprite>("Images/LoadingScreens/LevelLeft"), Resources.Load<Sprite>("Images/LoadingScreens/LevelRightShip")}, { Resources.Load<Sprite>("Images/LoadingScreens/LevelLeft"), Resources.Load<Sprite>("Images/LoadingScreens/LevelRight") } };
         Image[] doors = this.gameObject.GetComponentsInChildren<Image>();
         for (int x = 0; x < doors.Length; x++)
         {
