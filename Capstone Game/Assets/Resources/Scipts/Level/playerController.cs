@@ -120,6 +120,7 @@ public class playerController : MonoBehaviour
             {
                 myWeapons.heldWeapons = new Weapon[4] { new Weapon(this.gameObject, null, null, null), new Weapon(this.gameObject, null, "Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, null, null, false, true, 3), new Weapon(this.gameObject, null, "Boomstick", 3, 2, 2, 1, 10, 5, 1, null, null, false, true, 1), null };
             }
+            myWeapons.heldWeapons[myWeapons.selectedWeapon].bulletsInClip = myWeapons.heldWeapons[myWeapons.selectedWeapon].clipSize;
             return true;
         }
         return false;
@@ -127,10 +128,13 @@ public class playerController : MonoBehaviour
 
     public void updateUI()
     {
-        healthText.text = health + "/" + maxHealth;
-        gunName.text = myWeapons.heldWeapons[myWeapons.selectedWeapon].displayName;
-        ammoCounter.text = myWeapons.heldWeapons[myWeapons.selectedWeapon].bulletsInClip + "/" + myWeapons.heldWeapons[myWeapons.selectedWeapon].clipSize;
-        fuelText.text = fuel + "";
+        if (healthText != null)
+        {
+            healthText.text = health + "/" + maxHealth;
+            gunName.text = myWeapons.heldWeapons[myWeapons.selectedWeapon].displayName;
+            ammoCounter.text = myWeapons.heldWeapons[myWeapons.selectedWeapon].bulletsInClip + "/" + myWeapons.heldWeapons[myWeapons.selectedWeapon].clipSize;
+            fuelText.text = fuel + "";
+        }
     }
 
     public void takeDamage(float amount)
@@ -149,36 +153,32 @@ public class playerController : MonoBehaviour
 
     void handleGuns()
     {
-        if (Input.GetKey(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             if (myWeapons.heldWeapons[0] != null)
             {
                 myWeapons.changeWeapon(0);
-                updateUI();
             }
         }
-        else if (Input.GetKey(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             if (myWeapons.heldWeapons[1] != null)
             {
                 myWeapons.changeWeapon(1);
-                updateUI();
             }
         }
-        else if (Input.GetKey(KeyCode.Alpha3))
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             if (myWeapons.heldWeapons[2] != null)
             {
                 myWeapons.changeWeapon(2);
-                updateUI();
             }
         }
-        else if (Input.GetKey(KeyCode.Alpha4))
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             if (myWeapons.heldWeapons[3] != null)
             {
                 myWeapons.changeWeapon(3);
-                updateUI();
             }
         }
         if (Input.GetMouseButton(0))

@@ -40,7 +40,7 @@ public class WeaponGenerator : MonoBehaviour
             new Weapon(player, gunSprites[Random.Range(0, gunSprites.Length - 1)], "M16 (Assault Rifle)", 1, 1, 30, 1, 3, 10, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
             new Weapon(player, gunSprites[Random.Range(0, gunSprites.Length - 1)], "MP5 (Submachine Gun)", 5, 1f, 30, 1, 1, 15, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
             new Weapon(player, gunSprites[Random.Range(0, gunSprites.Length - 1)], "12 Gauge (Shotgun)", 1, 2, 8, 1, 10, 5, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
-            new Weapon(player, gunSprites[Random.Range(0, gunSprites.Length - 1)], "M24 (Sniper Rifle)", .5f, 0, 5, 1, 1, 90, 1.5f, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
+            new Weapon(player, gunSprites[Random.Range(0, gunSprites.Length - 1)], "M24 (Sniper Rifle)", .5f, 0, 10, 1, 1, 90, 1.5f, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
             new Weapon(player, gunSprites[Random.Range(0, gunSprites.Length - 1)], "AK 47 (Assault Rifle)", 5, 1.5f, 30, 1, 1, 10, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
             new Weapon(player, gunSprites[Random.Range(0, gunSprites.Length - 1)], "M4 (Assault Rifle)", 7, .9f, 30, 1, 1, 15, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0])
         };

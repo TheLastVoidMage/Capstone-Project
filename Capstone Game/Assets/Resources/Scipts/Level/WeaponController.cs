@@ -21,11 +21,23 @@ public class WeaponController : MonoBehaviour
         {
             heldWeapons = new Weapon[4] { new Weapon(this.gameObject, null, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]), new Weapon(this.gameObject, null, "Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 3), new Weapon(this.gameObject, null, "Boomstick", 3, 2, 2, 1, 10, 5, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1), null };
         }
+        else if (heldWeapons.Length == 0)
+        {
+            heldWeapons = new Weapon[4] { new Weapon(this.gameObject, null, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]), new Weapon(this.gameObject, null, "Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 3), new Weapon(this.gameObject, null, "Boomstick", 3, 2, 2, 1, 10, 5, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1), null };
+        }
         myFireAudioPlayer = this.gameObject.AddComponent<AudioSource>();
         myReloadAudioPlayer = this.gameObject.AddComponent<AudioSource>();
         myRenderer = this.gameObject.AddComponent<SpriteRenderer>();
         myRenderer.sortingOrder = -1;
         this.gameObject.transform.localPosition = new Vector3(0, 1);
+        foreach (Weapon w in heldWeapons)
+        {
+            if (w != null)
+            {
+                w.timeLastFired = Time.time;
+                w.bulletsInClip = w.clipSize;
+            }
+        }
         changeWeapon(0);
     }
 
@@ -38,14 +50,20 @@ public class WeaponController : MonoBehaviour
     public Weapon changeWeapon(int newWeapon)
     {
         selectedWeapon = newWeapon;
-        myRenderer.sprite = heldWeapons[selectedWeapon].displaySprite;
-        myFireAudioPlayer.clip = heldWeapons[selectedWeapon].fireSound;
-        myReloadAudioPlayer.clip = heldWeapons[selectedWeapon].reloadSound;
+        myRenderer.sprite = heldWeapons[selectedWeapon].displaySprite();
+        myFireAudioPlayer.clip = heldWeapons[selectedWeapon].getFireClip();
+        myReloadAudioPlayer.clip = heldWeapons[selectedWeapon].getReloadClip();
+        heldWeapons[selectedWeapon].timeLastFired = Time.time;
+        myPlayer.updateUI();
         return heldWeapons[selectedWeapon];
     }
 
     public void fire()
     {
+        if (heldWeapons[selectedWeapon].timeLastFired > Time.time)
+        {
+            heldWeapons[selectedWeapon].timeLastFired = 0;
+        }
         if (heldWeapons[selectedWeapon].bulletsInClip < heldWeapons[selectedWeapon].bulletsUsedInShot)
         {
             reload();
@@ -83,14 +101,14 @@ public class WeaponController : MonoBehaviour
         {
             isReloading = true;
             myReloadAudioPlayer.Play();
-            StartCoroutine(finishReload(heldWeapons[selectedWeapon].reloadTime));
+            StartCoroutine(finishReload(heldWeapons[selectedWeapon].reloadTime, heldWeapons[selectedWeapon]));
         }
     }
 
-    public IEnumerator finishReload(float time)
+    public IEnumerator finishReload(float time, Weapon reloadingWeapon)
     {
         yield return new WaitForSeconds(time);
-        heldWeapons[selectedWeapon].bulletsInClip = heldWeapons[selectedWeapon].clipSize;
+        reloadingWeapon.bulletsInClip = reloadingWeapon.clipSize;
         isReloading = false;
         if (this.gameObject.transform.parent.transform.parent.GetComponent<playerController>() != null)
         {

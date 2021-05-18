@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,10 +20,10 @@ public class Weapon
     public float AOERange = 0;
     public bool isMelee = false;
     public bool pelletsExplode = false;
-    public Sprite displaySprite;
+    public string spritePath;
 
-    public AudioClip fireSound;
-    public AudioClip reloadSound;
+    public string fireSoundPath;
+    public string reloadSoundPath;
 
     public float timeLastFired = 0;
 
@@ -41,9 +42,9 @@ public class Weapon
         this.pelletsExplode = false;
         this.timeLastFired = 0;
         this.AOERange = 0;
-        this.reloadSound = reloadSound;
-        this.fireSound = fireSound;
-        this.displaySprite = mySprite;
+        this.reloadSoundPath = AssetDatabase.GetAssetPath(reloadSound);
+        this.fireSoundPath = AssetDatabase.GetAssetPath(fireSound);
+        this.spritePath = AssetDatabase.GetAssetPath(mySprite);
     }
     public Weapon(GameObject parent, Sprite mySprite, string displayName, float fireRate, float spread, int clipSize, int bulletsUsedInShot, int pelletCount, float damagePerPellet, float reloadTime, AudioClip fireSound, AudioClip reloadSound, bool isMelee = false, bool pelletsExplode = false, float explosionRange = 0)
     {
@@ -60,9 +61,9 @@ public class Weapon
         this.pelletsExplode = pelletsExplode;
         this.timeLastFired = 0;
         this.AOERange = explosionRange;
-        this.reloadSound = reloadSound;
-        this.fireSound = fireSound;
-        this.displaySprite = mySprite;
+        this.reloadSoundPath = AssetDatabase.GetAssetPath(reloadSound);
+        this.fireSoundPath = AssetDatabase.GetAssetPath(fireSound);
+        this.spritePath = AssetDatabase.GetAssetPath(mySprite);
     }
 
 
@@ -166,4 +167,44 @@ public class Weapon
         calculateAOE(parent.transform.position, parent, true);
     }
 
+    public Sprite displaySprite()
+    {
+        string newString = this.spritePath;
+        if (newString != "")
+        {
+            newString = spritePath.Substring(spritePath.IndexOf('/') + 1);
+            newString = newString.Substring(newString.IndexOf('/') + 1);
+            newString = newString.Substring(0, newString.LastIndexOf('.'));
+        }
+
+        return Resources.Load<Sprite>(newString);
+    }
+
+    public AudioClip getFireClip()
+    {
+        string newString = this.fireSoundPath;
+        if (newString != "")
+        {
+            newString = newString.Substring(newString.IndexOf('/') + 1);
+            newString = newString.Substring(newString.IndexOf('/') + 1);
+            newString = newString.Substring(0, newString.LastIndexOf('.'));
+        }
+
+        return Resources.Load<AudioClip>(newString);
+    }
+
+    public AudioClip getReloadClip()
+    {
+        string newString = this.reloadSoundPath;
+        if (newString != "")
+        {
+            Debug.Log("Before: " + newString);
+            newString = newString.Substring(newString.IndexOf('/') + 1);
+            newString = newString.Substring(newString.IndexOf('/') + 1);
+            newString = newString.Substring(0, newString.LastIndexOf('.'));
+            Debug.Log("After: " + newString);
+        }
+
+        return Resources.Load<AudioClip>(newString);
+    }
 }
