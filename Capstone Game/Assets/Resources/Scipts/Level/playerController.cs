@@ -73,7 +73,11 @@ public class playerController : MonoBehaviour
 
     public void heal(int amount)
     {
-        health = Mathf.Min(health + amount, maxHealth);
+        health += amount;
+        if (health > maxHealth)
+        {
+            maxHealth = health;
+        }
         updateUI();
     }
 
@@ -85,6 +89,7 @@ public class playerController : MonoBehaviour
         file.Close();
         save.fuel = fuel;
         save.playerWeapons = myWeapons.heldWeapons;
+        save.maxHealth = this.maxHealth;
         return save;
     }
 

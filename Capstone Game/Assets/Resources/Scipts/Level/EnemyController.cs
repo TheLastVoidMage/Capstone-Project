@@ -60,6 +60,7 @@ public class EnemyController : MonoBehaviour
         myDetector.transform.localPosition = new Vector3(0, 0);
         myDetector.AddComponent<EnemyDetection>();
         mySprite = this.GetComponentInChildren<SpriteRenderer>();
+        mySprite.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
         if (mySprite != null)
         {
             if (myImage != null)

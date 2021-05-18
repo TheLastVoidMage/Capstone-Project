@@ -8,7 +8,7 @@ public class EnemyGenerator : MonoBehaviour
     private WeaponGenerator myWeaponGenerator;
     // Factions: Player, Bug
     // Stats: Health, Speed, Firerate, Range, Damage
-    private float[,] minAndMaxStats = new float[,]{ { 25, 2, .5f, 5, 5 }, { 150, 5, 5, 15, 90} };
+    private float[,] minAndMaxStats = new float[,]{ { 25, 2, .5f, 5, 5 }, { 150, 5, 5, 15, 50} };
     private float[] statScorePerPoint = new float[5];
     // This stores how much each faction values each stat
     public float[,] factionStats = new float[,] { { 100,100,100,100,100}, { 0.5f, 3f, 1, .75f, 1}, { .75f, 1, .5f, 10, 1} };
@@ -64,8 +64,6 @@ public class EnemyGenerator : MonoBehaviour
             enemyStats.myWeapons = new GameObject("Gun").AddComponent<WeaponController>();
             enemyStats.myWeapons.gameObject.transform.parent = enemyStats.transform;
             enemyStats.myWeapons.gameObject.transform.localPosition = new Vector3(0, 0);
-            Debug.Log("Stats length: " + stats.Length);
-            Debug.Log("Held Weapons: " + enemyStats.myWeapons.heldWeapons);
             enemyStats.myWeapons.heldWeapons = new Weapon[1] { myWeaponGenerator.generateEnemyWeapon(enemyStats.gameObject, stats[2], stats[3], stats[4])};
             if (enemyStats.myWeapons.heldWeapons[enemyStats.myWeapons.selectedWeapon].isMelee)
             {

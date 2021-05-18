@@ -23,7 +23,7 @@ public class Pickup : MonoBehaviour
             myRenderer = this.gameObject.AddComponent<SpriteRenderer>();
         }
         myPlayer = FindObjectOfType<playerController>();
-        generateCrate(resourceId);
+        generateCrate(resourceId, weapon);
     }
 
     public Pickup generateCrate(int id = 0, Weapon newWeapon = null)

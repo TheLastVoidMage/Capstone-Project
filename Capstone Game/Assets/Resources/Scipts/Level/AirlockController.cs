@@ -67,6 +67,7 @@ public class AirlockController : MonoBehaviour
     private void leaveLevel()
     {
         PlayerPrefs.SetInt("newGame", 0);
+        myPlayer.SaveGame();
         myTransition.LoadLevel(2);
     }
 

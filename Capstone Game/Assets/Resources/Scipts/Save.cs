@@ -10,4 +10,5 @@ public class Save
     public Weapon[] playerWeapons;
     public int fuel;
     public int characterId;
+    public float maxHealth;
 }

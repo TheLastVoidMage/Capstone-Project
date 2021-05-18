@@ -11,9 +11,11 @@ public class WeaponController : MonoBehaviour
     private AudioSource myFireAudioPlayer;
     private AudioSource myReloadAudioPlayer;
     private SpriteRenderer myRenderer;
+    private playerController myPlayer;
     // Start is called before the first frame update
     void Start()
     {
+        myPlayer = GameObject.FindObjectOfType<playerController>();
         mySoundLibary = new SoundLibary().generate();
         if (heldWeapons == null)
         {
@@ -71,6 +73,7 @@ public class WeaponController : MonoBehaviour
             }
         }
         heldWeapons[selectedWeapon] = newWeapon;
+        myPlayer.updateUI();
         return this;
     }
 
