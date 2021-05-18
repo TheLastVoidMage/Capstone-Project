@@ -147,6 +147,7 @@ public class playerController : MonoBehaviour
             myBody.velocity = new Vector3(0, 0);
             health = 0;
             myTransition.LoadLevel(1);
+            myTransition.setDoors(Resources.Load<Sprite>("Images/LoadingScreens/GameoverScreenLeft"), Resources.Load<Sprite>("Images/LoadingScreens/GameoverScreenright"));
         }
         updateUI();
     }

@@ -31,6 +31,12 @@ public class LevelTransition : MonoBehaviour
         }
     }
 
+    public void setDoors(Sprite leftImage, Sprite rightImage)
+    {
+        leftDoor.GetComponent<Image>().sprite = leftImage;
+        rightDoor.GetComponent<Image>().sprite = rightImage;
+    }
+
     public void LoadLevel(int levelID)
     {
         if (doorTextures[levelID,0] != null)
