@@ -118,9 +118,11 @@ public class playerController : MonoBehaviour
             mySprite = Resources.LoadAll<Sprite>("Images/Player/")[save.characterId];
             if (myWeapons.heldWeapons == null)
             {
-                myWeapons.heldWeapons = new Weapon[4] { new Weapon(this.gameObject, null, null, null), new Weapon(this.gameObject, null, "Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, null, null, false, true, 3), new Weapon(this.gameObject, null, "Boomstick", 3, 2, 2, 1, 10, 5, 1, null, null, false, true, 1), null };
+                myWeapons.heldWeapons = new Weapon[4] { new WeaponGenerator().generateStartingWeapon(), new Weapon(null, "Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, null, null, false, true, 3), new Weapon(null, "Boomstick", 3, 2, 2, 1, 10, 5, 1, null, null, false, true, 1), null };
             }
             myWeapons.heldWeapons[myWeapons.selectedWeapon].bulletsInClip = myWeapons.heldWeapons[myWeapons.selectedWeapon].clipSize;
+            maxHealth = save.maxHealth;
+            health = maxHealth;
             return true;
         }
         return false;
@@ -128,7 +130,7 @@ public class playerController : MonoBehaviour
 
     public void updateUI()
     {
-        if (healthText != null)
+        if (healthText != null && myWeapons.heldWeapons != null)
         {
             healthText.text = health + "/" + maxHealth;
             gunName.text = myWeapons.heldWeapons[myWeapons.selectedWeapon].displayName;

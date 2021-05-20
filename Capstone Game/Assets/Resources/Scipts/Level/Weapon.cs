@@ -27,7 +27,7 @@ public class Weapon
 
     public float timeLastFired = 0;
 
-    public Weapon(GameObject parent, Sprite mySprite, AudioClip fireSound, AudioClip reloadSound)
+    public Weapon(Sprite mySprite, AudioClip fireSound, AudioClip reloadSound)
     {
         this.displayName = "Glock";
         this.fireRate = 3;
@@ -44,9 +44,16 @@ public class Weapon
         this.AOERange = 0;
         this.reloadSoundPath = AssetDatabase.GetAssetPath(reloadSound);
         this.fireSoundPath = AssetDatabase.GetAssetPath(fireSound);
-        this.spritePath = AssetDatabase.GetAssetPath(mySprite);
+        if (mySprite != null)
+        {
+            this.spritePath = AssetDatabase.GetAssetPath(mySprite);
+        }
+        else
+        {
+            this.spritePath = "Images/Guns/Special/Pistol";
+        }
     }
-    public Weapon(GameObject parent, Sprite mySprite, string displayName, float fireRate, float spread, int clipSize, int bulletsUsedInShot, int pelletCount, float damagePerPellet, float reloadTime, AudioClip fireSound, AudioClip reloadSound, bool isMelee = false, bool pelletsExplode = false, float explosionRange = 0)
+    public Weapon(Sprite mySprite, string displayName, float fireRate, float spread, int clipSize, int bulletsUsedInShot, int pelletCount, float damagePerPellet, float reloadTime, AudioClip fireSound, AudioClip reloadSound, bool isMelee = false, bool pelletsExplode = false, float explosionRange = 0)
     {
         this.displayName = displayName;
         this.fireRate = fireRate;
@@ -185,8 +192,7 @@ public class Weapon
         string newString = this.fireSoundPath;
         if (newString != "")
         {
-            newString = newString.Substring(newString.IndexOf('/') + 1);
-            newString = newString.Substring(newString.IndexOf('/') + 1);
+            newString = newString.Substring(newString.LastIndexOf('/') + 1);
             newString = newString.Substring(0, newString.LastIndexOf('.'));
         }
 
@@ -198,11 +204,8 @@ public class Weapon
         string newString = this.reloadSoundPath;
         if (newString != "")
         {
-            Debug.Log("Before: " + newString);
-            newString = newString.Substring(newString.IndexOf('/') + 1);
-            newString = newString.Substring(newString.IndexOf('/') + 1);
+            newString = newString.Substring(newString.LastIndexOf('/') + 1);
             newString = newString.Substring(0, newString.LastIndexOf('.'));
-            Debug.Log("After: " + newString);
         }
 
         return Resources.Load<AudioClip>(newString);

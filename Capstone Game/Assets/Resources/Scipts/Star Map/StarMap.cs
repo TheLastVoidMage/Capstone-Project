@@ -38,6 +38,8 @@ public class StarMap : MonoBehaviour
             save.shipMap = this.ShipMap;
             save.playerPos = myShipController.playerCoordinates;
             save.characterId = cId;
+            save.playerWeapons = new Weapon[4] { new WeaponGenerator().generateStartingWeapon(), null, null, null};
+            save.maxHealth = 150;
         }
         else // Edit Save
         {

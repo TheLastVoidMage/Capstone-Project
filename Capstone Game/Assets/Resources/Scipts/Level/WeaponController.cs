@@ -19,11 +19,11 @@ public class WeaponController : MonoBehaviour
         mySoundLibary = new SoundLibary().generate();
         if (heldWeapons == null)
         {
-            heldWeapons = new Weapon[4] { new Weapon(this.gameObject, null, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]), new Weapon(this.gameObject, null, "Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 3), new Weapon(this.gameObject, null, "Boomstick", 3, 2, 2, 1, 10, 5, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1), null };
+            heldWeapons = new Weapon[4] { new WeaponGenerator().generateStartingWeapon(), null, null, null};
         }
         else if (heldWeapons.Length == 0)
         {
-            heldWeapons = new Weapon[4] { new Weapon(this.gameObject, null, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]), new Weapon(this.gameObject, null, "Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 3), new Weapon(this.gameObject, null, "Boomstick", 3, 2, 2, 1, 10, 5, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1), null };
+            heldWeapons = new Weapon[4] { new WeaponGenerator().generateStartingWeapon(), new Weapon(null, "Rocket Launcher", 3, 1, 1, 1, 1, 100, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 3), new Weapon(null, "Boomstick", 3, 2, 2, 1, 10, 5, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1), null };
         }
         myFireAudioPlayer = this.gameObject.AddComponent<AudioSource>();
         myReloadAudioPlayer = this.gameObject.AddComponent<AudioSource>();
