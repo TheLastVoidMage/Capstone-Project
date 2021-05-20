@@ -181,7 +181,7 @@ public class Level
         this.specialId = specialId;
         if (this.specialId == -1)
         {
-            levelValues[3] = Mathf.RoundToInt(Random.Range(1, new EnemyGenerator().factionStats.GetLength(0)));
+            levelValues[3] = Random.Range(1, new EnemyGenerator().factionNames.GetLength(0));
         }
         else
         {

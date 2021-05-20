@@ -12,10 +12,21 @@ public class EnemyGenerator : MonoBehaviour
     private float[] statScorePerPoint = new float[5];
     // This stores how much each faction values each stat
     public float[,] factionStats = new float[,] { { 100,100,100,100,100}, { 0.5f, 3f, 1, .75f, 1}, { .75f, 1, .5f, 10, 1} };
+    private string enemyFolder = "Images/Enemies/";
+    public string[] factionNames = new string[] { "Friendly", "Bugs", "Bots"};
+    private string[] imageNames = new string[] { "Health", "Speed", "Firerate", "Range", "Damage"};
+    private Sprite[,] allFactionSprites = null;
     public Sprite[] factionSprites;
 
     public GameObject generateNewEnemy(Vector3 position, int points, int factionID)
     {
+        if (allFactionSprites == null)
+        {
+            allFactionSprites = new Sprite[,] { { null, null, null, null, null }, 
+                { Resources.Load<Sprite>(enemyFolder + factionNames[1] + "/" + imageNames[0]), Resources.Load<Sprite>(enemyFolder + factionNames[1] + "/" + imageNames[1]), Resources.Load<Sprite>(enemyFolder + factionNames[1] + "/" + imageNames[2]), Resources.Load<Sprite>(enemyFolder + factionNames[1] + "/" + imageNames[3]), Resources.Load<Sprite>(enemyFolder + factionNames[1] + "/" + imageNames[4])},
+                { Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[0]), Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[1]), Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[2]), Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[3]), Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[4])}};
+        }
+        factionSprites = new Sprite[] { allFactionSprites[factionID, 0], allFactionSprites[factionID, 1] , allFactionSprites[factionID, 2] , allFactionSprites[factionID, 3], allFactionSprites[factionID, 4] };
         GameObject newEnemy = null;
         if (this.gameObject.GetComponent<WeaponGenerator>() == null)
         {
@@ -60,7 +71,7 @@ public class EnemyGenerator : MonoBehaviour
             enemyStats.sightRadius = Mathf.Max(5, stats[3] + 2);
             enemyStats.mySize = Mathf.Max(Mathf.Min(1, (stats[0] / 25) / stats[1]), .5f);
             enemyStats.factionId = factionID;
-            enemyStats.myImage = factionSprites[(factionID * 5) + highestStatId];
+            enemyStats.myImage = factionSprites[highestStatId];
             enemyStats.myWeapons = new GameObject("Gun").AddComponent<WeaponController>();
             enemyStats.myWeapons.gameObject.transform.parent = enemyStats.transform;
             enemyStats.myWeapons.gameObject.transform.localPosition = new Vector3(0, 0);
@@ -68,6 +79,10 @@ public class EnemyGenerator : MonoBehaviour
             if (enemyStats.myWeapons.heldWeapons[enemyStats.myWeapons.selectedWeapon].isMelee)
             {
                 enemyStats.range = enemyStats.myWeapons.heldWeapons[enemyStats.myWeapons.selectedWeapon].AOERange;
+            }
+            if (enemyStats.range < 10)
+            {
+                enemyStats.range = 3;
             }
         }
 

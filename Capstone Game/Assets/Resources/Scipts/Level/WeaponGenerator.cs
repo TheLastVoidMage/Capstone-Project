@@ -85,7 +85,7 @@ public class WeaponGenerator : MonoBehaviour
         }
         if (spread < 10)
         {
-            isMelee = true;
+            isMelee = false;
         }
         gunSprites = Resources.LoadAll<Sprite>("Images/Guns/");
         meleeSprites = Resources.LoadAll<Sprite>("Images/Melee/");

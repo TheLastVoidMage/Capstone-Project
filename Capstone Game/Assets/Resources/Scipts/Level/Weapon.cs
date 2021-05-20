@@ -159,10 +159,13 @@ public class Weapon
         {
             if (o != false)
             {
-                if (isMelee == false || o.GetComponent<Faction>().factionId != parent.GetComponent<Faction>().factionId || o == parent)
+                if (o.GetComponent<Faction>() != null && parent.GetComponent<Faction>() != null)
                 {
-                    Debug.Log("Explosion Hit: " + o.name);
-                    o.GetComponent<Faction>().doDamage(o.transform.gameObject, this.damagePerPellet, parent);
+                    if (isMelee == false || o.GetComponent<Faction>().factionId != parent.GetComponent<Faction>().factionId || o == parent)
+                    {
+                        Debug.Log("Explosion Hit: " + o.name);
+                        o.GetComponent<Faction>().doDamage(o.transform.gameObject, this.damagePerPellet, parent);
+                    }
                 }
 
             }
