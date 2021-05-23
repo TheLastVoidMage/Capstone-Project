@@ -42,7 +42,7 @@ public class MainMenuInteraction : MonoBehaviour
     {
         Debug.Log("New Game Pressed");
         PlayerPrefs.SetInt("newGame", 1);
-        myTransision.LoadLevel(2);
+        myTransision.LoadLevel(2, "If you can read this\nyou can read");
         // Start new game
     }
 

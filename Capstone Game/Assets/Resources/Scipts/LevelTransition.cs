@@ -29,6 +29,28 @@ public class LevelTransition : MonoBehaviour
                 rightDoor = doors[x].gameObject;
             }
         }
+        if (PlayerPrefs.GetInt("transitionFrom") != 0 && SceneManager.GetActiveScene().buildIndex != 1)
+        {
+            int levelFrom = PlayerPrefs.GetInt("transitionFrom") + 1;
+            if (doorTextures[levelFrom, 0] != null)
+            {
+                selectedLeft = doorTextures[levelFrom, 0];
+            }
+            else
+            {
+                selectedLeft = Resources.Load<Sprite>("Images/LoadingScreens/LoadingScreenLeft");
+            }
+            if (doorTextures[levelFrom, 1] != null)
+            {
+                selectedRight = doorTextures[levelFrom, 1];
+            }
+            else
+            {
+                selectedRight = Resources.Load<Sprite>("Images/LoadingScreens/LoadingScreenRight");
+            }
+            leftDoor.GetComponent<Image>().sprite = selectedLeft;
+            rightDoor.GetComponent<Image>().sprite = selectedRight;
+        }
     }
 
     public void setDoors(Sprite leftImage, Sprite rightImage)
@@ -37,7 +59,7 @@ public class LevelTransition : MonoBehaviour
         rightDoor.GetComponent<Image>().sprite = rightImage;
     }
 
-    public void LoadLevel(int levelID)
+    public void LoadLevel(int levelID, string wallText = "None")
     {
         if (doorTextures[levelID,0] != null)
         {
@@ -57,7 +79,20 @@ public class LevelTransition : MonoBehaviour
         }
         leftDoor.GetComponent<Image>().sprite = selectedLeft;
         rightDoor.GetComponent<Image>().sprite = selectedRight;
-        StartCoroutine(TransitionLevel(levelID));
+        if (SceneManager.GetActiveScene().buildIndex != 4)
+        {
+            PlayerPrefs.SetInt("transitionFrom", SceneManager.GetActiveScene().buildIndex);
+        }
+        PlayerPrefs.SetInt("transitionTo", levelID);
+        if (wallText == "None")
+        {
+            StartCoroutine(TransitionLevel(levelID));
+        }
+        else
+        {
+            PlayerPrefs.SetString("wallText", wallText);
+            StartCoroutine(TransitionLevel(4));
+        }
     }
 
     IEnumerator TransitionLevel(int levelID)

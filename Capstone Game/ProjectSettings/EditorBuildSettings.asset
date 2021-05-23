@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level.unity
     guid: 7205a26a9ae83b845b146df82946e225
+  - enabled: 1
+    path: Assets/Scenes/TextScreen.unity
+    guid: 5c838b5ad0419f14ba0bbd7941dcdc6b
   m_configObjects: {}
