@@ -5,9 +5,9 @@ using UnityEngine;
 public class WeaponGenerator : MonoBehaviour
 {
     private SoundLibary mySoundLibary;
-    private Sprite[] gunSprites;
-    private Sprite[] meleeSprites;
-    private Sprite selectedSprite;
+    private string gunPath = "Images/Guns/";
+    private string[] gunSprites = null;
+    private string selectedSprite;
     private int gunId = 0;
     private GameObject player;
     private Weapon startingWeapon;
@@ -18,8 +18,7 @@ public class WeaponGenerator : MonoBehaviour
     void Start()
     {
         mySoundLibary = new SoundLibary().generate();
-        gunSprites = Resources.LoadAll<Sprite>("Images/Guns/");
-        meleeSprites = Resources.LoadAll<Sprite>("Images/Melee/");
+        gunSprites = new string[] { gunPath + "AK47", gunPath + "M4", gunPath + "M16", gunPath + "Rifle", gunPath + "Shotgun" };
         player = GameObject.FindObjectOfType<playerController>().gameObject;
     }
 
@@ -30,12 +29,19 @@ public class WeaponGenerator : MonoBehaviour
     }
     public Weapon generateStartingWeapon()
     {
-        Sprite myImage = Resources.Load<Sprite>("Images/Guns/Special/Pistol");
         if (mySoundLibary == null)
         {
             mySoundLibary = new SoundLibary().generate();
         }
-        return new Weapon(myImage, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]);
+        if (gunSprites == null || gunSprites.Length == 0)
+        {
+            gunSprites = new string[] { gunPath + "AK47", gunPath + "M4", gunPath + "M16", gunPath + "Rifle", gunPath + "Shotgun" };
+        }
+        foreach (string s in gunSprites)
+        {
+            Debug.Log(s);
+        }
+        return new Weapon(gunPath + "Special/Pistol", mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]);
     }
     public Weapon generatePlayerWeapon()
     {
@@ -43,23 +49,25 @@ public class WeaponGenerator : MonoBehaviour
         {
             mySoundLibary = new SoundLibary().generate();
         }
-        gunSprites = Resources.LoadAll<Sprite>("Images/Guns/");
-        meleeSprites = Resources.LoadAll<Sprite>("Images/Melee/");
+        if (gunSprites == null || gunSprites.Length == 0)
+        {
+            gunSprites = new string[] { gunPath + "AK47", gunPath + "M4", gunPath + "M16", gunPath + "Rifle", gunPath + "Shotgun" };
+        }
         commonWeapons = new Weapon[] {
-            new Weapon(gunSprites[Random.Range(0, gunSprites.Length - 1)], "M16 (Assault Rifle)", 1, 1, 30, 1, 3, 10, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
-            new Weapon(gunSprites[Random.Range(0, gunSprites.Length - 1)], "MP5 (Submachine Gun)", 5, 1f, 30, 1, 1, 15, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
-            new Weapon(gunSprites[Random.Range(0, gunSprites.Length - 1)], "12 Gauge (Shotgun)", 1, 2, 8, 1, 10, 5, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
-            new Weapon(gunSprites[Random.Range(0, gunSprites.Length - 1)], "M24 (Sniper Rifle)", .5f, 0, 10, 1, 1, 90, 1.5f, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
-            new Weapon(gunSprites[Random.Range(0, gunSprites.Length - 1)], "AK 47 (Assault Rifle)", 5, 1.5f, 30, 1, 1, 10, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
-            new Weapon(gunSprites[Random.Range(0, gunSprites.Length - 1)], "M4 (Assault Rifle)", 7, .9f, 30, 1, 1, 15, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0])
+            new Weapon(gunSprites[2], "M16 (Assault Rifle)", 3, 1, 30, 1, 3, 10, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
+            new Weapon(gunSprites[3], "MP5 (Submachine Gun)", 5, 1f, 30, 1, 1, 15, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
+            new Weapon(gunSprites[4], "12 Gauge (Shotgun)", 1, 2, 8, 1, 10, 5, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
+            new Weapon(gunSprites[3], "M24 (Sniper Rifle)", .5f, 0, 10, 1, 1, 90, 1.5f, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
+            new Weapon(gunSprites[0], "AK 47 (Assault Rifle)", 5, 1.5f, 30, 1, 1, 10, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
+            new Weapon(gunSprites[1], "M4 (Assault Rifle)", 7, .9f, 30, 1, 1, 15, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0])
         };
         rareWeapons = new Weapon[]
         {
-            new Weapon(gunSprites[Random.Range(0, gunSprites.Length - 1)], "Xeno I-15 (???)", 50, 0, 200, 1, 1, 1, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
-            new Weapon(gunSprites[Random.Range(0, gunSprites.Length - 1)], "Experiment 82 (???)", 1, 0, 1, 1, 1, 150, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
-            new Weapon(gunSprites[Random.Range(0, gunSprites.Length - 1)], "RPG (Rocket Propelled Grenade)", .5f, .5f, 1, 1, 1, 80, 2, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1),
-            new Weapon(gunSprites[Random.Range(0, gunSprites.Length - 1)], "G16-L (Grenade Launcher)", 1, 1, 1, 1, 1, 60, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1),
-            new Weapon(gunSprites[Random.Range(0, gunSprites.Length - 1)], "Boomstick", 3, 2, 2, 1, 10, 5, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1)
+            new Weapon(gunSprites[3], "Xeno I-15 (???)", 50, 0, 200, 1, 1, 1, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
+            new Weapon(gunSprites[3], "Experiment 82 (???)", 1, 0, 1, 1, 1, 150, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
+            new Weapon(gunSprites[3], "RPG (Rocket Propelled Grenade)", .5f, .5f, 1, 1, 1, 80, 2, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1),
+            new Weapon(gunSprites[3], "G16-L (Grenade Launcher)", 1, 1, 1, 1, 1, 60, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1),
+            new Weapon(gunSprites[4], "Boomstick", 3, 2, 2, 1, 10, 5, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1)
         };
         Weapon newWeapon = null;
         if (Random.Range(0, 99) < 40)
@@ -83,15 +91,17 @@ public class WeaponGenerator : MonoBehaviour
         {
             mySoundLibary = new SoundLibary().generate();
         }
+        if (gunSprites == null || gunSprites.Length == 0)
+        {
+            gunSprites = new string[] { gunPath + "AK47", gunPath + "M4", gunPath + "M16", gunPath + "Rifle", gunPath + "Shotgun" };
+        }
         if (spread < 10)
         {
             isMelee = false;
         }
-        gunSprites = Resources.LoadAll<Sprite>("Images/Guns/");
-        meleeSprites = Resources.LoadAll<Sprite>("Images/Melee/");
         if (isMelee)
         {
-            selectedSprite = meleeSprites[Random.Range(0, meleeSprites.Length - 1)];
+            selectedSprite = null;
         }
         else
         {

@@ -5,14 +5,14 @@ using UnityEngine;
 public class SoundLibary
 {
 
-    public AudioClip[] gunFire;
-    public AudioClip[] gunReload;
+    public string[] gunFire;
+    public string[] gunReload;
 
 
     public SoundLibary generate()
     {
-        gunFire = new AudioClip[] { Resources.Load<AudioClip>("Sounds/Guns/DefaultShoot") };
-        gunReload = new AudioClip[] { Resources.Load<AudioClip>("Sounds/Guns/DefaultReload") };
+        gunFire = new string[] { "Sounds/Guns/DefaultShoot"};
+        gunReload = new string[] {"Sounds/Guns/DefaultReload"};
         return this;
     }
 

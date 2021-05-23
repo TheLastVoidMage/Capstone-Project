@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,7 +26,7 @@ public class Weapon
 
     public float timeLastFired = 0;
 
-    public Weapon(Sprite mySprite, AudioClip fireSound, AudioClip reloadSound)
+    public Weapon(string mySpritePath, string fireSoundPath, string reloadSoundPath)
     {
         this.displayName = "Glock";
         this.fireRate = 3;
@@ -42,18 +41,18 @@ public class Weapon
         this.pelletsExplode = false;
         this.timeLastFired = 0;
         this.AOERange = 0;
-        this.reloadSoundPath = AssetDatabase.GetAssetPath(reloadSound);
-        this.fireSoundPath = AssetDatabase.GetAssetPath(fireSound);
-        if (mySprite != null)
+        this.reloadSoundPath = reloadSoundPath;
+        this.fireSoundPath = fireSoundPath;
+        if (mySpritePath != null)
         {
-            this.spritePath = AssetDatabase.GetAssetPath(mySprite);
+            this.spritePath = mySpritePath;
         }
         else
         {
             this.spritePath = "Images/Guns/Special/Pistol";
         }
     }
-    public Weapon(Sprite mySprite, string displayName, float fireRate, float spread, int clipSize, int bulletsUsedInShot, int pelletCount, float damagePerPellet, float reloadTime, AudioClip fireSound, AudioClip reloadSound, bool isMelee = false, bool pelletsExplode = false, float explosionRange = 0)
+    public Weapon(string mySpritePath, string displayName, float fireRate, float spread, int clipSize, int bulletsUsedInShot, int pelletCount, float damagePerPellet, float reloadTime, string fireSoundPath, string reloadSoundPath, bool isMelee = false, bool pelletsExplode = false, float explosionRange = 0)
     {
         this.displayName = displayName;
         this.fireRate = fireRate;
@@ -68,9 +67,9 @@ public class Weapon
         this.pelletsExplode = pelletsExplode;
         this.timeLastFired = 0;
         this.AOERange = explosionRange;
-        this.reloadSoundPath = AssetDatabase.GetAssetPath(reloadSound);
-        this.fireSoundPath = AssetDatabase.GetAssetPath(fireSound);
-        this.spritePath = AssetDatabase.GetAssetPath(mySprite);
+        this.reloadSoundPath = reloadSoundPath;
+        this.fireSoundPath = fireSoundPath;
+        this.spritePath = mySpritePath;
     }
 
 
@@ -179,38 +178,16 @@ public class Weapon
 
     public Sprite displaySprite()
     {
-        string newString = this.spritePath;
-        if (newString != "")
-        {
-            newString = spritePath.Substring(spritePath.IndexOf('/') + 1);
-            newString = newString.Substring(newString.IndexOf('/') + 1);
-            newString = newString.Substring(0, newString.LastIndexOf('.'));
-        }
-
-        return Resources.Load<Sprite>(newString);
+        return Resources.Load<Sprite>(this.spritePath);
     }
 
     public AudioClip getFireClip()
     {
-        string newString = this.fireSoundPath;
-        if (newString != "")
-        {
-            newString = newString.Substring(newString.LastIndexOf('/') + 1);
-            newString = newString.Substring(0, newString.LastIndexOf('.'));
-        }
-
-        return Resources.Load<AudioClip>(newString);
+        return Resources.Load<AudioClip>(this.fireSoundPath);
     }
 
     public AudioClip getReloadClip()
     {
-        string newString = this.reloadSoundPath;
-        if (newString != "")
-        {
-            newString = newString.Substring(newString.LastIndexOf('/') + 1);
-            newString = newString.Substring(0, newString.LastIndexOf('.'));
-        }
-
-        return Resources.Load<AudioClip>(newString);
+        return Resources.Load<AudioClip>(this.reloadSoundPath);
     }
 }
