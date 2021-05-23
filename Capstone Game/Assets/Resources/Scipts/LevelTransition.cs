@@ -59,7 +59,7 @@ public class LevelTransition : MonoBehaviour
         rightDoor.GetComponent<Image>().sprite = rightImage;
     }
 
-    public void LoadLevel(int levelID, string wallText = "None")
+    public void LoadLevel(int levelID, string wallText = "None", int textSize = 50)
     {
         if (doorTextures[levelID,0] != null)
         {
@@ -91,6 +91,7 @@ public class LevelTransition : MonoBehaviour
         else
         {
             PlayerPrefs.SetString("wallText", wallText);
+            PlayerPrefs.SetInt("wallTextSize", textSize);
             StartCoroutine(TransitionLevel(4));
         }
     }
