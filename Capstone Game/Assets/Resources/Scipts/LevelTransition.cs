@@ -16,7 +16,7 @@ public class LevelTransition : MonoBehaviour
 
     public void Start()
     {
-        doorTextures = new Sprite[,] { { null, null }, { null, null}, { Resources.Load<Sprite>("Images/LoadingScreens/LevelLeft"), Resources.Load<Sprite>("Images/LoadingScreens/LevelRightShip")}, { Resources.Load<Sprite>("Images/LoadingScreens/LevelLeft"), Resources.Load<Sprite>("Images/LoadingScreens/LevelRight") } };
+        doorTextures = new Sprite[,] { { null, null }, { null, null}, { Resources.Load<Sprite>("Images/LoadingScreens/LevelLeftShip"), Resources.Load<Sprite>("Images/LoadingScreens/LevelRightShip")}, { Resources.Load<Sprite>("Images/LoadingScreens/LevelLeft"), Resources.Load<Sprite>("Images/LoadingScreens/LevelRight") } };
         Image[] doors = this.gameObject.GetComponentsInChildren<Image>();
         for (int x = 0; x < doors.Length; x++)
         {
@@ -29,9 +29,10 @@ public class LevelTransition : MonoBehaviour
                 rightDoor = doors[x].gameObject;
             }
         }
-        if (PlayerPrefs.GetInt("transitionFrom") != 0 && SceneManager.GetActiveScene().buildIndex != 1)
+        if (PlayerPrefs.GetInt("transitionTo") != 0 && SceneManager.GetActiveScene().buildIndex != 1)
         {
-            int levelFrom = PlayerPrefs.GetInt("transitionFrom") + 1;
+            int levelFrom = PlayerPrefs.GetInt("transitionTo");
+            Debug.Log("From: " + levelFrom);
             if (doorTextures[levelFrom, 0] != null)
             {
                 selectedLeft = doorTextures[levelFrom, 0];

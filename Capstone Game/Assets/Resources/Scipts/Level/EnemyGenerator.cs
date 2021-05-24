@@ -12,13 +12,15 @@ public class EnemyGenerator : MonoBehaviour
     private float[] statScorePerPoint = new float[5];
     // This stores how much each faction values each stat
     public float[,] factionStats = new float[,] { { 100,100,100,100,100}, { 0.5f, 3f, 1, .75f, 1}, { .75f, 1, .5f, 10, 1} };
+    public float[,] specialFactionStats = new float[,] { { 1.5f, 1.5f, 1.5f, 1.5f, 1.5f} };
     private string enemyFolder = "Images/Enemies/";
     public string[] factionNames = new string[] { "Friendly", "Bugs", "Bots"};
+    public string[] specialFactionNames = new string[] { "Cow"};
     private string[] imageNames = new string[] { "Health", "Speed", "Firerate", "Range", "Damage"};
     private Sprite[,] allFactionSprites = null;
     public Sprite[] factionSprites;
 
-    public GameObject generateNewEnemy(Vector3 position, int points, int factionID)
+    public GameObject generateNewEnemy(Vector3 position, int points, int factionID, int specialId = -1)
     {
         if (allFactionSprites == null)
         {

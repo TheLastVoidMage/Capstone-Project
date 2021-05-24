@@ -210,7 +210,7 @@ MonoBehaviour:
   specialFloors:
   - {fileID: 21300000, guid: ce77cc8479d075746beaf232a913e355, type: 3}
   specialWalls:
-  - {fileID: 21300000, guid: b76dc5651f424724397576b7869ac86e, type: 3}
+  - {fileID: 21300000, guid: e4ca30d4fbf2a40488d71eb557c2f7c7, type: 3}
   textures:
   - {fileID: 21300000, guid: 80eab2b65c9e06d45918f2308cc502c7, type: 3}
   - {fileID: 21300000, guid: 3147d803936d9384db64f7148a8e18d2, type: 3}
@@ -251,6 +251,8 @@ MonoBehaviour:
   - Friendly
   - Bugs
   - Bots
+  specialFactionNames:
+  - Cow
   factionSprites:
   - {fileID: 0}
   - {fileID: 0}
