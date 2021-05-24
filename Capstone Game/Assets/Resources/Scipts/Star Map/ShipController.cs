@@ -18,7 +18,7 @@ public class ShipController : MonoBehaviour
     private float[] timeLastMoved = { 0, 0 };
     public int[] playerCoordinates = { -1, 0 };
     public int[] selectorCoordinates = { 0, 0 };
-    public int fuel = 20;
+    public int fuel = 10;
     // Start is called before the first frame update
     void Start()
     {
@@ -138,6 +138,10 @@ public class ShipController : MonoBehaviour
                 playerCoordinates[0] = selectorCoordinates[0];
                 playerCoordinates[1] = selectorCoordinates[1];
                 myMap.SaveGame();
+                if (playerCoordinates[0] == myMap.levelWidth - 1 && playerCoordinates[1] == myMap.levelHeight / 2)
+                {
+                    GameObject.FindObjectOfType<LevelTransition>().LoadLevel(1, "You Win! (Replace Later)");
+                }
             }
         }
         handleTravelButton();

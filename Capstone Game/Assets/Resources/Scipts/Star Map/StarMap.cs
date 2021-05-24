@@ -120,6 +120,19 @@ public class StarMap : MonoBehaviour
                     }
                 }
             }
+            ShipMap[ShipMap.GetLength(0) - 1, ShipMap.GetLength(1) / 2] = null;
+            if (ObjectMap[ShipMap.GetLength(0) - 1, ShipMap.GetLength(1) / 2] == null)
+            {
+                ObjectMap[ShipMap.GetLength(0) - 1, ShipMap.GetLength(1) / 2] = new GameObject();
+                ObjectMap[ShipMap.GetLength(0) - 1, ShipMap.GetLength(1) / 2].name = "Gate";
+                ObjectMap[ShipMap.GetLength(0) - 1, ShipMap.GetLength(1) / 2].transform.parent = this.transform;
+                ObjectMap[ShipMap.GetLength(0) - 1, ShipMap.GetLength(1) / 2].transform.localPosition = new Vector3((ShipMap.GetLength(0) - 1) * levelSpacing, (ShipMap.GetLength(1) / 2) * levelSpacing);
+                ObjectMap[ShipMap.GetLength(0) - 1, ShipMap.GetLength(1) / 2].AddComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Ships/Gate");
+            }
+            else
+            {
+                ObjectMap[ShipMap.GetLength(0) - 1, ShipMap.GetLength(1) / 2].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Ships/Gate");
+            }
             SaveGame(Random.Range(0, Resources.LoadAll<Sprite>("Images/Player/").Length - 1));
         }
         else
