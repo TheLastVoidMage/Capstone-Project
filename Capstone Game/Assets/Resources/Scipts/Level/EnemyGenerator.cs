@@ -11,10 +11,10 @@ public class EnemyGenerator : MonoBehaviour
     private float[,] minAndMaxStats = new float[,]{ { 25, 2, .5f, 5, 5 }, { 150, 5, 5, 15, 50} };
     private float[] statScorePerPoint = new float[5];
     // This stores how much each faction values each stat
-    public float[,] factionStats = new float[,] { { 100,100,100,100,100}, { 0.5f, 3f, 1, .75f, 1}, { .75f, 1, .5f, 10, 1} };
+    public float[,] factionStats = new float[,] { { 100,100,100,100,100}, { 0.5f, 3f, 1, .75f, 1}, { .75f, 1, .5f, 10, 1}, {.25f, 3, 3, .5f, .5f} };
     public float[,] specialFactionStats = new float[,] { { 1.5f, 3, 1.5f, 3, 1.5f} };
     private string enemyFolder = "Images/Enemies/";
-    public string[] factionNames = new string[] { "Friendly", "Bugs", "Bots"};
+    public string[] factionNames = new string[] { "Friendly", "Bugs", "Bots", "Invisibles"};
     public string[] specialFactionNames = new string[] { "Cow"};
     private string[] imageNames = new string[] { "Health", "Speed", "Firerate", "Range", "Damage"};
     private Sprite[,] allFactionSprites = null;
@@ -26,7 +26,8 @@ public class EnemyGenerator : MonoBehaviour
         {
             allFactionSprites = new Sprite[,] { { null, null, null, null, null }, 
                 { Resources.Load<Sprite>(enemyFolder + factionNames[1] + "/" + imageNames[0]), Resources.Load<Sprite>(enemyFolder + factionNames[1] + "/" + imageNames[1]), Resources.Load<Sprite>(enemyFolder + factionNames[1] + "/" + imageNames[2]), Resources.Load<Sprite>(enemyFolder + factionNames[1] + "/" + imageNames[3]), Resources.Load<Sprite>(enemyFolder + factionNames[1] + "/" + imageNames[4])},
-                { Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[0]), Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[1]), Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[2]), Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[3]), Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[4])}};
+                { Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[0]), Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[1]), Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[2]), Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[3]), Resources.Load<Sprite>(enemyFolder + factionNames[2] + "/" + imageNames[4])},
+                { Resources.Load<Sprite>(enemyFolder + factionNames[3] + "/" + imageNames[0]), Resources.Load<Sprite>(enemyFolder + factionNames[3] + "/" + imageNames[1]), Resources.Load<Sprite>(enemyFolder + factionNames[3] + "/" + imageNames[2]), Resources.Load<Sprite>(enemyFolder + factionNames[3] + "/" + imageNames[3]), Resources.Load<Sprite>(enemyFolder + factionNames[3] + "/" + imageNames[4])}};
         }
         factionSprites = new Sprite[] { allFactionSprites[factionID, 0], allFactionSprites[factionID, 1] , allFactionSprites[factionID, 2] , allFactionSprites[factionID, 3], allFactionSprites[factionID, 4] };
         if (specialId != -1)

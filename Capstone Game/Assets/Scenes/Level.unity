@@ -251,24 +251,10 @@ MonoBehaviour:
   - Friendly
   - Bugs
   - Bots
+  - Invisibles
   specialFactionNames:
   - Cow
-  factionSprites:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 21300000, guid: 14e9f2950009c224f811ebe749ce8844, type: 3}
-  - {fileID: 21300000, guid: e7323f4e45f8b1444979bd7c742b7571, type: 3}
-  - {fileID: 21300000, guid: 524c725bb5448054c92dccf87b96e87f, type: 3}
-  - {fileID: 21300000, guid: 5753ea8e8eda7c240a14a4fd24346f1a, type: 3}
-  - {fileID: 21300000, guid: 579ddc6bf4aafe44c9c4ab4a4f4590b0, type: 3}
-  - {fileID: 21300000, guid: 9dd27156d6f17a9449823146d8d4751a, type: 3}
-  - {fileID: 21300000, guid: 647d693f1ad5b9244a16e5f46296cac9, type: 3}
-  - {fileID: 21300000, guid: 3039326bff35cfe45ac6aab618f2c8f3, type: 3}
-  - {fileID: 21300000, guid: bfdbc7f67b36e3640be73a6c0058ec2a, type: 3}
-  - {fileID: 21300000, guid: 12944f30abaeba04ebdf757c6327d675, type: 3}
+  factionSprites: []
 --- !u!1 &198975854
 GameObject:
   m_ObjectHideFlags: 0
