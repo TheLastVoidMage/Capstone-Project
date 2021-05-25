@@ -140,7 +140,7 @@ public class ShipController : MonoBehaviour
                 myMap.SaveGame();
                 if (playerCoordinates[0] == myMap.levelWidth - 1 && playerCoordinates[1] == myMap.levelHeight / 2)
                 {
-                    GameObject.FindObjectOfType<LevelTransition>().LoadLevel(1, "You Win! (Replace Later)");
+                    GameObject.FindObjectOfType<LevelTransition>().LoadLevel(1, myMap.endText, 30);
                 }
             }
         }

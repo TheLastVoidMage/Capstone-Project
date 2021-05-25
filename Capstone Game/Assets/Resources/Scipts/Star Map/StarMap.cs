@@ -15,6 +15,8 @@ public class StarMap : MonoBehaviour
     public Sprite[] specialDerilects;
     private ShipController myShipController;
 
+    public string endText = "A. V. A.:\nReaching target coordinates. Searching for rift gate…\nRift gate detected.|A. V. A.:\nScans of the rift gate show minor structural damage consistent with decay.|D. A. G.:\nDo not worry, a repair ticket has been sent to Dexincorp.|You:\nMay I ask how long that will take?|D. A. G.:\nCalculating…\nExpected Repair Time: 8.3 days\nElapsed Repair Time: 110,363 days|D. A. G.:\nDo not worry valued customer. Despite the damage, the gate has completed 1,103,633 simulated\njumps since the time of the repair ticket.\nThe gate is ready for your business.|You:\nAda, is it safe?|A. D. A.:\nCalculating…\nScans show an estimated 3.17% chance of failure on jump.|You:\nThat’s the best we’re going to get. Let’s do this Ada.|A. D. A.:\nInitiating jump…|A. D. A.:\n3…|A. D. A.:\n2…|A. D. A.:\n1…|A. D. A.:\nJumping…|D. A. G.:\nThank you for your business.|You Win\nThank you for playing\nGood luck out there space cowboy";
+
     // Level Chances - Regular, Cow
     private float[] shipChances = { 30, .5f };
 

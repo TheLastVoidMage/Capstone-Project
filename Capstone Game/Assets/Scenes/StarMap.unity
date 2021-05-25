@@ -333,6 +333,18 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ddc8f979418bdd146bd7a5d95742aac3, type: 3}
   specialDerilects:
   - {fileID: 21300000, guid: 0884f6665175e9c429599a569bd15cc5, type: 3}
+  endText: "A. V. A.:\nReaching target coordinates. Searching for rift gate\u2026\nRift
+    gate detected.|A. V. A.:\nScans of the rift gate show minor structural damage
+    consistent with decay.|D. A. G.:\nDo not worry, a repair ticket has been sent
+    to Dexincorp.|You:\nMay I ask how long that will take?|D. A. G.:\nCalculating\u2026\nExpected
+    Repair Time: 8.3 days\nElapsed Repair Time: 110,363 days|D. A. G.:\nDo not worry
+    valued customer. Despite the damage, the gate has completed 1,103,633 simulated\njumps
+    since the time of the repair ticket.\nThe gate is ready for your business.|You:\nAda,
+    is it safe?|A. D. A.:\nCalculating\u2026\nScans show an estimated 3.17% chance
+    of failure on jump.|You:\nThat\u2019s the best we\u2019re going to get. Let\u2019s
+    do this Ada.|A. D. A.:\nInitiating jump\u2026|A. D. A.:\n3\u2026|A. D. A.:\n2\u2026|A.
+    D. A.:\n1\u2026|A. D. A.:\nJumping\u2026|D. A. G.:\nThank you for your business.|You
+    Win\nThank you for playing\nGood luck out there space cowboy"
 --- !u!4 &154131157
 Transform:
   m_ObjectHideFlags: 0
@@ -363,7 +375,7 @@ MonoBehaviour:
   selectorSprite: {fileID: 21300000, guid: 04f0923cf82c553488aa398c43f51ff7, type: 3}
   playerCoordinates: ffffffff00000000
   selectorCoordinates: 0000000000000000
-  fuel: 20
+  fuel: 10
 --- !u!1001 &238386359
 PrefabInstance:
   m_ObjectHideFlags: 0
