@@ -85,7 +85,7 @@ public class LevelGenerator : MonoBehaviour
                     if (x != levelMap.GetLength(0) / 2 && y != 0) // If not spawn
                     {
                         enemyPos = new Vector3(this.transform.position.x + (x * 14) + 6 + Random.Range(-4, 4), this.transform.position.y + (y * 14) + 6 + Random.Range(-4, 4));
-                        myEnemyGenerator.generateNewEnemy(enemyPos, enemyDifficulty[difficulty], faction);
+                        myEnemyGenerator.generateNewEnemy(enemyPos, enemyDifficulty[difficulty], faction, specialId);
                         enemiesGenerated++;
                     }
                 }
