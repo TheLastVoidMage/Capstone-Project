@@ -152,8 +152,8 @@ public class LevelGenerator : MonoBehaviour
         }
         else
         {
-            textures[0] = specialFloors[specialId - 1];
-            textures[1] = specialWalls[specialId - 1];
+            textures[0] = specialFloors[specialId];
+            textures[1] = specialWalls[specialId];
         }
         int iterations = 0;
         levelMap = new Room[levelSizes[0, size], levelSizes[1, size]];

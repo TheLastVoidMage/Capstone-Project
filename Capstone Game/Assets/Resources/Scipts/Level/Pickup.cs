@@ -86,7 +86,7 @@ public class Pickup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerIsColliding && Input.GetKeyDown(pickUpKey))
+        if (playerIsColliding && Input.GetKeyDown(pickUpKey) && myPlayer.isPaused == false)
         {
             pickUpCrate();
         }

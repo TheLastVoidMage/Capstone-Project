@@ -71,8 +71,12 @@ public class playerController : MonoBehaviour
         updateUI();
     }
 
-    public void heal(int amount)
+    public void heal(float amount)
     {
+        if (maxHealth - health >= Mathf.RoundToInt(maxHealth / 10))
+        {
+            amount = maxHealth / 10;
+        }
         health += amount;
         if (health > maxHealth)
         {
@@ -132,6 +136,18 @@ public class playerController : MonoBehaviour
     {
         if (healthText != null && myWeapons.heldWeapons != null)
         {
+            if (maxHealth > 999)
+            {
+                healthText.fontSize = 50;
+            }
+            if (gunName.text.Length > 30)
+            {
+                gunName.fontSize = 20;
+            }
+            else
+            {
+                gunName.fontSize = 34;
+            }
             healthText.text = health + "/" + maxHealth;
             gunName.text = myWeapons.heldWeapons[myWeapons.selectedWeapon].displayName;
             ammoCounter.text = myWeapons.heldWeapons[myWeapons.selectedWeapon].bulletsInClip + "/" + myWeapons.heldWeapons[myWeapons.selectedWeapon].clipSize;
