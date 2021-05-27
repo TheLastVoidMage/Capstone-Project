@@ -33,7 +33,7 @@ public class Pickup : MonoBehaviour
         // Text
         GameObject myTextObject = new GameObject("myLabel");
         myTextObject.transform.parent = this.transform;
-        myTextObject.transform.localPosition = new Vector3(0, 0);
+        myTextObject.transform.localPosition = new Vector3(0, -1.5f);
         myTextObject.layer = 5;
         myPickupOverlay = myTextObject.AddComponent<TextMesh>();
         myPickupOverlay.offsetZ = -1;

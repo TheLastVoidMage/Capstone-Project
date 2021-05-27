@@ -81,7 +81,7 @@ public class ShipController : MonoBehaviour
     private void handleTravelButton()
     {
         bool validButton = false;
-        string displayString = travelButton.GetComponentInChildren<Text>().text = "Travel\nCost: " + Mathf.Max(Mathf.Abs(selectorCoordinates[0] - playerCoordinates[0]), Mathf.Abs(selectorCoordinates[1] - playerCoordinates[1])) + " / " + fuel;
+        string displayString = travelButton.GetComponentInChildren<Text>().text = "Travel\nFuel Cost: " + Mathf.Max(Mathf.Abs(selectorCoordinates[0] - playerCoordinates[0]), Mathf.Abs(selectorCoordinates[1] - playerCoordinates[1])) + " / " + fuel;
         selector.transform.position = Vector3.Lerp(selector.transform.position, new Vector3(selectorCoordinates[0] * myMap.levelSpacing, selectorCoordinates[1] * myMap.levelSpacing), Time.deltaTime * 5);
         if (playerShip.transform.localPosition != new Vector3((playerCoordinates[0] * myMap.levelSpacing) - 1, (playerCoordinates[1] * myMap.levelSpacing) + 1))
         {
@@ -193,9 +193,35 @@ public class ShipController : MonoBehaviour
         }
     }
 
+    void checkForLoss()
+    {
+        if (fuel == 0)
+        {
+            if (myMap.ShipMap[playerCoordinates[0], playerCoordinates[1]] != null)
+            {
+                if (myMap.ShipMap[playerCoordinates[0], playerCoordinates[1]].isVisited == true)
+                {
+                    lose();
+                }
+            }
+            else
+            {
+                lose();
+            }
+        }
+    }
+
+    void lose()
+    {
+        fuel = -1;
+        GameObject.FindObjectOfType<LevelTransition>().LoadLevel(1, "A. V. A.:\nFuel Reserves Depleted.\nShutting Down...");
+        GameObject.FindObjectOfType<LevelTransition>().setDoors(Resources.Load<Sprite>("Images/LoadingScreens/GameoverScreenLeft"), Resources.Load<Sprite>("Images/LoadingScreens/GameoverScreenright"));
+    }
+
     // Update is called once per frame
     void Update()
     {
         manageControls();
+        checkForLoss();
     }
 }

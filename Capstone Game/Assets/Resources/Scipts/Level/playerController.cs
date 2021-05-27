@@ -26,6 +26,9 @@ public class playerController : MonoBehaviour
 
     private LevelTransition myTransition;
 
+    private AudioSource myHurtSound;
+    private AudioSource myHealSound;
+
     // HUD elements
     private Text ammoCounter;
     private Text gunName;
@@ -43,6 +46,11 @@ public class playerController : MonoBehaviour
         mySpriteObject.GetComponent<SpriteRenderer>().sprite = mySprite;
         newPosition = this.transform.position;
         Text[] texts = GetComponentsInChildren<Text>();
+        SoundLibary mySoundLibary = new SoundLibary().generate();
+        myHurtSound = this.gameObject.AddComponent<AudioSource>();
+        myHealSound = this.gameObject.AddComponent<AudioSource>();
+        myHurtSound.clip = Resources.Load<AudioClip>(mySoundLibary.playerHurt);
+        myHealSound.clip = Resources.Load<AudioClip>(mySoundLibary.playerHeal);
         foreach (Text t in texts)
         {
             if (t.name == "Ammo")
@@ -73,6 +81,7 @@ public class playerController : MonoBehaviour
 
     public void heal(float amount)
     {
+        myHealSound.Play();
         if (maxHealth - health >= Mathf.RoundToInt(maxHealth / 10))
         {
             amount = maxHealth / 10;
@@ -157,6 +166,7 @@ public class playerController : MonoBehaviour
 
     public void takeDamage(float amount)
     {
+        myHurtSound.Play();
         health -= amount;
         Debug.Log("Damage: " + amount);
         if (health <= 0)
@@ -164,7 +174,7 @@ public class playerController : MonoBehaviour
             isPaused = true;
             myBody.velocity = new Vector3(0, 0);
             health = 0;
-            myTransition.LoadLevel(1);
+            myTransition.LoadLevel(1, "A. V. A.:\nLife Signs Lost...");
             myTransition.setDoors(Resources.Load<Sprite>("Images/LoadingScreens/GameoverScreenLeft"), Resources.Load<Sprite>("Images/LoadingScreens/GameoverScreenright"));
         }
         updateUI();
