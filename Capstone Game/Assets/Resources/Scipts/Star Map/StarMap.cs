@@ -172,7 +172,7 @@ public class Level
     public int[] levelValues = new int[4];
     public bool isLevel = true;
     public static string[,] valueNames = { { "Tiny", "Small", "Medium", "Large", "Gargantuan" }, { "Barren", "Sparse", "Lightly Populated", "Populated", "Cramped" }, { "Fragile", "Weak", "Average", "Strong", "Fierce" } };
-    public static string[] factionNames = { "Unknown", "Insectoid life", "Cybernetic life", "Single cellular life" };
+    public static string[] factionNames = { "Unknown", "Insectoid Life", "Cybernetic Life", "Single-Cellular Life" };
     public bool isVisited = false;
     public int specialId = 0;
     public int[] coordinates = new int[2];

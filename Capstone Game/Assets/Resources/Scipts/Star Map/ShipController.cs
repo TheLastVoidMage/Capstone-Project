@@ -184,7 +184,7 @@ public class ShipController : MonoBehaviour
         {
             if (myMap.ShipMap[selectorCoordinates[0], selectorCoordinates[1]] != null)
             {
-                levelText.text = "Ship Detected\nShip Visited: " + myMap.ShipMap[selectorCoordinates[0], selectorCoordinates[1]].isVisited + "\nSize: " + Level.valueNames[0, myMap.ShipMap[selectorCoordinates[0], selectorCoordinates[1]].levelValues[0]] + "\nLife sign Density: " + Level.valueNames[1, myMap.ShipMap[selectorCoordinates[0], selectorCoordinates[1]].levelValues[1]] + "\nLife Sign Strength: " + Level.valueNames[2, myMap.ShipMap[selectorCoordinates[0], selectorCoordinates[1]].levelValues[2]] + "\nLife Sign Type: " + Level.factionNames[myMap.ShipMap[selectorCoordinates[0], selectorCoordinates[1]].levelValues[3]];
+                levelText.text = "Ship Detected\nShip Visited: " + myMap.ShipMap[selectorCoordinates[0], selectorCoordinates[1]].isVisited + "\nSize: " + Level.valueNames[0, myMap.ShipMap[selectorCoordinates[0], selectorCoordinates[1]].levelValues[0]] + "\nLife Sign Density: " + Level.valueNames[1, myMap.ShipMap[selectorCoordinates[0], selectorCoordinates[1]].levelValues[1]] + "\nLife Sign Strength: " + Level.valueNames[2, myMap.ShipMap[selectorCoordinates[0], selectorCoordinates[1]].levelValues[2]] + "\nLife Sign Type: " + Level.factionNames[myMap.ShipMap[selectorCoordinates[0], selectorCoordinates[1]].levelValues[3]];
             }
             else
             {
