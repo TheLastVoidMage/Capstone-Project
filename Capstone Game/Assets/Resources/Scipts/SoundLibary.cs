@@ -12,7 +12,7 @@ public class SoundLibary
 
     public SoundLibary generate()
     {
-        gunFire = new string[] { "Sounds/Guns/DefaultShoot"};
+        gunFire = new string[] { "Sounds/Guns/DefaultShoot", "Sounds/Guns/Xeno"};
         gunReload = new string[] {"Sounds/Guns/DefaultReload"};
         playerHurt = "Sounds/Player/Player Hurt";
         playerHeal = "Sounds/Player/Player Heal";

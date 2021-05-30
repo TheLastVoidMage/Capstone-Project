@@ -63,14 +63,14 @@ public class WeaponGenerator : MonoBehaviour
         };
         rareWeapons = new Weapon[]
         {
-            new Weapon(gunSprites[3], "Xeno I-15 (???)", 25, 0, 100, 1, 1, 2, 3, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
+            new Weapon(gunSprites[3], "Xeno I-15 (???)", 25, 0, 100, 1, 1, 2, 3, mySoundLibary.gunFire[1], mySoundLibary.gunReload[0]),
             new Weapon(gunSprites[3], "Experiment 82 (???)", 1, 0, 1, 1, 1, 150, 5, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0]),
             new Weapon(gunSprites[3], "RPG (Rocket Propelled Grenade)", .5f, .5f, 1, 1, 1, 80, 2, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1),
             new Weapon(gunSprites[3], "G16-L (Grenade Launcher)", 1, 1, 1, 1, 1, 60, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1),
             new Weapon(gunSprites[4], "Boomstick", 3, 2, 2, 1, 10, 5, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1)
         };
         Weapon newWeapon = null;
-        if (Random.Range(0, 99) < 80)
+        if (Random.Range(0, 99) < -80)
         {
             newWeapon = commonWeapons[Random.Range(0, commonWeapons.Length - 1)];
         }

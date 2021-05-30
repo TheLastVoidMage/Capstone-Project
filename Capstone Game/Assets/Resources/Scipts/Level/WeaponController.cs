@@ -74,7 +74,10 @@ public class WeaponController : MonoBehaviour
             {
                 heldWeapons[selectedWeapon].timeLastFired = Time.time;
                 heldWeapons[selectedWeapon].bulletsInClip--;
-                myFireAudioPlayer.Play();
+                if (myFireAudioPlayer.isPlaying == false || heldWeapons[selectedWeapon].fireRate < 25)
+                {
+                    myFireAudioPlayer.Play();
+                }
                 heldWeapons[selectedWeapon].shoot(this.gameObject);
             }
         }
