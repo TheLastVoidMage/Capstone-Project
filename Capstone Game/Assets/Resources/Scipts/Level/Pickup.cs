@@ -34,7 +34,7 @@ public class Pickup : MonoBehaviour
         GameObject myTextObject = new GameObject("myLabel");
         myTextObject.transform.parent = this.transform;
         myTextObject.transform.localPosition = new Vector3(0, -1.5f);
-        myTextObject.layer = 5;
+        //myTextObject.layer = 5;
         myPickupOverlay = myTextObject.AddComponent<TextMesh>();
         myPickupOverlay.offsetZ = -1;
         myPickupOverlay.characterSize = .5f;
@@ -47,10 +47,7 @@ public class Pickup : MonoBehaviour
         {
             myRenderer = this.gameObject.AddComponent<SpriteRenderer>();
         }
-        else
-        {
-            myRenderer = this.gameObject.GetComponent<SpriteRenderer>();
-        }
+        myRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         myRenderer.sortingOrder = -1;
         if (resourceId == 0)
         {

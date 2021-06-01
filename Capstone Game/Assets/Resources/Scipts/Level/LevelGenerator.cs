@@ -6,6 +6,8 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 public class LevelGenerator : MonoBehaviour
 {
+    public GameObject wallPref;
+    public GameObject floorPref;
     // Sizes: Tiny, Small, Medium, Large, Gargantuan
     // How many room models across and tall a map could be
     private int[,] levelSizes = new int[,] { { 5, 7, 9, 11, 15 }, { 3, 5, 7, 7, 9} };
@@ -116,7 +118,7 @@ public class LevelGenerator : MonoBehaviour
                         {
                             used[x, y] = true;
                             spawnLocation = new Vector3(this.transform.position.x + (x * 14) + 6, this.transform.position.y + (y * 14) + 6);
-                            GameObject newCrate = new GameObject("Crate");
+                            GameObject newCrate = GameObject.Instantiate(Resources.Load<GameObject>("Objects/Crate"), new Vector3(0, 0, 0), Quaternion.identity);
                             newCrate.transform.position = spawnLocation;
                             int id = 0;
                             int chance = Random.Range(0, 99);
@@ -132,7 +134,7 @@ public class LevelGenerator : MonoBehaviour
                             {
                                 id = 2;
                             }
-                            newCrate.AddComponent<Pickup>().generateCrate(id, myWeaponGenerator.generatePlayerWeapon());
+                            newCrate.GetComponent<Pickup>().generateCrate(id, myWeaponGenerator.generatePlayerWeapon());
 
                             spawnedCrates++;
                         }
@@ -404,12 +406,12 @@ class Room
         {
             for (int y = 0; y < roomMap.GetLength(0); y++)
             {
-                roomMap[x, y] = new GameObject();
+                roomMap[x, y] = GameObject.Instantiate(Resources.Load<GameObject>("Objects/Floor"), new Vector3(0, 0, 0), Quaternion.identity);
                 roomMap[x, y].transform.parent = room.transform;
                 roomMap[x, y].name = x + ":" + y;
                 roomMap[x, y].transform.localScale = new Vector3(size, size);
                 roomMap[x, y].transform.localPosition = new Vector3(x * size, y * size);
-                SpriteRenderer mySprite = roomMap[x, y].AddComponent<SpriteRenderer>();
+                SpriteRenderer mySprite = roomMap[x, y].GetComponent<SpriteRenderer>();
                 mySprite.sprite = sprites[roomPlan[x, y]];
                 mySprite.sortingOrder = -10;
                 if (roomPlan[x, y] == 1)
