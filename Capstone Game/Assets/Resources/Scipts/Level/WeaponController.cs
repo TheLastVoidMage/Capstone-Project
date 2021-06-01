@@ -27,7 +27,14 @@ public class WeaponController : MonoBehaviour
         }
         myFireAudioPlayer = this.gameObject.AddComponent<AudioSource>();
         myReloadAudioPlayer = this.gameObject.AddComponent<AudioSource>();
-        myRenderer = this.gameObject.AddComponent<SpriteRenderer>();
+        if (this.gameObject.GetComponent<SpriteRenderer>() == null)
+        {
+            myRenderer = this.gameObject.AddComponent<SpriteRenderer>();
+        }
+        else
+        {
+            myRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        }
         myRenderer.sortingOrder = -1;
         this.gameObject.transform.localPosition = new Vector3(0, 1);
         foreach (Weapon w in heldWeapons)

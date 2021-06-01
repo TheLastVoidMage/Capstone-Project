@@ -94,7 +94,7 @@ public class EnemyGenerator : MonoBehaviour
             enemyStats.mySize = Mathf.Max(Mathf.Min(1, (stats[0] / 25) / stats[1]), .5f);
             enemyStats.factionId = factionID;
             enemyStats.myImage = factionSprites[highestStatId];
-            enemyStats.myWeapons = new GameObject("Gun").AddComponent<WeaponController>();
+            enemyStats.myWeapons = GameObject.Instantiate(Resources.Load<GameObject>("Objects/Gun"), new Vector3(0, 0, 0), Quaternion.identity).GetComponent<WeaponController>();
             enemyStats.myWeapons.gameObject.transform.parent = enemyStats.transform;
             enemyStats.myWeapons.gameObject.transform.localPosition = new Vector3(0, 0);
             enemyStats.myWeapons.heldWeapons = new Weapon[1] { myWeaponGenerator.generateEnemyWeapon(enemyStats.gameObject, stats[2], stats[3], stats[4])};

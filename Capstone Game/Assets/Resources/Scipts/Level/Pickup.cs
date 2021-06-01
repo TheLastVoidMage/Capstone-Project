@@ -43,7 +43,7 @@ public class Pickup : MonoBehaviour
         myPickupOverlay.text = "Press " + pickUpKey + " to pick up\n";
         myPickupOverlay.gameObject.SetActive(false);
         // Visual
-        if (myRenderer == null)
+        if (this.gameObject.GetComponent<SpriteRenderer>() == null)
         {
             myRenderer = this.gameObject.AddComponent<SpriteRenderer>();
         }

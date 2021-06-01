@@ -166,18 +166,21 @@ public class playerController : MonoBehaviour
 
     public void takeDamage(float amount)
     {
-        myHurtSound.Play();
-        health -= amount;
-        Debug.Log("Damage: " + amount);
-        if (health <= 0)
+        if (isPaused == false)
         {
-            isPaused = true;
-            myBody.velocity = new Vector3(0, 0);
-            health = 0;
-            myTransition.LoadLevel(1, "A. V. A.:\nLife Signs Lost...");
-            myTransition.setDoors(Resources.Load<Sprite>("Images/LoadingScreens/GameoverScreenLeft"), Resources.Load<Sprite>("Images/LoadingScreens/GameoverScreenright"));
+            myHurtSound.Play();
+            health -= amount;
+            Debug.Log("Damage: " + amount);
+            if (health <= 0)
+            {
+                isPaused = true;
+                myBody.velocity = new Vector3(0, 0);
+                health = 0;
+                myTransition.LoadLevel(1, "A. V. A.:\nLife Signs Lost...");
+                myTransition.setDoors(Resources.Load<Sprite>("Images/LoadingScreens/GameoverScreenLeft"), Resources.Load<Sprite>("Images/LoadingScreens/GameoverScreenright"));
+            }
+            updateUI();
         }
-        updateUI();
     }
 
     void handleGuns()

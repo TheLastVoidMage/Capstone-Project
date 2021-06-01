@@ -457,12 +457,22 @@ class Room
         }
         if (hasExit)
         {
-            GameObject exit = GameObject.FindObjectOfType<AirlockController>().gameObject;
+            GameObject exit = GameObject.Instantiate(Resources.Load<GameObject>("Objects/Exit"), new Vector3(0, 0, 0), Quaternion.identity);
+            Animator[] animators = GameObject.FindObjectsOfType<Animator>();
+            Animator myAnimator = null;
+            foreach (Animator a in animators)
+            {
+                if (a.transform.parent.gameObject.name == "LeaveMenu")
+                {
+                    myAnimator = a;
+                }
+            }
+            exit.GetComponent<AirlockController>().myAnimator = myAnimator;
             exit.transform.parent = room.transform;
             exit.name = "Exit";
             exit.transform.localPosition = new Vector3(size, size);
-            exit.AddComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/LevelSprites/Other/ControlPanel");
-            exit.AddComponent<BoxCollider2D>();
+            exit.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/LevelSprites/Other/ControlPanel");
+            exit.GetComponent<BoxCollider2D>();
             roomMap[2,0].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/LevelSprites/Other/ControlPanel");
             roomMap[2, 0].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/LevelSprites/Other/AirlockLeft");
             roomMap[3, 0].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/LevelSprites/Other/AirlockMiddle");
