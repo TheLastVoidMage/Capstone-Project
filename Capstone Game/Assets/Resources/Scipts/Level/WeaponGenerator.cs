@@ -70,7 +70,7 @@ public class WeaponGenerator : MonoBehaviour
             new Weapon(gunSprites[4], "Boomstick", 3, 2, 2, 1, 10, 5, 1, mySoundLibary.gunFire[0], mySoundLibary.gunReload[0], false, true, 1)
         };
         Weapon newWeapon = null;
-        if (Random.Range(0, 99) < -80)
+        if (Random.Range(0, 99) < 80)
         {
             newWeapon = commonWeapons[Random.Range(0, commonWeapons.Length - 1)];
         }
