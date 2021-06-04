@@ -149,8 +149,8 @@ public class LevelGenerator : MonoBehaviour
         textures = new Sprite[4];
         if (specialId == -1)
         {
-            textures[0] = regularFloors[Random.Range(0, regularFloors.Length - 1)];
-            textures[1] = regularWalls[Random.Range(0, regularWalls.Length - 1)];
+            textures[0] = regularFloors[Random.Range(0, regularFloors.Length)];
+            textures[1] = regularWalls[Random.Range(0, regularWalls.Length)];
         }
         else
         {
